@@ -1,14 +1,17 @@
-<form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+<div class="login-form">
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="form" >
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please input your username!">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="login" nzRequired>login</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your login!">
       <nz-input-group nzPrefixIcon="user">
-        <input formControlName="userName" nz-input placeholder="Username"/>
+        <input formControlName="login" nz-input placeholder="login"/>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please input your Password!">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your Password!">
       <nz-input-group [nzSuffix]="passwordSuffix" nzPrefixIcon="lock">
         <input
           formControlName="password"
@@ -25,7 +28,7 @@
 
 
   <nz-form-item>
-    <nz-form-control>
+    <nz-form-control >
       <button nz-button nzType="primary" [disabled]="!validateForm.valid">Log in</button>
     </nz-form-control>
   </nz-form-item>
@@ -34,5 +37,8 @@
 
 <div class="navig">
   <button nz-button nzType="primary" routerLink="/registration">register</button>
+  <br>
+  <br>
   <button nz-button nzType="primary" routerLink="">welcome</button>
+</div>
 </div>

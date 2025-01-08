@@ -58,7 +58,9 @@ export class RegistrationComponent {
   validateForm: FormGroup<{
     password: FormControl<string>;
     checkPassword: FormControl<string>;
-    username: FormControl<string>;
+    name: FormControl<string>;
+    login: FormControl<string>;
+    email: FormControl<string>;
   }>;
 
 
@@ -66,7 +68,9 @@ export class RegistrationComponent {
     this.validateForm = this.fb.group({
       password: ['', [Validators.required]],
       checkPassword: ['', [Validators.required, this.confirmationValidator]],
-      username: ['', [Validators.required]]
+      login: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      email:['', [Validators.pattern('.+@.+\\..+'), Validators.required]],
     });
   }
 
@@ -81,9 +85,9 @@ export class RegistrationComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const {username, password, checkPassword} = this.validateForm.value;
-      if (username && password && checkPassword === password) {
-        this.userService.register(username, password);
+      const {name, password, checkPassword} = this.validateForm.value;
+      if (name && password && checkPassword === password) {
+        this.userService.register(name, password);
       }
 
     } else {

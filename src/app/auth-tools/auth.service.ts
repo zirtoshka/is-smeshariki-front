@@ -23,15 +23,15 @@ export class AuthService {
   //   this.messageService.createErrorNotification();
   // }
 
-  get username(): string | null {
-    return sessionStorage.getItem("username");
+  get login(): string | null {
+    return sessionStorage.getItem("login");
   }
 
-  set username(value: string | null | undefined) {
+  set login(value: string | null | undefined) {
     if (value == null) {
-      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("login");
     } else {
-      sessionStorage.setItem("username", value);
+      sessionStorage.setItem("login", value);
     }
   }
 
@@ -51,9 +51,9 @@ export class AuthService {
     return this.authToken != null;
   }
 
-  private auth(name: string, token: string) {
+  private auth(login: string, token: string) {
     this.authToken = token;
-    this.username = name;
+    this.login = login;
     let headers = new HttpHeaders();
     console.log("3333");
     headers = headers.set('Authorization', `Bearer ${token}`);
@@ -70,21 +70,21 @@ export class AuthService {
       });
   }
 
-  postData(username: string, password: string, action: string) {
+  postData(login: string, password: string, action: string) {
     return this.httpClient
-      .post<Token>(`${this.baseUrl}/${action}`, {"name": username, password})
+      .post<Token>(`${this.baseUrl}/${action}`, {"login": login, password})
       .pipe(catchError(this.handleError.bind(this)))
       .subscribe((data) => {
-        this.auth(username, data.token)
+        this.auth(login, data.token)
       });
   }
 
-  login(username: string, password: string) {
-    return this.postData(username, password, "authenticate");
+  logIn(login: string, password: string) {
+    return this.postData(login, password, "authenticate");
   }
 
-  register(username: string, password: string) {
-    return this.postData(username, password, "register");
+  register(login: string, password: string) {
+    return this.postData(login, password, "register");
   }
 
   private handleError(error: HttpErrorResponse) {

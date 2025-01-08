@@ -1,11 +1,31 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="reg-form">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="username" nzRequired
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
                    nzTooltipTitle="What do you want others to call you">
-      <span>Username</span>
+      <span>name</span>
     </nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your username!">
-      <input nz-input id="username" formControlName="username"/>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
+      <input nz-input id="name" formControlName="name"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="login" nzRequired
+                   nzTooltipTitle="yours unique name">
+      <span>login</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your login!">
+      <input nz-input id="login" formControlName="login"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired
+                   nzTooltipTitle="email">
+      <span>email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your email!">
+      <input nz-input id="email" formControlName="email"/>
     </nz-form-control>
   </nz-form-item>
 

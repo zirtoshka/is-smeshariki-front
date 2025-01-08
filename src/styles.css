@@ -15,6 +15,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .hoverable-row:hover {
-  background-color: rgba(255, 105, 180, 0.16);
+  background-color: rgba(240, 255, 105, 0.16);
   cursor: pointer;
 }
