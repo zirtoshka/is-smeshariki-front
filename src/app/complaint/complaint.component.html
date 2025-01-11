@@ -19,7 +19,17 @@
       <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
       <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
     </div>
-    <p *ngIf="complaint.commentId"><strong>Комментарий ID:</strong> {{ complaint.commentId }}</p>
+
+
+    <div>
+      <p *ngIf="complaint.commentId">
+        <strong>Комментарий ID:</strong>
+        <a (click)="showComment(complaint.commentId)" class="comment-link">{{ complaint.commentId }}</a>
+      </p>
+      <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
+      <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
+    </div>
+
     <p><strong>Ответственный
       администратор:</strong> {{ complaint.adminId ? 'Администратор ' + complaint.adminId : 'Не назначен' }}</p>
   </div>

@@ -1,0 +1,22 @@
+<nz-card class="comment-container" [nzBordered]="true">
+  <div class="comment-header">
+    <nz-avatar [nzSrc]="getAvatarPath(comment.smesharikId)" nzSize="small"></nz-avatar>
+    <strong class="comment-author">Смешарик ID: {{ comment.smesharikId }}</strong>
+    <span class="comment-date">{{ comment.creationDate }}</span>
+  </div>
+
+  <div class="comment-body">
+    <p class="comment-text">{{ comment.text }}</p>
+  </div>
+
+  <div class="comment-meta">
+    <p *ngIf="comment.postId">
+      <strong>Пост ID:</strong>
+      <a (click)="onPostClick(comment.postId)">{{ comment.postId }}</a>
+    </p>
+    <p *ngIf="comment.commentId">
+      <strong>Ответ на комментарий ID:</strong>
+      <a (click)="onCommentClick(comment.commentId)">{{ comment.commentId }}</a>
+    </p>
+  </div>
+</nz-card>

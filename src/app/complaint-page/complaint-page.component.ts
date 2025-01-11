@@ -52,7 +52,7 @@ export class ComplaintPageComponent {
       'Оскорбительный комментарий',
       301,
       null,
-      202,
+      1,
       GeneralStatus.done,
       '2025-01-09',
       '2025-01-10'
@@ -63,7 +63,7 @@ export class ComplaintPageComponent {
       'Нецензурная лексика в посте',
       null,
       null,
-      203,
+      3,
       GeneralStatus.inProgress,
       '2025-01-08',
       ''
