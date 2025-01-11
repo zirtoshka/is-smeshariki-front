@@ -49,7 +49,7 @@ export class SmesharikPageComponent {
     login: "lupa",
     password: "*****",
     email: "smesharik@gmail.com",
-    role: Roles.admin,
+    role: Roles.user,
     isOnline: true,
     lastActive: "string"
   }

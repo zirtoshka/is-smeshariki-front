@@ -9,6 +9,7 @@ import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {FormsModule} from '@angular/forms';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {HeaderComponent} from '../header/header.component';
+import {ApplicationComponent} from '../application/application.component';
 
 @Component({
   selector: 'app-doctor-page',
@@ -23,7 +24,8 @@ import {HeaderComponent} from '../header/header.component';
     FormsModule,
     NzOptionComponent,
     NzSwitchComponent,
-    HeaderComponent
+    HeaderComponent,
+    ApplicationComponent
   ],
   templateUrl: './doctor-page.component.html',
   styleUrl: './doctor-page.component.css'
@@ -31,7 +33,6 @@ import {HeaderComponent} from '../header/header.component';
 export class DoctorPageComponent {
   isMyApplications: boolean = true
 
-  generalStatuses = Object.values(GeneralStatus);
 
   propensityList:Propensity[]=[
     new Propensity(1, 'грустный вайб', 'Пациент нуждается в срочном лечении'),
@@ -68,33 +69,8 @@ export class DoctorPageComponent {
     ),
   ];
 
-  approveApplication(id: number): void {
-    const application = this.applications.find(app => app.id === id);
-    if (application) {
-      application.status = GeneralStatus.done;
-    }
-  }
 
-  rejectApplication(id: number): void {
-    const application = this.applications.find(app => app.id === id);
-    if (application) {
-      application.status = GeneralStatus.canceled;
-    }
-  }
-  onStatusChange(applicationId: number, newStatus: GeneralStatus): void {
-    const application = this.applications.find(app => app.id === applicationId);
-    if (application) {
-      application.status = newStatus;
-    }
-  }
 
-  confirmStatus(applicationId: number): void {
-    const application = this.applications.find(app => app.id === applicationId);
-    if (application) {
-      console.log(`Подтверждение статуса: ${application.status} для заявки ${applicationId}`);
-      // this.doctorService.updateApplicationStatus(applicationId, application.status).subscribe();
-    }
-  }
 
   onToggleChange(): void {
     console.log(this.isMyApplications ? 'Отображаются мои заявки' : 'Отображаются все заявки');

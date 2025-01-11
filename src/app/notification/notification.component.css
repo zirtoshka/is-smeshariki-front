@@ -1,0 +1,15 @@
+.notification-card {
+  border-radius: 8px;
+  transition: box-shadow 0.3s;
+}
+
+.notification-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.notification-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

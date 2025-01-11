@@ -1,0 +1,9 @@
+<nz-card class="notification-card" [nzBordered]="true" [nzHoverable]="true">
+  <nz-card-meta
+    [nzTitle]="notification.title"
+    [nzDescription]="notification.message">
+  </nz-card-meta>
+  <div class="notification-actions">
+    <button nz-button nzType="link" (click)="deleteNotification()">Удалить</button>
+  </div>
+</nz-card>

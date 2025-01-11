@@ -1,7 +1,9 @@
 import {Routes} from '@angular/router';
+import {PostComponent} from './post/post.component';
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/profile', pathMatch: 'full'},
+  {path:'', component: PostComponent,  pathMatch: 'full'},
+  // {path: '', redirectTo: '/profile', pathMatch: 'full'},
   {path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)},
   {
     path: 'registration',

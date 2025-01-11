@@ -1,0 +1,28 @@
+<nz-card class="post-card" [nzBordered]="true" [nzHoverable]="true">
+  <div class="post-header">
+    <h3 class="post-title">
+      <nz-avatar nzSize="large"></nz-avatar>
+      <span class="post-author">Автор ID: {{ post.authorId }}</span>
+    </h3>
+    <p class="post-date">
+      <i nz-icon nzType="calendar" nzTheme="outline"></i>
+      Опубликовано: {{ post.publicationDate }}
+    </p>
+  </div>
+
+  <div class="post-content">
+    <p class="post-text">{{ post.text }}</p>
+    <img
+      *ngIf="post.pathToImage"
+      [src]="post.pathToImage"
+      alt="Изображение поста"
+      class="post-image"
+    />
+  </div>
+
+  <div class="post-footer">
+    <nz-tag *ngIf="post.isDraft" [nzColor]="'gold'">Черновик</nz-tag>
+    <nz-tag *ngIf="post.isPrivate" [nzColor]="'red'">Приватный</nz-tag>
+    <nz-tag *ngIf="!post.isPrivate && !post.isDraft" [nzColor]="'green'">Публичный</nz-tag>
+  </div>
+</nz-card>

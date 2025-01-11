@@ -1,11 +1,3 @@
-<div class="notification-container">
-  <nz-card *ngFor="let notification of notificationList; let i = index" [nzBordered]="true" class="notification-card">
-    <nz-card-meta
-      [nzTitle]="notification.title"
-      [nzDescription]="notification.message">
-    </nz-card-meta>
-    <div class="notification-actions">
-      <button nz-button nzType="link" (click)="deleteNotification(i)">Удалить</button>
-    </div>
-  </nz-card>
+<div class="notification-container" *ngFor="let notification of notificationList">
+  <app-notification [notification]="notification"></app-notification>
 </div>

@@ -4,6 +4,7 @@ import {UserService} from '../user.service';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {NotificationComponent} from '../notification/notification.component';
 
 @Component({
   selector: 'app-notification-page',
@@ -12,7 +13,8 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     NzCardComponent,
     NzCardMetaComponent,
     NgForOf,
-    NzButtonComponent
+    NzButtonComponent,
+    NotificationComponent
   ],
   templateUrl: './notification-page.component.html',
   styleUrl: './notification-page.component.css'

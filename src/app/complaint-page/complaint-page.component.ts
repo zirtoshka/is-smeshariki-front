@@ -8,6 +8,9 @@ import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {HeaderComponent} from '../header/header.component';
+import {PostComponent} from '../post/post.component';
+import {Post} from '../post';
+import {ComplaintComponent} from '../complaint/complaint.component';
 
 @Component({
   selector: 'app-complaint-page',
@@ -22,7 +25,9 @@ import {HeaderComponent} from '../header/header.component';
     NzButtonComponent,
     NgIf,
     NzSwitchComponent,
-    HeaderComponent
+    HeaderComponent,
+    PostComponent,
+    ComplaintComponent
   ],
   templateUrl: './complaint-page.component.html',
   styleUrl: './complaint-page.component.css'
@@ -65,36 +70,17 @@ export class ComplaintPageComponent {
     ),
   ];
 
-  generalStatuses = Object.values(GeneralStatus);
 
-  onStatusChange(complaintId: number, newStatus: GeneralStatus): void {
-    const complaint = this.complaints.find(c => c.id === complaintId);
-    if (complaint) {
-      complaint.status = newStatus;
-    }
-  }
 
-  confirmComplaintStatus(complaintId: number): void {
-    const complaint = this.complaints.find(c => c.id === complaintId);
-    if (complaint) {
-      console.log(`Подтверждение статуса: ${complaint.status} для жалобы ${complaintId}`);
-      //todo
-      // this.someService.updateComplaintStatus(complaintId, complaint.status).subscribe();
-    }
-  }
+
+
 
   onToggleChange(){
     //todo
     console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
 
-  assignAdminToComplaint(complaintId: number): void {
-    const complaint = this.complaints.find(c => c.id === complaintId);
-    if (complaint) {
-      complaint.adminId = 999;
-      console.log(`Администратор назначен на жалобу №${complaintId}`);
-      //todo
-      // this.someService.assignAdmin(complaintId, 999).subscribe();
-    }
-  }
+
+
+
 }
