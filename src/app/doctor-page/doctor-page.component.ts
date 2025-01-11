@@ -8,6 +8,7 @@ import {Propensity} from '../propensity';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {FormsModule} from '@angular/forms';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
+import {HeaderComponent} from '../header/header.component';
 
 @Component({
   selector: 'app-doctor-page',
@@ -21,7 +22,8 @@ import {NzSwitchComponent} from 'ng-zorro-antd/switch';
     NzSelectComponent,
     FormsModule,
     NzOptionComponent,
-    NzSwitchComponent
+    NzSwitchComponent,
+    HeaderComponent
   ],
   templateUrl: './doctor-page.component.html',
   styleUrl: './doctor-page.component.css'

@@ -1,0 +1,19 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+header {
+  flex-direction: row;
+  flex-wrap:   wrap;
+  /*flex-shrink: 0;  !* Предотвращаем сжимание *!*/
+}
+
+main {
+  margin-top: 20px;
+  /*display: flex;*/
+  flex-grow: 0;  /* Заставляем main занимать оставшееся пространство */
+  padding: 5%;
+}

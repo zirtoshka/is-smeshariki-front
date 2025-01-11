@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {NotificationS} from './notification';
+import {NotificationS} from '../notification';
 import {UserService} from '../user.service';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf} from '@angular/common';

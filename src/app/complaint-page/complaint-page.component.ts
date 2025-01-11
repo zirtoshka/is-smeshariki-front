@@ -7,6 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
+import {HeaderComponent} from '../header/header.component';
 
 @Component({
   selector: 'app-complaint-page',
@@ -20,7 +21,8 @@ import {NzSwitchComponent} from 'ng-zorro-antd/switch';
     NzSelectComponent,
     NzButtonComponent,
     NgIf,
-    NzSwitchComponent
+    NzSwitchComponent,
+    HeaderComponent
   ],
   templateUrl: './complaint-page.component.html',
   styleUrl: './complaint-page.component.css'
