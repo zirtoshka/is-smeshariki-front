@@ -6,6 +6,19 @@
   nzIcon="user"></nz-avatar>
 <!--<nz-avatar nzSize="large" nzIcon="user"></nz-avatar>-->
 
+<div class="role-info">
+  <ng-container *ngIf="smesharik.role == Roles.admin">
+    <span class="role-badge admin-badge">
+      <i nz-icon nzType="crown" nzTheme="fill"></i> админ
+    </span>
+  </ng-container>
+  <ng-container *ngIf="smesharik.role == Roles.doctor">
+    <span class="role-badge doctor-badge">
+      <i nz-icon nzType="medicine-box" nzTheme="fill"></i> доктор
+    </span>
+  </ng-container>
+</div>
+
 
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="edit-form">
   <nz-form-item>
@@ -40,10 +53,20 @@
 
   <nz-form-item nz-row class="edit-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="primary" [disabled]="!this.validateForm.valid">сохранить изменения</button>
+      <button nz-button nzType="primary"
+              *ngIf="isEditing"
+              [disabled]="saveIsAvailable()">сохранить изменения
+      </button>
     </nz-form-control>
   </nz-form-item>
 </form>
+
+<div>
+  <button nz-button nzType="default" (click)="toggleEdit()">
+    {{ isEditing ? 'отмена редактирования' : 'редактировать профиль' }}
+  </button>
+</div>
+
 
 
 

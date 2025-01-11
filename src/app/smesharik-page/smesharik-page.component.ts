@@ -8,16 +8,13 @@ import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabe
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
-  ValidatorFn,
   Validators
 } from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {AuthService} from '../auth-tools/auth.service';
 import {UserService} from '../user.service';
 
 @Component({
@@ -44,13 +41,15 @@ import {UserService} from '../user.service';
 })
 export class SmesharikPageComponent {
   private userService = inject(UserService);
+  isEditing: boolean = false;
+  isFormChanged: boolean = false;
 
   smesharik: Smesharik = {
     name: "lolik",
     login: "lupa",
     password: "*****",
     email: "smesharik@gmail.com",
-    role: Roles.user,
+    role: Roles.admin,
     isOnline: true,
     lastActive: "string"
   }
@@ -70,9 +69,19 @@ export class SmesharikPageComponent {
       name: [this.smesharik.name, [Validators.required]],
       email: [this.smesharik.email, [Validators.pattern('.+@.+\\..+'), Validators.required]],
     });
-
+    this.validateForm.disable()
+    this.validateForm.valueChanges.subscribe(() => {
+      this.isFormChanged = this.validateForm.dirty; // Устанавливаем true, если форма изменилась
+    });
   }
-
+  toggleEdit(): void {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing) {
+      this.validateForm.disable()
+    }else {
+      this.validateForm.enable()
+    }
+  }
 
 
   submitForm(): void {
@@ -81,6 +90,7 @@ export class SmesharikPageComponent {
       if (name && login && email && login.length > 0) {
         this.userService.editSmesharik(name,login,email);
       }
+      this.isFormChanged = false;
 
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -91,4 +101,19 @@ export class SmesharikPageComponent {
       });
     }
   }
+
+  formIsChanged(): boolean {
+    const { name, login, email } = this.validateForm.value;
+    return (
+      name !== this.smesharik.name ||
+      login !== this.smesharik.login ||
+      email !== this.smesharik.email
+    );
+  }
+  saveIsAvailable(){
+
+    return !this.validateForm.valid || !this.isFormChanged || !this.formIsChanged();
+  }
+
+  protected readonly Roles = Roles;
 }
