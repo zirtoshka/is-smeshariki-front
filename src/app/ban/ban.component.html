@@ -1,0 +1,30 @@
+<p>ban works!</p>
+<nz-card class="ban-card" [nzBordered]="true" [nzHoverable]="true">
+  <div class="ban-header">
+    <nz-avatar [nzSrc]="getAvatarPath(ban.smesharikId)" nzSize="large"></nz-avatar>
+    <div class="ban-header-info">
+      <h3 class="ban-title">Смешарик ID: {{ ban.smesharikId }}</h3>
+      <p class="ban-date">
+        <i nz-icon nzType="calendar" nzTheme="outline"></i>
+        Начало: {{ ban.creationDate  }} <br>
+        <i nz-icon nzType="stop" nzTheme="outline"></i>
+        Конец: {{ ban.endDate }}
+      </p>
+    </div>
+  </div>
+
+  <div class="ban-reason">
+    <p><strong>Причина бана:</strong> {{ ban.reason }}</p>
+  </div>
+
+  <div class="ban-links">
+    <p *ngIf="ban.postId">
+      <strong>Пост ID:</strong>
+      <a (click)="onPostClick(ban.postId)" class="link">#{{ ban.postId }}</a>
+    </p>
+    <p *ngIf="ban.commentId">
+      <strong>Комментарий ID:</strong>
+      <a (click)="onCommentClick(ban.commentId)" class="link">#{{ ban.commentId }}</a>
+    </p>
+  </div>
+</nz-card>

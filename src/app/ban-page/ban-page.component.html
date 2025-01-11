@@ -1,0 +1,22 @@
+<p>ban-page works!</p>
+<div class="toggle-container">
+  <label for="ban-toggle">Показать:</label>
+  <nz-switch
+    id="ban-toggle"
+    [(ngModel)]="isMyBans"
+    (ngModelChange)="onToggleChange()">
+  </nz-switch>
+
+  <div class="toggle-label">
+    <span *ngIf="isMyBans" class="my-complaints">Мои жалобы</span>
+    <span *ngIf="!isMyBans" class="all-complaints">Все жалобы</span>
+  </div>
+</div>
+
+
+<div class="complaint-container"  *ngFor="let ban of bans">
+  <app-ban [ban]="ban"></app-ban>
+</div>
+
+
+

@@ -1,8 +1,9 @@
 import {Routes} from '@angular/router';
 import {PostComponent} from './post/post.component';
+import {SmesharikPageComponent} from './smesharik-page/smesharik-page.component';
 
 export const routes: Routes = [
-  {path:'', component: PostComponent,  pathMatch: 'full'},
+  {path:'', component: SmesharikPageComponent,  pathMatch: 'full'},
   // {path: '', redirectTo: '/profile', pathMatch: 'full'},
   {path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)},
   {
@@ -21,6 +22,11 @@ export const routes: Routes = [
   {
     path: 'complaint',
     loadComponent: () => import('./complaint-page/complaint-page.component').then(m => m.ComplaintPageComponent)
+  },
+
+  {
+    path: 'ban',
+    loadComponent: () => import('./ban-page/ban-page.component').then(m => m.BanPageComponent)
   },
 
   // {path: 'registration', component: RegistrationComponent},
