@@ -6,16 +6,7 @@
 <!--<nz-avatar nzSize="large" nzIcon="user"></nz-avatar>-->
 
 <div class="role-info">
-  <ng-container *ngIf="smesharik.role == Roles.admin">
-    <span class="role-badge admin-badge">
-      <i nz-icon nzType="crown" nzTheme="fill"></i> админ
-    </span>
-  </ng-container>
-  <ng-container *ngIf="smesharik.role == Roles.doctor">
-    <span class="role-badge doctor-badge">
-      <i nz-icon nzType="medicine-box" nzTheme="fill"></i> доктор
-    </span>
-  </ng-container>
+  <app-role-tag [role]="smesharik.role"></app-role-tag>
 </div>
 
 

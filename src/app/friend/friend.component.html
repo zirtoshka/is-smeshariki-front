@@ -1,0 +1,24 @@
+<nz-card class="friend-card" [nzBordered]="true" [nzHoverable]="true">
+  <div class="friend-info">
+    <nz-avatar [nzSrc]="friend.avatar" nzSize="large"></nz-avatar>
+
+    <div class="friend-details">
+      <h3 class="friend-name">{{ friend.name }}</h3>
+      <p class="friend-status">
+        <nz-tag *ngIf="friend.isOnline" nzColor="green">
+          <i nz-icon nzType="check-circle" nzTheme="outline"></i> онлайн
+        </nz-tag>
+        <nz-tag *ngIf="!friend.isOnline" nzColor="default">
+          <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{ friend.lastActive }}
+        </nz-tag>
+      </p>
+    </div>
+  </div>
+
+  <div class="friend-meta">
+    <p><strong>Логин: </strong> {{ friend.login }}</p>
+    <p><strong>Роль: </strong>
+      <app-role-tag [role]="friend.role"></app-role-tag>
+    </p>
+  </div>
+</nz-card>

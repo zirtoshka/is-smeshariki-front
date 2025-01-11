@@ -1,0 +1,39 @@
+.friend-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  .friend-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .friend-details {
+      .friend-name {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .friend-status {
+        margin: 0;
+        font-size: 14px;
+        color: #888;
+
+        nz-tag {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+
+  .friend-meta {
+    p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+}

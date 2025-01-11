@@ -1,7 +1,7 @@
 export enum Roles{
-  admin,
-  user,
-  doctor
+  admin='админ',
+  user='смешарик',
+  doctor='доктор'
 }
 export class Smesharik {
   constructor(

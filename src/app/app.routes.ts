@@ -29,6 +29,11 @@ export const routes: Routes = [
     loadComponent: () => import('./ban-page/ban-page.component').then(m => m.BanPageComponent)
   },
 
+  {
+    path: 'friends',
+    loadComponent: () => import('./friend-page/friend-page.component').then(m => m.FriendPageComponent)
+  },
+
   // {path: 'registration', component: RegistrationComponent},
   // {path: 'profile', component: SmesharikPageComponent},
   // {path: 'notification', component: NotificationPageComponent},

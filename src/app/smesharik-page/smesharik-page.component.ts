@@ -7,15 +7,11 @@ import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
-import {
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import {FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {UserService} from '../user.service';
+import {NzTagComponent} from 'ng-zorro-antd/tag';
+import {RoleTagComponent} from '../role-tag/role-tag.component';
 
 @Component({
   selector: 'app-smesharik-page',
@@ -34,7 +30,9 @@ import {UserService} from '../user.service';
     NzInputGroupComponent,
     NzRowDirective,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    NzTagComponent,
+    RoleTagComponent
   ],
   templateUrl: './smesharik-page.component.html',
   styleUrl: './smesharik-page.component.css'
@@ -49,7 +47,7 @@ export class SmesharikPageComponent {
     login: "lupa",
     password: "*****",
     email: "smesharik@gmail.com",
-    role: Roles.user,
+    role: Roles.doctor,
     isOnline: true,
     lastActive: "string"
   }
