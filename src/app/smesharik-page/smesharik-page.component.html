@@ -1,0 +1,50 @@
+<p>smesharik-page works!</p>
+<!--<nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>-->
+<nz-avatar
+  [nzSize]="64"
+  [style]="{ 'background-color': '#8228e6' }"
+  nzIcon="user"></nz-avatar>
+<!--<nz-avatar nzSize="large" nzIcon="user"></nz-avatar>-->
+
+
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="edit-form">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name"
+                   nzTooltipTitle="Как бы вы хотели, чтобы другие называли вас">
+      <span>имя</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Введите имя!">
+      <input nz-input id="name" formControlName="name"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="login"
+                   nzTooltipTitle="выше уникальное имя">
+      <span>логин</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите логин!">
+      <input nz-input id="login" formControlName="login"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email"
+                   nzTooltipTitle="email">
+      <span>email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите email!">
+      <input nz-input id="email" formControlName="email"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row class="edit-area">
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button nz-button nzType="primary" [disabled]="!this.validateForm.valid">сохранить изменения</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+
+
+

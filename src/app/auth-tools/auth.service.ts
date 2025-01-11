@@ -55,15 +55,12 @@ export class AuthService {
     this.authToken = token;
     this.login = login;
     let headers = new HttpHeaders();
-    console.log("3333");
     headers = headers.set('Authorization', `Bearer ${token}`);
-    console.log("444");
     lastValueFrom(this.httpClient.get(`${this.baseUrl}/users/${name}`, {headers}))
       .then(data => {
         this.router.navigate(['home']).then(() => {
           console.log('Navigation to home successful');
         }).catch(err => {
-          console.log("ogogogo");
           // this.messageService.createErrorNotification();
           console.error('Navigation failed', err);
         });
