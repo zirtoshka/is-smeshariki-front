@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgForOf} from '@angular/common';
-import {FriendComponent} from '../friend/friend.component';
+import {Context, FriendComponent} from '../friend/friend.component';
 import {Friend} from '../friend';
 import {Roles} from '../auth-tools/smesharik';
 
@@ -30,4 +30,10 @@ export class FriendPageComponent {
       false,
       '2023-01-02T14:00:00Z',
       Roles.admin)];
+
+  handleRemoveFriend(friend: Friend): void {
+    console.log('Удалить друга:', friend);
+  }
+
+  protected readonly Context = Context;
 }

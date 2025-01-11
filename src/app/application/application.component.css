@@ -1,0 +1,33 @@
+
+.application-card {
+  border-radius: 8px;
+  transition: box-shadow 0.3s;
+}
+
+.application-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.application-details {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.application-details p {
+  margin: 4px 0;
+}
+
+.application-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.application-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}

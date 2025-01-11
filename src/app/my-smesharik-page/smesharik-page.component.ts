@@ -14,7 +14,7 @@ import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 
 @Component({
-  selector: 'app-smesharik-page',
+  selector: 'app-my-smesharik-page',
   standalone: true,
   imports: [
     NzAvatarComponent,

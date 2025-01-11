@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {PostComponent} from './post/post.component';
-import {SmesharikPageComponent} from './smesharik-page/smesharik-page.component';
+import {SmesharikPageComponent} from './my-smesharik-page/smesharik-page.component';
 
 export const routes: Routes = [
   {path:'', component: SmesharikPageComponent,  pathMatch: 'full'},
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./smesharik-page/smesharik-page.component').then(m => m.SmesharikPageComponent)
+    loadComponent: () => import('./my-smesharik-page/smesharik-page.component').then(m => m.SmesharikPageComponent)
   },
   {
     path: 'notification',
@@ -32,6 +32,10 @@ export const routes: Routes = [
   {
     path: 'friends',
     loadComponent: () => import('./friend-page/friend-page.component').then(m => m.FriendPageComponent)
+  },
+  {
+    path: 'friendrequests',
+    loadComponent: () => import('./friend-requests-page/friend-requests-page.component').then(m => m.FriendRequestsPageComponent)
   },
 
   // {path: 'registration', component: RegistrationComponent},

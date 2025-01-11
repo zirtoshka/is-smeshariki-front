@@ -1,12 +1,18 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {Friend} from '../friend';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {NgIf} from '@angular/common';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {Roles} from '../auth-tools/smesharik';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
+
+export enum  Context {
+  friends,
+  requests
+
+}
 
 @Component({
   selector: 'app-friend',
@@ -17,7 +23,8 @@ import {RoleTagComponent} from '../role-tag/role-tag.component';
     NzTagComponent,
     NgIf,
     NzIconDirective,
-    RoleTagComponent
+    RoleTagComponent,
+    NzButtonComponent
   ],
   templateUrl: './friend.component.html',
   styleUrl: './friend.component.css'
@@ -25,6 +32,19 @@ import {RoleTagComponent} from '../role-tag/role-tag.component';
 export class FriendComponent {
   @Input() friend!: Friend;
 
+  @Input() context!: Context;
+
+  @Output() addFriend = new EventEmitter<Friend>();
+  @Output() removeFriend = new EventEmitter<Friend>();
+
+  onAddFriend(friend: Friend): void {
+    this.addFriend.emit(friend);
+  }
+
+  onRemoveFriend(friend: Friend): void {
+    this.removeFriend.emit(friend);
+  }
 
 
+  protected readonly Context = Context;
 }

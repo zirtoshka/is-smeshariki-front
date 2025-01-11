@@ -21,4 +21,16 @@
       <app-role-tag [role]="friend.role"></app-role-tag>
     </p>
   </div>
+
+
+  <div class="friend-actions">
+    <button *ngIf="context === Context.requests" nz-button nzType="primary" (click)="onAddFriend(friend)">
+      <i nz-icon nzType="user-add"></i> добавить в друзья
+    </button>
+    <button *ngIf="context === Context.friends" nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend)">
+      <i nz-icon nzType="user-delete"></i> удалить из друзей
+    </button>
+  </div>
+
+
 </nz-card>
