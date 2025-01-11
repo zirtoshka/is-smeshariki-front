@@ -1,0 +1,57 @@
+<h1>заявки на лечение</h1>
+<div class="toggle-container">
+  <label for="applications-toggle">Показать:</label>
+  <nz-switch
+    id="applications-toggle"
+    [(ngModel)]="isMyApplications"
+    (ngModelChange)="onToggleChange()">
+  </nz-switch>
+
+  <div class="toggle-label">
+    <span *ngIf="isMyApplications" class="my-applications">Мои заявки</span>
+    <span *ngIf="!isMyApplications" class="all-applications">Все заявки</span>
+  </div>
+</div>
+
+<div class="applications-container">
+  <nz-card
+    *ngFor="let application of applications"
+    [nzBordered]="true"
+    [nzBodyStyle]="{ padding: '15px' }"
+    class="application-card">
+
+    <nz-card-meta
+      [nzTitle]="'Заявка №' + application.id"
+      [nzDescription]="'Статус: ' + application.status">
+    </nz-card-meta>
+
+    <div class="application-details">
+      <p><strong>Склонность:</strong> {{ this.propensityList[application.propensityId].name }}</p>
+      <p><strong>Описание:</strong> {{ propensityList[application.propensityId].description }}</p>
+      <p *ngIf="application.postId"><strong>Пост ID:</strong> {{ application.postId }}</p>
+      <p *ngIf="application.commentId"><strong>Комментарий ID:</strong> {{ application.commentId }}</p>
+      <p>
+        <strong>Доктор ID:</strong>
+        <span *ngIf="application.doctorId; else noDoctor">
+              {{ application.doctorId }}
+        </span>
+      </p>
+      <ng-template #noDoctor> Доктор еще не назначен</ng-template>
+    </div>
+
+    <div class="application-actions" *ngIf="!application.doctorId">
+      <nz-select
+        [(ngModel)]="application.status"
+        class="status-selector"
+        [nzDropdownClassName]="'status-dropdown'"
+        [nzAllowClear]="false"
+        (ngModelChange)="onStatusChange(application.id, application.status)">
+        <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>
+      </nz-select>
+      <button nz-button nzType="primary" (click)="confirmStatus(application.id)">Подтвердить</button>
+    </div>
+  </nz-card>
+</div>
+
+
+

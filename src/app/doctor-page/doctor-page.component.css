@@ -1,0 +1,87 @@
+.applications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.application-card {
+  border-radius: 8px;
+  transition: box-shadow 0.3s;
+}
+
+.application-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.application-details {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.application-details p {
+  margin: 4px 0;
+}
+
+.application-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.application-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.status-selector {
+  min-width: 200px;
+}
+
+.status-dropdown {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.toggle-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-family: 'Arial', sans-serif;
+}
+
+.toggle-container label {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.toggle-label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+}
+
+.my-applications {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.all-applications {
+  color: #2196F3;
+  font-weight: bold;
+}
+
+.nz-switch {
+  margin: 0 10px;
+}
