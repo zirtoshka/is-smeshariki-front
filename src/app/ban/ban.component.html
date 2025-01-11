@@ -6,7 +6,7 @@
       <h3 class="ban-title">Смешарик ID: {{ ban.smesharikId }}</h3>
       <p class="ban-date">
         <i nz-icon nzType="calendar" nzTheme="outline"></i>
-        Начало: {{ ban.creationDate  }} <br>
+        Начало: {{ ban.creationDate }} <br>
         <i nz-icon nzType="stop" nzTheme="outline"></i>
         Конец: {{ ban.endDate }}
       </p>
@@ -18,13 +18,22 @@
   </div>
 
   <div class="ban-links">
-    <p *ngIf="ban.postId">
-      <strong>Пост ID:</strong>
-      <a (click)="onPostClick(ban.postId)" class="link">#{{ ban.postId }}</a>
-    </p>
-    <p *ngIf="ban.commentId">
-      <strong>Комментарий ID:</strong>
-      <a (click)="onCommentClick(ban.commentId)" class="link">#{{ ban.commentId }}</a>
-    </p>
+    <div>
+      <p *ngIf="ban.postId">
+        <strong>Пост ID:</strong>
+        <a (click)="showPost(ban.postId)" class="post-link">{{ ban.postId }}</a>
+      </p>
+      <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
+      <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
+    </div>
+
+    <div>
+      <p *ngIf="ban.commentId">
+        <strong>Комментарий ID:</strong>
+        <a (click)="showComment(ban.commentId)" class="comment-link">{{ ban.commentId }}</a>
+      </p>
+      <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
+      <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
+    </div>
   </div>
 </nz-card>

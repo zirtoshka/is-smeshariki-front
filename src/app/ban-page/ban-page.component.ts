@@ -24,7 +24,7 @@ export class BanPageComponent {
   isMyBans=false;
 
   bans:Ban[]=[
-    new Ban(1,"fofoofofof", 1,1,1,'2025-01-10','2025-01-11')
+    new Ban(1,"fofoofofof", 1,101,3,'2025-01-10','2025-01-11')
   ]
 
   onToggleChange(){

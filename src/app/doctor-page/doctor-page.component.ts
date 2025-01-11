@@ -54,7 +54,7 @@ export class DoctorPageComponent {
     new ApplicationForTreatment(
       2,
       null,
-      202,
+      1,
       221,
       GeneralStatus.canceled,
       1
@@ -62,7 +62,7 @@ export class DoctorPageComponent {
     new ApplicationForTreatment(
       3,
       null,
-      null,
+      3,
       303,
       GeneralStatus.inProgress,
       2

@@ -8,8 +8,27 @@
   <div class="application-details">
     <p><strong>Склонность:</strong> {{ propensity.name }}</p>
     <p><strong>Описание:</strong> {{ propensity.description }}</p>
-    <p *ngIf="application.postId"><strong>Пост ID:</strong> {{ application.postId }}</p>
-    <p *ngIf="application.commentId"><strong>Комментарий ID:</strong> {{ application.commentId }}</p>
+
+
+    <div>
+      <p *ngIf="application.postId">
+        <strong>Пост ID:</strong>
+        <a (click)="showPost(application.postId)" class="post-link">{{ application.postId }}</a>
+      </p>
+      <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
+      <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
+    </div>
+
+
+    <div>
+      <p *ngIf="application.commentId">
+        <strong>Комментарий ID:</strong>
+        <a (click)="showComment(application.commentId)" class="comment-link">{{ application.commentId }}</a>
+      </p>
+      <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
+      <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
+    </div>
+
     <p>
       <strong>Доктор ID:</strong>
       <span *ngIf="application.doctorId; else noDoctor">
