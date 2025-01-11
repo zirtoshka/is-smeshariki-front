@@ -11,4 +11,8 @@ export class UserService {
   editSmesharik(name: string, login: string, email: string) {
     console.log("edit Smesharik", name, login, email);
   }
+
+  getNotificationList(){
+    console.log("getNotificationList");
+  }
 }
