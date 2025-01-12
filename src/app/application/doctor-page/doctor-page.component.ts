@@ -11,7 +11,7 @@ import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {HeaderComponent} from '../../header/header.component';
 import {ApplicationCardComponent} from '../application-card/application-card.component';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
-import {BasePageComponent} from '../../base/base-page.component';
+import {BasePage} from '../../base/base-page';
 
 @Component({
   selector: 'app-doctor-page',
@@ -33,7 +33,7 @@ import {BasePageComponent} from '../../base/base-page.component';
   templateUrl: './doctor-page.component.html',
   styleUrl: './doctor-page.component.css'
 })
-export class DoctorPageComponent extends BasePageComponent<ApplicationForTreatment>{
+export class DoctorPageComponent extends BasePage<ApplicationForTreatment>{
   isMyApplications: boolean = true
 
   constructor() {

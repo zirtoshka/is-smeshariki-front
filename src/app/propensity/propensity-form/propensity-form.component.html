@@ -1,1 +1,33 @@
-<p>propensity-form works!</p>
+<nz-modal [(nzVisible)]="isVisible"
+          [nzTitle]="isEditMode ? 'Редактировать наклонность' : 'Добавить наклонность'"
+          (nzOnCancel)="cancel()"
+          [nzContent]="forma"
+          [nzFooter]="modalFooter">
+  <ng-template #forma>
+  <form nz-form [formGroup]="validateForm" class="form" >
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>имя</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите название наклонности">
+        <nz-input-group nzPrefixIcon="user">
+          <input formControlName="name" nz-input placeholder="имя"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzRequired>description</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите название description">
+        <nz-input-group nzPrefixIcon="user">
+          <input formControlName="description" nz-input placeholder="description"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="save()" [disabled]="!validateForm.valid">добавить</button>
+  </ng-template>
+</nz-modal>
+
+
+

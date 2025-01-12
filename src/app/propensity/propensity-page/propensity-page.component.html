@@ -1,3 +1,17 @@
+<button nz-button nzType="primary" (click)="openAddForm()">добавить наклонность</button>
+
+<app-propensity-form
+  [isVisible] = "isVisible"
+  [isEditMode]="isEditMode"
+  [item]="itemForEdit"
+  (onSave)="onSave($event)"
+  (onCancel)="onCancel()">
+</app-propensity-form>
+
+
+
+
+
 <div class="propensity-container">
   <app-propensity-card
     *ngFor="let item of items"
@@ -5,7 +19,6 @@
     (edit)="handleEdit($event)"
     (delete)="handleDelete($event)"
   ></app-propensity-card>
-
 </div>
 
 

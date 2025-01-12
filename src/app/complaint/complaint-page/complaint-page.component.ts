@@ -12,7 +12,7 @@ import {PostComponent} from '../../post/post.component';
 import {Post} from '../../post';
 import {ComplaintCardComponent} from '../complaint-card/complaint-card.component';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
-import {BasePageComponent} from '../../base/base-page.component';
+import {BasePage} from '../../base/base-page';
 import {ApplicationCardComponent} from '../../application/application-card/application-card.component';
 
 @Component({
@@ -39,7 +39,7 @@ import {ApplicationCardComponent} from '../../application/application-card/appli
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
-export class ComplaintPageComponent extends BasePageComponent<Complaint> {
+export class ComplaintPageComponent extends BasePage<Complaint> {
   isMyComplaints = false;
   constructor() {
     super();

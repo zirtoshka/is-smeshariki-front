@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {BanCardComponent} from '../ban-card/ban-card.component';
 import {Ban} from '../../ban';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
-import {BasePageComponent} from '../../base/base-page.component';
+import {BasePage} from '../../base/base-page';
 
 @Component({
   selector: 'app-ban-card-page',
@@ -21,7 +21,7 @@ import {BasePageComponent} from '../../base/base-page.component';
   templateUrl: './ban-page.component.html',
   styleUrl: './ban-page.component.css'
 })
-export class BanPageComponent extends BasePageComponent<Ban> {
+export class BanPageComponent extends BasePage<Ban> {
   isMyBans = false;
 
   constructor() {

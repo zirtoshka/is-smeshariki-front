@@ -3,25 +3,40 @@ import {BanCardComponent} from "../../ban/ban-card/ban-card.component";
 import {CommonModule, NgForOf, NgIf} from "@angular/common";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {Propensity} from '../../propensity';
-import {BasePageComponent} from '../../base/base-page.component';
+import {BasePage} from '../../base/base-page';
 import {PropensityCardComponent} from '../propensity-card/propensity-card.component';
+import {PropensityFormComponent} from '../propensity-form/propensity-form.component';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzCardComponent, NzCardModule} from 'ng-zorro-antd/card';
+import {NzButtonComponent, NzButtonModule} from 'ng-zorro-antd/button';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-propensity-page',
-  standalone: true,
   imports: [
     BanCardComponent,
     NgForOf,
     NgIf,
     NzSwitchComponent,
     CommonModule,
-    PropensityCardComponent
+    PropensityCardComponent,
+    PropensityFormComponent,
+    NzButtonComponent,
+    NzCardComponent,
+    NzIconDirective
   ],
-  templateUrl: './propensity-page.component.html',
-  styleUrl: './propensity-page.component.css',
+  providers: [NzModalService], //todo
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  selector: 'app-propensity-page',
+  standalone: true,
+  styleUrl: './propensity-page.component.css',
+  templateUrl: './propensity-page.component.html',
 })
-export class PropensityPageComponent extends BasePageComponent<Propensity>{
+export class PropensityPageComponent extends BasePage<Propensity>{
+
+
+
 
   constructor() {
     super();
@@ -31,5 +46,6 @@ export class PropensityPageComponent extends BasePageComponent<Propensity>{
       new Propensity(3, 'Склонность к спаму', 'Интерес к активному образу спама.'),
     ];
   }
+
 
 }
