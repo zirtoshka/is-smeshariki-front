@@ -13,9 +13,16 @@
 </div>
 
 
-<div class="complaint-container"  *ngFor="let complaint of complaints">
-  <app-complaint [complaint]="complaint"></app-complaint>
+<div class="complaint-container">
+  <app-complaint-card
+    *ngFor="let item of items"
+    [item]="item"
+    (edit)="handleEdit($event)"
+    (delete)="handleDelete($event)"
+  ></app-complaint-card>
 </div>
+
+
 
 
 

@@ -2,19 +2,19 @@
          [nzBordered]="true" [nzHoverable]="true">
 
   <nz-card-meta
-    [nzTitle]="'Жалоба №' + complaint.id"
-    [nzDescription]="'Статус: ' + complaint.status">
+    [nzTitle]="'Жалоба №' + item.id"
+    [nzDescription]="'Статус: ' + item.status">
   </nz-card-meta>
 
   <div class="complaint-details">
-    <p><strong>Тип нарушения:</strong> {{ complaint.violationType }}</p>
-    <p><strong>Описание:</strong> {{ complaint.description }}</p>
-    <p><strong>Дата создания:</strong> {{ complaint.creationDate }}</p>
-    <p><strong>Дата закрытия:</strong> {{ complaint.closingDate || 'Не закрыта' }}</p>
+    <p><strong>Тип нарушения:</strong> {{ item.violationType }}</p>
+    <p><strong>Описание:</strong> {{ item.description }}</p>
+    <p><strong>Дата создания:</strong> {{ item.creationDate }}</p>
+    <p><strong>Дата закрытия:</strong> {{ item.closingDate || 'Не закрыта' }}</p>
     <div>
-      <p *ngIf="complaint.postId">
+      <p *ngIf="item.postId">
         <strong>Пост ID:</strong>
-        <a (click)="showPost(complaint.postId)" class="post-link">{{ complaint.postId }}</a>
+        <a (click)="showPost(item.postId)" class="post-link">{{ item.postId }}</a>
       </p>
       <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
       <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
@@ -22,24 +22,24 @@
 
 
     <div>
-      <p *ngIf="complaint.commentId">
+      <p *ngIf="item.commentId">
         <strong>Комментарий ID:</strong>
-        <a (click)="showComment(complaint.commentId)" class="comment-link">{{ complaint.commentId }}</a>
+        <a (click)="showComment(item.commentId)" class="comment-link">{{ item.commentId }}</a>
       </p>
       <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
       <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
     </div>
 
     <p><strong>Ответственный
-      администратор:</strong> {{ complaint.adminId ? 'Администратор ' + complaint.adminId : 'Не назначен' }}</p>
+      администратор:</strong> {{ item.adminId ? 'Администратор ' + item.adminId : 'Не назначен' }}</p>
   </div>
 
   <div class="complaint-actions">
     <nz-select
-      [(ngModel)]="complaint.status"
+      [(ngModel)]="item.status"
       class="status-selector"
       [nzAllowClear]="false"
-      (ngModelChange)="onStatusChange(complaint.status)">
+      (ngModelChange)="onStatusChange(item.status)">
       <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>
     </nz-select>
     <button nz-button nzType="primary" (click)="confirmComplaintStatus()">Подтвердить</button>
@@ -49,11 +49,21 @@
       nz-button
       nzType="default"
       nzDanger
-      *ngIf="!complaint.adminId"
+      *ngIf="!item.adminId"
       (click)="assignAdminToComplaint($event)">
       Взять в обработку
     </button>
   </div>
+
+  <div class="complaint-actions">
+    <button nz-button nzType="default" (click)="onEdit(item)">
+      <i nz-icon nzType="edit"></i> Редактировать
+    </button>
+    <button nz-button nzType="default" nzDanger (click)="onDelete(item)">
+      <i nz-icon nzType="delete"></i> Удалить
+    </button>
+  </div>
+
 </nz-card>
 
 

@@ -1,0 +1,14 @@
+<nz-card class="propensity-container" [nzBordered]="true" [nzHoverable]="true">
+  <h3 class="propensity-name">{{ item.name }}</h3>
+  <h5 class="propensity-id">id: {{ item.id }}</h5>
+  <p class="propensity-description">{{ item.description }}</p>
+
+  <div class="propensity-actions">
+    <button nz-button nzType="default" (click)="onEdit(item)">
+      <i nz-icon nzType="edit"></i> Редактировать
+    </button>
+    <button nz-button nzType="default" nzDanger (click)="onDelete(item)">
+      <i nz-icon nzType="delete"></i> Удалить
+    </button>
+  </div>
+</nz-card>

@@ -12,8 +12,13 @@
   </div>
 </div>
 
-<div class="applications-container" *ngFor="let application of applications">
- <app-application [application]="application" [propensity]="propensityList[application.propensityId]"></app-application>
+<div class="applications-container">
+ <app-application-card
+   *ngFor="let item of items"
+   [item]="item"
+   (edit)="handleEdit($event)"
+   (delete)="handleDelete($event)"
+   [propensity]="propensityList[item.propensityId]"></app-application-card>
 </div>
 
 

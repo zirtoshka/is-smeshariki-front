@@ -1,0 +1,12 @@
+<div class="propensity-container">
+  <app-propensity-card
+    *ngFor="let item of items"
+    [item]="item"
+    (edit)="handleEdit($event)"
+    (delete)="handleDelete($event)"
+  ></app-propensity-card>
+
+</div>
+
+
+

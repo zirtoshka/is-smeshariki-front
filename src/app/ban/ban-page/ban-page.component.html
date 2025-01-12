@@ -14,8 +14,13 @@
 </div>
 
 
-<div class="complaint-container"  *ngFor="let ban of bans">
-  <app-ban [ban]="ban"></app-ban>
+<div class="complaint-container">
+  <app-ban-card
+    *ngFor="let item of items"
+    [item]="item"
+    (edit)="handleEdit($event)"
+    (delete)="handleDelete($event)"
+  ></app-ban-card>
 </div>
 
 

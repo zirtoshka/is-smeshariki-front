@@ -1,19 +1,22 @@
-import { Component } from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
-import {Complaint} from '../complaint';
-import {GeneralStatus, ViolationType} from '../enums';
+import {Complaint} from '../../complaint';
+import {GeneralStatus, ViolationType} from '../../enums';
 import {FormsModule} from '@angular/forms';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
-import {HeaderComponent} from '../header/header.component';
-import {PostComponent} from '../post/post.component';
-import {Post} from '../post';
-import {ComplaintComponent} from '../complaint/complaint.component';
+import {HeaderComponent} from '../../header/header.component';
+import {PostComponent} from '../../post/post.component';
+import {Post} from '../../post';
+import {ComplaintCardComponent} from '../complaint-card/complaint-card.component';
+import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
+import {BasePageComponent} from '../../base/base-page.component';
+import {ApplicationCardComponent} from '../../application/application-card/application-card.component';
 
 @Component({
-  selector: 'app-complaint-page',
+  selector: 'app-complaint-card-page',
   standalone: true,
   imports: [
     NzCardComponent,
@@ -27,13 +30,22 @@ import {ComplaintComponent} from '../complaint/complaint.component';
     NzSwitchComponent,
     HeaderComponent,
     PostComponent,
-    ComplaintComponent
+    ComplaintCardComponent,
+    PropensityCardComponent,
+    ApplicationCardComponent
   ],
   templateUrl: './complaint-page.component.html',
-  styleUrl: './complaint-page.component.css'
+  styleUrl: './complaint-page.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 })
-export class ComplaintPageComponent {
-  isMyComplaints=false;
+export class ComplaintPageComponent extends BasePageComponent<Complaint> {
+  isMyComplaints = false;
+  constructor() {
+    super();
+    this.items = this.complaints;
+  }
+
   complaints: Complaint[] = [
     new Complaint(
       1,
@@ -72,15 +84,10 @@ export class ComplaintPageComponent {
 
 
 
-
-
-
-  onToggleChange(){
+  onToggleChange() {
     //todo
     console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
-
-
 
 
 }

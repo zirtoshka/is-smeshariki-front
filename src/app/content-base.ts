@@ -1,7 +1,8 @@
 import {Post} from './post';
 import {CommentS} from './comment';
+import {BaseCard} from './base/base-card';
 
-export class ContentBase {
+export abstract class ContentBase<T> extends BaseCard<T>{
   selectedPost: Post|null = null;
   selectedComment: CommentS|null = null;
   posts: Post[] = [

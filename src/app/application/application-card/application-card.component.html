@@ -1,8 +1,8 @@
 <nz-card class="application-card"
          [nzBordered]="true" [nzHoverable]="true">
   <nz-card-meta
-    [nzTitle]="'Заявка №' + application.id"
-    [nzDescription]="'Статус: ' + application.status">
+    [nzTitle]="'Заявка №' + item.id"
+    [nzDescription]="'Статус: ' + item.status">
   </nz-card-meta>
 
   <div class="application-details">
@@ -11,9 +11,9 @@
 
 
     <div>
-      <p *ngIf="application.postId">
+      <p *ngIf="item.postId">
         <strong>Пост ID:</strong>
-        <a (click)="showPost(application.postId)" class="post-link">{{ application.postId }}</a>
+        <a (click)="showPost(item.postId)" class="post-link">{{ item.postId }}</a>
       </p>
       <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
       <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
@@ -21,9 +21,9 @@
 
 
     <div>
-      <p *ngIf="application.commentId">
+      <p *ngIf="item.commentId">
         <strong>Комментарий ID:</strong>
-        <a (click)="showComment(application.commentId)" class="comment-link">{{ application.commentId }}</a>
+        <a (click)="showComment(item.commentId)" class="comment-link">{{ item.commentId }}</a>
       </p>
       <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
       <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
@@ -31,22 +31,32 @@
 
     <p>
       <strong>Доктор ID:</strong>
-      <span *ngIf="application.doctorId; else noDoctor">
-              {{ application.doctorId }}
+      <span *ngIf="item.doctorId; else noDoctor">
+              {{ item.doctorId }}
         </span>
     </p>
     <ng-template #noDoctor> Доктор еще не назначен</ng-template>
   </div>
 
-  <div class="application-actions" *ngIf="!application.doctorId">
+  <div class="application-actions" *ngIf="!item.doctorId">
     <nz-select
-      [(ngModel)]="application.status"
+      [(ngModel)]="item.status"
       class="status-selector"
       [nzDropdownClassName]="'status-dropdown'"
       [nzAllowClear]="false"
-      (ngModelChange)="onStatusChange(application.status)">
+      (ngModelChange)="onStatusChange(item.status)">
       <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>
     </nz-select>
     <button nz-button nzType="primary" (click)="confirmStatus()">Подтвердить</button>
   </div>
+
+  <div class="application-actions">
+    <button nz-button nzType="default" (click)="onEdit(item)">
+      <i nz-icon nzType="edit"></i> Редактировать
+    </button>
+    <button nz-button nzType="default" nzDanger (click)="onDelete(item)">
+      <i nz-icon nzType="delete"></i> Удалить
+    </button>
+  </div>
+
 </nz-card>

@@ -2,14 +2,16 @@ import { Component } from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {ApplicationForTreatment} from '../application-for-treatment';
-import {GeneralStatus} from '../enums';
-import {Propensity} from '../propensity';
+import {ApplicationForTreatment} from '../../application-for-treatment';
+import {GeneralStatus} from '../../enums';
+import {Propensity} from '../../propensity';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {FormsModule} from '@angular/forms';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
-import {HeaderComponent} from '../header/header.component';
-import {ApplicationComponent} from '../application/application.component';
+import {HeaderComponent} from '../../header/header.component';
+import {ApplicationCardComponent} from '../application-card/application-card.component';
+import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
+import {BasePageComponent} from '../../base/base-page.component';
 
 @Component({
   selector: 'app-doctor-page',
@@ -25,14 +27,19 @@ import {ApplicationComponent} from '../application/application.component';
     NzOptionComponent,
     NzSwitchComponent,
     HeaderComponent,
-    ApplicationComponent
+    ApplicationCardComponent,
+    PropensityCardComponent
   ],
   templateUrl: './doctor-page.component.html',
   styleUrl: './doctor-page.component.css'
 })
-export class DoctorPageComponent {
+export class DoctorPageComponent extends BasePageComponent<ApplicationForTreatment>{
   isMyApplications: boolean = true
 
+  constructor() {
+    super();
+    this.items = this.applications;
+  }
 
   propensityList:Propensity[]=[
     new Propensity(1, 'грустный вайб', 'Пациент нуждается в срочном лечении'),

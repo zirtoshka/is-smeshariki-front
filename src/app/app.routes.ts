@@ -18,15 +18,15 @@ export const routes: Routes = [
     path: 'notification',
     loadComponent: () => import('./notification-page/notification-page.component').then(m => m.NotificationPageComponent)
   },
-  {path: 'doctor', loadComponent: () => import('./doctor-page/doctor-page.component').then(m => m.DoctorPageComponent)},
+  {path: 'doctor', loadComponent: () => import('./application/doctor-page/doctor-page.component').then(m => m.DoctorPageComponent)},
   {
     path: 'complaint',
-    loadComponent: () => import('./complaint-page/complaint-page.component').then(m => m.ComplaintPageComponent)
+    loadComponent: () => import('./complaint/complaint-page/complaint-page.component').then(m => m.ComplaintPageComponent)
   },
 
   {
     path: 'ban',
-    loadComponent: () => import('./ban-page/ban-page.component').then(m => m.BanPageComponent)
+    loadComponent: () => import('./ban/ban-page/ban-page.component').then(m => m.BanPageComponent)
   },
 
   {
@@ -37,11 +37,14 @@ export const routes: Routes = [
     path: 'friendrequests',
     loadComponent: () => import('./friend-requests-page/friend-requests-page.component').then(m => m.FriendRequestsPageComponent)
   },
-
+  {
+    path: 'propensity',
+    loadComponent: () => import('./propensity/propensity-page/propensity-page.component').then(m => m.PropensityPageComponent)
+  },
   // {path: 'registration', component: RegistrationComponent},
   // {path: 'profile', component: SmesharikPageComponent},
   // {path: 'notification', component: NotificationPageComponent},
   // {path: 'doctor', component: DoctorPageComponent},
-  // {path: 'complaint', component: ComplaintPageComponent},
+  // {path: 'complaint-card', component: ComplaintPageComponent},
 
 ];

@@ -1,39 +1,49 @@
 <p>ban works!</p>
 <nz-card class="ban-card" [nzBordered]="true" [nzHoverable]="true">
   <div class="ban-header">
-    <nz-avatar [nzSrc]="getAvatarPath(ban.smesharikId)" nzSize="large"></nz-avatar>
+    <nz-avatar [nzSrc]="getAvatarPath(item.smesharikId)" nzSize="large"></nz-avatar>
     <div class="ban-header-info">
-      <h3 class="ban-title">Смешарик ID: {{ ban.smesharikId }}</h3>
+      <h3 class="ban-title">Смешарик ID: {{ item.smesharikId }}</h3>
       <p class="ban-date">
         <i nz-icon nzType="calendar" nzTheme="outline"></i>
-        Начало: {{ ban.creationDate }} <br>
+        Начало: {{ item.creationDate }} <br>
         <i nz-icon nzType="stop" nzTheme="outline"></i>
-        Конец: {{ ban.endDate }}
+        Конец: {{ item.endDate }}
       </p>
     </div>
   </div>
 
   <div class="ban-reason">
-    <p><strong>Причина бана:</strong> {{ ban.reason }}</p>
+    <p><strong>Причина бана:</strong> {{ item.reason }}</p>
   </div>
 
   <div class="ban-links">
     <div>
-      <p *ngIf="ban.postId">
+      <p *ngIf="item.postId">
         <strong>Пост ID:</strong>
-        <a (click)="showPost(ban.postId)" class="post-link">{{ ban.postId }}</a>
+        <a (click)="showPost(item.postId)" class="post-link">{{ item.postId }}</a>
       </p>
       <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
       <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
     </div>
 
     <div>
-      <p *ngIf="ban.commentId">
+      <p *ngIf="item.commentId">
         <strong>Комментарий ID:</strong>
-        <a (click)="showComment(ban.commentId)" class="comment-link">{{ ban.commentId }}</a>
+        <a (click)="showComment(item.commentId)" class="comment-link">{{ item.commentId }}</a>
       </p>
       <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
       <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
     </div>
   </div>
+
+  <div class="ban-actions">
+    <button nz-button nzType="default" (click)="onEdit(item)">
+      <i nz-icon nzType="edit"></i> Редактировать
+    </button>
+    <button nz-button nzType="default" nzDanger (click)="onDelete(item)">
+      <i nz-icon nzType="delete"></i> Удалить
+    </button>
+  </div>
+
 </nz-card>
