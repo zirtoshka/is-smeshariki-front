@@ -31,15 +31,29 @@ export const routes: Routes = [
 
   {
     path: 'friends',
-    loadComponent: () => import('./friend-page/friend-page.component').then(m => m.FriendPageComponent)
+    loadComponent: () => import('./friend/friend-page/friend-page.component').then(m => m.FriendPageComponent)
   },
   {
     path: 'friendrequests',
-    loadComponent: () => import('./friend-requests-page/friend-requests-page.component').then(m => m.FriendRequestsPageComponent)
+    loadComponent: () => import('./friend/friend-requests-page/friend-requests-page.component').then(m => m.FriendRequestsPageComponent)
   },
   {
     path: 'propensity',
     loadComponent: () => import('./propensity/propensity-page/propensity-page.component').then(m => m.PropensityPageComponent)
+  },
+  {
+    path: 'diary',
+    loadComponent: () => import('./diary/diary.component').then(m => m.DiaryComponent)
+  },
+
+  {
+    path: 'feed',
+    loadComponent: () => import('./feed/feed.component').then(m => m.FeedComponent)
+  },
+
+  {
+    path: 'post/:id',
+    loadComponent: () => import('./post/post.component').then(m => m.PostComponent),
   },
   // {path: 'registration', component: RegistrationComponent},
   // {path: 'profile', component: SmesharikPageComponent},

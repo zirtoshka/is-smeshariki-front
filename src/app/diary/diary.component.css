@@ -1,0 +1,31 @@
+.post-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.post-item h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.post-item p {
+  margin: 10px 0;
+  color: #555;
+}
+
+.post-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.loading, .error {
+  text-align: center;
+  font-size: 1.2em;
+}

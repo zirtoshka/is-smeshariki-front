@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
-import {Friend} from '../friend';
+import {Friend} from '../../friend';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {NgIf} from '@angular/common';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {RoleTagComponent} from '../role-tag/role-tag.component';
+import {RoleTagComponent} from '../../role-tag/role-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 
 export enum  Context {
@@ -15,7 +15,7 @@ export enum  Context {
 }
 
 @Component({
-  selector: 'app-friend',
+  selector: 'app-friend-card',
   standalone: true,
   imports: [
     NzCardComponent,
@@ -26,10 +26,10 @@ export enum  Context {
     RoleTagComponent,
     NzButtonComponent
   ],
-  templateUrl: './friend.component.html',
-  styleUrl: './friend.component.css'
+  templateUrl: './friend-card.component.html',
+  styleUrl: './friend-card.component.css'
 })
-export class FriendComponent {
+export class FriendCardComponent {
   @Input() friend!: Friend;
 
   @Input() context!: Context;

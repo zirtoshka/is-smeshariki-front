@@ -1,10 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NgIf} from '@angular/common';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Post} from '../post';
+import {PostService} from '../diary/post.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -16,18 +18,22 @@ import {Post} from '../post';
     NgIf,
     NzTagComponent
   ],
+  providers:[PostService],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })
-export class PostComponent {
-  // post:Post=new Post(1, 2, false, false,
-  //   "sdksdlddssdsdklfklsdflksd",
-  //   "sdfsdfsd", "02/12/23", "02/12/21")
-
-
-  // post:Post=new Post(1, 2, true, false,
-  //   "sdksdlddssdsdklfklsdflksd",
-  //   "sdfsdfsd", "02/12/23", "02/12/21")
-
+export class PostComponent implements OnInit{
   @Input() post!: Post;
+
+  constructor(
+    private route: ActivatedRoute,
+    private postService: PostService
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.post) {
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+      this.post = this.postService.getPostById(id)!;
+    }
+  }
 }

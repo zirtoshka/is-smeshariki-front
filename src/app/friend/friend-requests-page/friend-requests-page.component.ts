@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import {Context, FriendComponent} from "../friend/friend.component";
+import {Context, FriendCardComponent} from "../friend-card/friend-card.component";
 import {NgForOf} from "@angular/common";
-import {Friend} from '../friend';
-import {Roles} from '../auth-tools/smesharik';
+import {Friend} from '../../friend';
+import {Roles} from '../../auth-tools/smesharik';
 
 @Component({
-  selector: 'app-friend-requests-page',
+  selector: 'app-friend-card-requests-page',
   standalone: true,
     imports: [
-        FriendComponent,
+        FriendCardComponent,
         NgForOf
     ],
   templateUrl: './friend-requests-page.component.html',
