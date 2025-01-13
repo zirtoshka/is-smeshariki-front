@@ -2,6 +2,7 @@
   <div class="post-header">
     <h3 class="post-title">
       <nz-avatar nzSize="large"></nz-avatar>
+      <span class="post-author">post ID: {{ post.id }}</span>
       <span class="post-author">Автор ID: {{ post.authorId }}</span>
     </h3>
     <div class="post-tag">
@@ -39,5 +40,17 @@
     <app-carrot-count [postId]="post.id"></app-carrot-count>
   </div>
 
+  <div class="comment-toggle" *ngIf="isCommentExisted">
+    <button (click)="toggleComments()">
+      {{ isCommentsVisible ? 'Скрыть комментарии' : 'Показать комментарии' }}
+    </button>
+  </div>
+  <div class="comment-toggle" *ngIf="!isCommentExisted">
+    комментариев нема
+  </div>
+
+  <app-nested-comm *ngIf="isCommentsVisible"
+                   [groupedComments]="commentService.groupComments(this.commentsList)"></app-nested-comm>
 
 </nz-card>
+

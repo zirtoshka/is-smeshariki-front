@@ -3,7 +3,7 @@ import {PostComponent} from './post/post.component';
 import {SmesharikPageComponent} from './my-smesharik-page/smesharik-page.component';
 
 export const routes: Routes = [
-  {path:'', component: SmesharikPageComponent,  pathMatch: 'full'},
+  {path: '', component: SmesharikPageComponent, pathMatch: 'full'},
   // {path: '', redirectTo: '/profile', pathMatch: 'full'},
   {path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)},
   {
@@ -18,7 +18,10 @@ export const routes: Routes = [
     path: 'notification',
     loadComponent: () => import('./notification-page/notification-page.component').then(m => m.NotificationPageComponent)
   },
-  {path: 'doctor', loadComponent: () => import('./application/doctor-page/doctor-page.component').then(m => m.DoctorPageComponent)},
+  {
+    path: 'doctor',
+    loadComponent: () => import('./application/doctor-page/doctor-page.component').then(m => m.DoctorPageComponent)
+  },
   {
     path: 'complaint',
     loadComponent: () => import('./complaint/complaint-page/complaint-page.component').then(m => m.ComplaintPageComponent)
@@ -54,6 +57,10 @@ export const routes: Routes = [
   {
     path: 'post/:id',
     loadComponent: () => import('./post/post.component').then(m => m.PostComponent),
+  },
+  {
+    path: 'com',
+    loadComponent: () => import('./comment-nested/comment-nested.component').then(m => m.CommentNestedComponent)
   },
   // {path: 'registration', component: RegistrationComponent},
   // {path: 'profile', component: SmesharikPageComponent},

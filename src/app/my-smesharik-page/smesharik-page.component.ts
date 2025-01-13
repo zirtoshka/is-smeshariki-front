@@ -9,7 +9,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {UserService} from '../user.service';
+import {UserService} from '../services/user.service';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 

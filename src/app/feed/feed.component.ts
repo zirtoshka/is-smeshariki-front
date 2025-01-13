@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
-import {PostService} from '../diary/post.service';
+import {PostService} from '../services/post.service';
 import {PostComponent} from '../post/post.component';
 import {BanCardComponent} from '../ban/ban-card/ban-card.component';
 

@@ -1,7 +1,15 @@
-.post-card{
+.post-card {
   margin: 2%;
   padding: 2%;
 }
+
 .large-icon {
   font-size: 35px;
+}
+
+.comment-toggle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #8f69ff;
+  margin-left: 0;
 }

@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {PostService} from './post.service';
+import {PostService} from '../services/post.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostMetaComponent} from '../post-meta/post-meta.component';
 import {PostComponent} from '../post/post.component';

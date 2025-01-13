@@ -1,0 +1,11 @@
+<div *ngFor="let group of groupedComments">
+  <div class="comment">
+    <p>id: {{ group.rootComment.id }}</p>
+    <p><strong>{{ group.rootComment.text }}</strong></p>
+    <p>{{ group.rootComment.creationDate }}</p>
+  </div>
+
+  <div class="comment-nested" *ngIf="group.childComments && group.childComments.length > 0">
+    <app-nested-comm [groupedComments]="group.childComments"></app-nested-comm>
+  </div>
+</div>

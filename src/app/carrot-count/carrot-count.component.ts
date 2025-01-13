@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CarrotService} from '../carrot.service';
+import {CarrotService} from '../services/carrot.service';
 
 @Component({
   selector: 'app-carrot-count',

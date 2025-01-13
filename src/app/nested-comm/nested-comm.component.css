@@ -1,0 +1,58 @@
+/* Основной контейнер комментария */
+.comment {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Заголовок комментария */
+.comment p {
+  margin: 5px 0;
+}
+
+/* Заголовок текста комментария */
+.comment strong {
+  font-size: 1.1em;
+  color: #333;
+}
+
+/* Дата создания комментария */
+.comment .date {
+  font-size: 0.9em;
+  color: #777;
+  margin-top: 10px;
+}
+
+/* Вложенные комментарии */
+.comment-nested {
+  margin-left: 20px; /* Отступ для вложенных комментариев */
+  padding-left: 15px;
+  border-left: 3px solid #e0e0e0; /* Вертикальная линия для отделения вложенных комментариев */
+}
+
+/* Разделитель между корневым и вложенным комментариями */
+.comment-nested .comment {
+  background-color: #f1f1f1;
+  border-color: #d0d0d0;
+}
+
+/* Добавление отступов для вложенных комментариев */
+.comment-nested .comment p {
+  margin-left: 20px;
+}
+
+/* Стиль для родительского комментария */
+.comment .comment-nested > .comment {
+  margin-top: 10px;
+}
+
+/* Дополнительный стиль для каждого вложенного комментария */
+.comment-nested .comment p {
+  font-size: 0.95em;
+  color: #555;
+}
