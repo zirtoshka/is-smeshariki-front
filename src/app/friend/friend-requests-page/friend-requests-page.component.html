@@ -1,3 +1,5 @@
 <div class="friend-container" *ngFor="let friend of friendList">
-  <app-friend-card [friend]="friend" [context]="Context.requests"  (addFriend)="handleAddFriend($event)" ></app-friend-card>>
+  <app-friend-card [friend]="friend" [context]="Context.requests"
+                   (addFriend)="handleAddFriend($event)"></app-friend-card>
+
 </div>

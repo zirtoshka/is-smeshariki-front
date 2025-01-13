@@ -1,7 +1,10 @@
-<p>ban works!</p>
 <nz-card class="ban-card" [nzBordered]="true" [nzHoverable]="true">
   <div class="ban-header">
-    <nz-avatar [nzSrc]="getAvatarPath(item.smesharikId)" nzSize="large"></nz-avatar>
+<!--    <nz-avatar [nzSrc]="getAvatarPath(item.smesharikId)" nzSize="large"></nz-avatar>-->
+    <nz-avatar
+      nzSize="large"
+      [style]="{ 'background-color': '#8228e6' }"
+      nzIcon="user"></nz-avatar>
     <div class="ban-header-info">
       <h3 class="ban-title">Смешарик ID: {{ item.smesharikId }}</h3>
       <p class="ban-date">

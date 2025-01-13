@@ -64,6 +64,10 @@ export class PostComponent implements OnInit, OnChanges {
     if (!this.post) {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.post = this.postService.getPostById(id)!;
+      this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
+      if (this.commentsList.length != 0) {
+        this.isCommentExisted = true
+      }
     }
   }
 

@@ -1,7 +1,11 @@
 <nz-card class="post-card" [nzBordered]="true" [nzHoverable]="true">
   <div class="post-header">
     <h3 class="post-title">
-      <nz-avatar nzSize="large"></nz-avatar>
+      <nz-avatar
+        nzSize="large"
+        [style]="{ 'background-color': '#8228e6' }"
+        nzIcon="user"></nz-avatar>
+
       <span class="post-author">post ID: {{ post.id }}</span>
       <span class="post-author">Автор ID: {{ post.authorId }}</span>
     </h3>
