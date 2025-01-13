@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostService} from '../services/post.service';
-import {PostComponent} from '../post/post.component';
+import {PostCardComponent} from '../post-card/post-card.component';
 import {BanCardComponent} from '../ban/ban-card/ban-card.component';
 
 @Component({
@@ -10,7 +10,7 @@ import {BanCardComponent} from '../ban/ban-card/ban-card.component';
   imports: [
     NgForOf,
     NgIf,
-    PostComponent,
+    PostCardComponent,
     BanCardComponent
   ],
   providers: [PostService],

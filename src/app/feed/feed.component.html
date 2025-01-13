@@ -2,7 +2,7 @@
 <div *ngIf="error" class="error">ошибка при загрузке записей</div>
 
 <div *ngIf="!loading && !error" class="post-feed">
-  <app-post *ngFor="let item of posts" [post]="item"></app-post>
+  <app-post-card *ngFor="let item of posts" [post]="item"></app-post-card>
 </div>
 
 <div *ngIf="loading && posts.length > 0" class="loading-more">загрузка...</div>

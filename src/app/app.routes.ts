@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {PostComponent} from './post/post.component';
+import {PostCardComponent} from './post-card/post-card.component';
 import {SmesharikPageComponent} from './my-smesharik-page/smesharik-page.component';
 
 export const routes: Routes = [
@@ -55,8 +55,13 @@ export const routes: Routes = [
   },
 
   {
-    path: 'post/:id',
-    loadComponent: () => import('./post/post.component').then(m => m.PostComponent),
+    path: 'post-card/:id',
+    loadComponent: () => import('./post-card/post-card.component').then(m => m.PostCardComponent),
+  },
+
+  {
+    path: 'post-form',
+    loadComponent: () => import('./post-form/post-form.component').then(m => m.PostFormComponent),
   },
 
   // {path: 'registration', component: RegistrationComponent},

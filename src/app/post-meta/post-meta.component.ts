@@ -6,6 +6,7 @@ import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Router} from '@angular/router';
+import {PostTagComponent} from '../post-tag/post-tag.component';
 
 @Component({
   selector: 'app-post-meta',
@@ -15,7 +16,8 @@ import {Router} from '@angular/router';
     NzAvatarComponent,
     NzCardComponent,
     NzIconDirective,
-    NzTagComponent
+    NzTagComponent,
+    PostTagComponent
   ],
   templateUrl: './post-meta.component.html',
   styleUrl: './post-meta.component.css'
@@ -25,6 +27,6 @@ export class PostMetaComponent {
   constructor(private router: Router) {}
 
   navigateToPost(postId: number): void {
-    this.router.navigate(['/post', postId]);
+    this.router.navigate(['/post-card', postId]);
   }
 }

@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {PostService} from '../services/post.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostMetaComponent} from '../post-meta/post-meta.component';
-import {PostComponent} from '../post/post.component';
+import {PostCardComponent} from '../post-card/post-card.component';
 
 @Component({
   selector: 'app-diary',
@@ -11,7 +11,7 @@ import {PostComponent} from '../post/post.component';
     NgIf,
     NgForOf,
     PostMetaComponent,
-    PostComponent
+    PostCardComponent
   ],
   providers:[PostService],
   templateUrl: './diary.component.html',

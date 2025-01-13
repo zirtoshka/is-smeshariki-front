@@ -4,7 +4,7 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzCardComponent, NzCardMetaComponent} from "ng-zorro-antd/card";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
-import {PostComponent} from "../../post/post.component";
+import {PostCardComponent} from "../../post-card/post-card.component";
 import {Complaint} from '../../complaint';
 import {FormsModule} from '@angular/forms';
 import {GeneralStatus} from '../../enums';
@@ -24,7 +24,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
     NzOptionComponent,
     NzSelectComponent,
     NzSwitchComponent,
-    PostComponent,
+    PostCardComponent,
     FormsModule,
     CommentComponent,
     NzIconDirective

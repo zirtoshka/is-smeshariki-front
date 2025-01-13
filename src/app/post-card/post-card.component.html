@@ -10,9 +10,7 @@
       <span class="post-author">Автор ID: {{ post.authorId }}</span>
     </h3>
     <div class="post-tag">
-      <nz-tag *ngIf="post.isDraft" [nzColor]="'gold'">Черновик</nz-tag>
-      <nz-tag *ngIf="post.isPrivate" [nzColor]="'red'">Приватный</nz-tag>
-      <nz-tag *ngIf="!post.isPrivate && !post.isDraft" [nzColor]="'green'">Публичный</nz-tag>
+      <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
     </div>
     <p class="post-date">
       <i nz-icon nzType="calendar" nzTheme="outline"></i>

@@ -8,7 +8,7 @@ import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {HeaderComponent} from '../../header/header.component';
-import {PostComponent} from '../../post/post.component';
+import {PostCardComponent} from '../../post-card/post-card.component';
 import {Post} from '../../post';
 import {ComplaintCardComponent} from '../complaint-card/complaint-card.component';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
@@ -29,7 +29,7 @@ import {ApplicationCardComponent} from '../../application/application-card/appli
     NgIf,
     NzSwitchComponent,
     HeaderComponent,
-    PostComponent,
+    PostCardComponent,
     ComplaintCardComponent,
     PropensityCardComponent,
     ApplicationCardComponent

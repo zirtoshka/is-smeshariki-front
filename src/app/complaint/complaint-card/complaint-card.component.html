@@ -17,7 +17,7 @@
         <a (click)="showPost(item.postId)" class="post-link">{{ item.postId }}</a>
       </p>
       <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
-      <app-post *ngIf="selectedPost" [post]="selectedPost"></app-post>
+      <app-post-card *ngIf="selectedPost" [post]="selectedPost"></app-post-card>
     </div>
 
 

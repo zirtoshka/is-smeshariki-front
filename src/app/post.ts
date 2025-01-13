@@ -1,3 +1,9 @@
+export enum PostTag{
+  draft='черновик',
+  private='приватный',
+  public='публичный'
+}
+
 export class Post {
   constructor(
     public id: number,

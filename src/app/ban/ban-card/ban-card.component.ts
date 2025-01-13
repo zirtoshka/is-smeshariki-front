@@ -6,7 +6,7 @@ import {NgIf} from '@angular/common';
 import {Ban} from '../../ban';
 import {ContentBase} from '../../content-base';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {PostComponent} from '../../post/post.component';
+import {PostCardComponent} from '../../post-card/post-card.component';
 import {CommentComponent} from '../../comment/comment.component';
 import {BaseCard} from '../../base/base-card';
 import {Propensity} from '../../propensity';
@@ -20,7 +20,7 @@ import {Propensity} from '../../propensity';
     NzIconDirective,
     NgIf,
     NzButtonComponent,
-    PostComponent,
+    PostCardComponent,
     CommentComponent
   ],
   templateUrl: './ban-card.component.html',

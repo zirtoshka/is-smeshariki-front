@@ -2,9 +2,7 @@
          (click)="navigateToPost(post.id)">
   <div class="post-header">
     <div class="post-tag">
-      <nz-tag *ngIf="post.isDraft" [nzColor]="'gold'">черновик</nz-tag>
-      <nz-tag *ngIf="post.isPrivate" [nzColor]="'red'">приватный</nz-tag>
-      <nz-tag *ngIf="!post.isPrivate && !post.isDraft" [nzColor]="'green'">публичный</nz-tag>
+      <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
     </div>
     <p class="post-date">
       <i nz-icon nzType="calendar" nzTheme="outline"></i>

@@ -26,9 +26,7 @@ export class CommentService {
         Math.floor(Math.random() * 100) + 1
         : null;
       const text = `Текст поста ${id}. ` +
-        'От твоего взгляда моё сердце дрожит, как пустой холодильник.' +
-        '— А сейчас я вам почитаю. По-французски.\n' +
-        '— Шел бы ты отсюда! По-английски!'
+        'От твоего взгляда моё сердце дрожит, как пустой холодильник.'
           .repeat(20).slice(0, 200);
       const creationDate = new Date(Date.now() - id * 10000000).toISOString();
 
@@ -39,7 +37,6 @@ export class CommentService {
 
 
   getCommentsByPostId(postId: number | null) {
-    console.log(this.comments)
     if (postId == null) {
       return [];
     }

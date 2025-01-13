@@ -13,10 +13,11 @@ import {CommentS} from '../comment';
 import {NestedCommComponent} from '../nested-comm/nested-comm.component';
 import {CommentService} from '../services/comment.service';
 import {Likeable} from '../base/likeable';
+import {PostTagComponent} from '../post-tag/post-tag.component';
 
 
 @Component({
-  selector: 'app-post',
+  selector: 'app-post-card',
   standalone: true,
   imports: [
     NzCardComponent,
@@ -26,13 +27,14 @@ import {Likeable} from '../base/likeable';
     NzTagComponent,
     CarrotCountComponent,
     NgForOf,
-    NestedCommComponent
+    NestedCommComponent,
+    PostTagComponent
   ],
   providers: [PostService],
-  templateUrl: './post.component.html',
-  styleUrl: './post.component.css'
+  templateUrl: './post-card.component.html',
+  styleUrl: './post-card.component.css'
 })
-export class PostComponent implements OnInit, OnChanges, Likeable {
+export class PostCardComponent implements OnInit, OnChanges, Likeable {
   commentsList: CommentS[] = [];
   isCommentsVisible: boolean = false;
   isCommentExisted: boolean = false;
@@ -66,7 +68,6 @@ export class PostComponent implements OnInit, OnChanges, Likeable {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.post = this.postService.getPostById(id)!;
       this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
-      console.log(this.commentsList);
       this.isCommentExisted = this.commentsList.length > 0;
     }
   }

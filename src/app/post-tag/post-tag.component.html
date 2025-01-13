@@ -1,0 +1,3 @@
+<nz-tag *ngIf="isDraft" [nzColor]="'gold'">черновик</nz-tag>
+<nz-tag *ngIf="isPrivate" [nzColor]="'red'">приватный</nz-tag>
+<nz-tag *ngIf="!isPrivate && !isDraft" [nzColor]="'green'">публичный</nz-tag>

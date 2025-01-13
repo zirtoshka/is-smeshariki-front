@@ -8,7 +8,7 @@ import {Propensity} from '../../propensity';
 import {FormsModule} from '@angular/forms';
 import {GeneralStatus} from '../../enums';
 import {CommentComponent} from '../../comment/comment.component';
-import {PostComponent} from '../../post/post.component';
+import {PostCardComponent} from '../../post-card/post-card.component';
 import {ContentBase} from '../../content-base';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 
@@ -25,7 +25,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
     NzSelectComponent,
     FormsModule,
     CommentComponent,
-    PostComponent,
+    PostCardComponent,
     NzIconDirective
   ],
   templateUrl: './application-card.component.html',
