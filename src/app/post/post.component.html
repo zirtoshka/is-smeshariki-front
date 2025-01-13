@@ -17,7 +17,6 @@
   </div>
 
 
-
   <div class="post-content">
     <p class="post-text">{{ post.text }}</p>
     <img
@@ -28,5 +27,15 @@
     />
   </div>
 
+
+  <div class="post-carrots">
+    <i
+      nz-icon
+      [nzType]="icon.name"
+      class="large-icon"
+      [class.liked]="isLiked"
+      (click)="toggleLike()"
+    ></i>
+  </div>
 
 </nz-card>

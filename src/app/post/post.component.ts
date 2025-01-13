@@ -7,6 +7,7 @@ import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Post} from '../post';
 import {PostService} from '../diary/post.service';
 import {ActivatedRoute} from '@angular/router';
+import {carrotIcon, carrotTouchedIcon, IconService} from '../icon.service';
 
 @Component({
   selector: 'app-post',
@@ -18,17 +19,23 @@ import {ActivatedRoute} from '@angular/router';
     NgIf,
     NzTagComponent
   ],
-  providers:[PostService],
+  providers: [PostService],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })
-export class PostComponent implements OnInit{
+export class PostComponent implements OnInit {
+
+  isLiked = false;
+
   @Input() post!: Post;
+
+  icon = carrotIcon;
 
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
-  ) {}
+    private postService: PostService,
+    private iconService: IconService) {
+  }
 
   ngOnInit(): void {
     if (!this.post) {
@@ -36,4 +43,27 @@ export class PostComponent implements OnInit{
       this.post = this.postService.getPostById(id)!;
     }
   }
+
+
+  toggleLike() {
+    this.isLiked = !this.isLiked;
+    this.icon = this.isLiked ? carrotTouchedIcon : carrotIcon;
+
+    const url = this.isLiked
+      ? `/api/posts/${this.post.id}/like`
+      : `/api/posts/${this.post.id}/unlike`;
+
+    console.log("происходит морковканье поста с ид", this.post.id, url)
+
+    // this.http.post(url, {}).subscribe({
+    //   next: () => {
+    //     console.log('Лайк обновлен на сервере');
+    //   },
+    //   error: (err) => {
+    //     console.error('Ошибка при обновлении лайка', err);
+    //     this.isLiked = !this.isLiked;
+    //   }
+    // });
+  }
+
 }
