@@ -36,7 +36,7 @@
   <div class="post-carrots">
     <i
       nz-icon
-      [nzType]="icon.name"
+      [nzType]="iconCarrot.name"
       class="large-icon"
       [class.liked]="isLiked"
       (click)="toggleLike()"
@@ -45,9 +45,9 @@
   </div>
 
   <div class="comment-toggle" *ngIf="isCommentExisted">
-    <button (click)="toggleComments()">
+    <i (click)="toggleComments()">
       {{ isCommentsVisible ? 'Скрыть комментарии' : 'Показать комментарии' }}
-    </button>
+    </i>
   </div>
   <div class="comment-toggle" *ngIf="!isCommentExisted">
     комментариев нема

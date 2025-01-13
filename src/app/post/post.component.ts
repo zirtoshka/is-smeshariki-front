@@ -12,6 +12,7 @@ import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {CommentS} from '../comment';
 import {NestedCommComponent} from '../nested-comm/nested-comm.component';
 import {CommentService} from '../services/comment.service';
+import {Likeable} from '../base/likeable';
 
 
 @Component({
@@ -31,16 +32,16 @@ import {CommentService} from '../services/comment.service';
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })
-export class PostComponent implements OnInit, OnChanges {
+export class PostComponent implements OnInit, OnChanges, Likeable {
   commentsList: CommentS[] = [];
   isCommentsVisible: boolean = false;
   isCommentExisted: boolean = false;
-
   isLiked = false;
+
 
   @Input() post!: Post;
 
-  icon = carrotIcon;
+  iconCarrot = carrotIcon;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +66,7 @@ export class PostComponent implements OnInit, OnChanges {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.post = this.postService.getPostById(id)!;
       this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
+      console.log(this.commentsList);
       if (this.commentsList.length != 0) {
         this.isCommentExisted = true
       }
@@ -84,7 +86,7 @@ export class PostComponent implements OnInit, OnChanges {
 
   toggleLike() {
     this.isLiked = !this.isLiked;
-    this.icon = this.isLiked ? carrotTouchedIcon : carrotIcon;
+    this.iconCarrot = this.isLiked ? carrotTouchedIcon : carrotIcon;
 
     const url = this.isLiked
       ? `/api/posts/${this.post.id}/like`

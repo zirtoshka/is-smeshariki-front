@@ -10,11 +10,17 @@ import {CarrotService} from '../services/carrot.service';
 })
 export class CarrotCountComponent implements OnInit {
   @Input() postId: number | null =null;
+  @Input() commentId: number | null =null;
   count: number = 0;
 
   constructor(private carrotService: CarrotService) {}
 
   ngOnInit() {
-    this.count = this.carrotService.getCarrotCountPost(this.postId)
+    // if(this.postId != null) {
+    //   this.count = this.carrotService.getCarrotCountPost(this.postId)
+    // } else if (this.commentId != null) {
+      // this.count = this.carrotService.getCarrotCountComment(this.commentId)
+    // }
+
   }
 }

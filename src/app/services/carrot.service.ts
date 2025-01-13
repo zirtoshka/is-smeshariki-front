@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Post} from '../post';
 import {Carrot} from '../carrot';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarrotService {
-  carrots: Carrot[] = Array.from({ length: 100 }, (_, i) => {
+  carrots: Carrot[] = Array.from({ length: 10 }, (_, i) => {
     const id = i + 1;
     const smesharikId = Math.floor(Math.random() * 50) + 1;
     const dataId = Math.floor(Math.random() * 50) + 1;
@@ -25,5 +24,12 @@ export class CarrotService {
       return 0;
     }
     return this.carrots.filter((carrot) => carrot.postId === postId).length;
+  }
+
+  getCarrotCountComment(commentId: number|null) {
+    if (commentId == null ) {
+      return 0;
+    }
+    return this.carrots.filter((carrot) => carrot.commentId === commentId).length;
   }
 }
