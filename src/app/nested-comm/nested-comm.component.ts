@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
-import {NgForOf, NgIf, NgTemplateOutlet} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage, NgTemplateOutlet} from '@angular/common';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {
   NzCommentActionComponent,
@@ -12,9 +12,6 @@ import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {IconDefinition} from '@ant-design/icons-angular';
 import {Likeable} from '../base/likeable';
-import {ActivatedRoute} from '@angular/router';
-import {PostService} from '../services/post.service';
-import {CommentService} from '../services/comment.service';
 
 
 @Component({
@@ -30,7 +27,8 @@ import {CommentService} from '../services/comment.service';
     NzCommentComponent,
     NzCommentContentDirective,
     CarrotCountComponent,
-    NzIconDirective
+    NzIconDirective,
+    NgOptimizedImage
   ],
   templateUrl: './nested-comm.component.html',
   styleUrl: './nested-comm.component.css'
