@@ -58,10 +58,7 @@ export const routes: Routes = [
     path: 'post/:id',
     loadComponent: () => import('./post/post.component').then(m => m.PostComponent),
   },
-  {
-    path: 'com',
-    loadComponent: () => import('./comment-nested/comment-nested.component').then(m => m.CommentNestedComponent)
-  },
+
   // {path: 'registration', component: RegistrationComponent},
   // {path: 'profile', component: SmesharikPageComponent},
   // {path: 'notification', component: NotificationPageComponent},
