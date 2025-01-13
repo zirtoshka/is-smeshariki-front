@@ -5,7 +5,7 @@ import {Carrot} from '../carrot';
   providedIn: 'root'
 })
 export class CarrotService {
-  carrots: Carrot[] = Array.from({ length: 10 }, (_, i) => {
+  carrots: Carrot[] = Array.from({ length: 100 }, (_, i) => {
     const id = i + 1;
     const smesharikId = Math.floor(Math.random() * 50) + 1;
     const dataId = Math.floor(Math.random() * 50) + 1;

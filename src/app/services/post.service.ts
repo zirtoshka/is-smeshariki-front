@@ -1,7 +1,7 @@
 import {Post} from '../post';
 
 export class PostService {
-  posts: Post[] = Array.from({ length: 10 }, (_, i) => {
+  posts: Post[] = Array.from({ length: 100 }, (_, i) => {
     const id = i + 1;
     const authorId = Math.floor(Math.random() * 50) + 1;
     const liked = Math.random() < 0.5;

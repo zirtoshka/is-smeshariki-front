@@ -67,9 +67,7 @@ export class PostComponent implements OnInit, OnChanges, Likeable {
       this.post = this.postService.getPostById(id)!;
       this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
       console.log(this.commentsList);
-      if (this.commentsList.length != 0) {
-        this.isCommentExisted = true
-      }
+      this.isCommentExisted = this.commentsList.length > 0;
     }
   }
 
@@ -77,9 +75,7 @@ export class PostComponent implements OnInit, OnChanges, Likeable {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['post']) {
       this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
-      if (this.commentsList.length != 0) {
-        this.isCommentExisted = true
-      }
+      this.isCommentExisted = this.commentsList.length > 0;
     }
   }
 

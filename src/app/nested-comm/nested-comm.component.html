@@ -3,6 +3,7 @@
     <p>id: {{ group.rootComment.id }}</p>
     <p><strong>{{ group.rootComment.text }}</strong></p>
     <p>{{ group.rootComment.creationDate }}</p>
+    <app-carrot-count [commentId]="group.rootComment.id"></app-carrot-count>
   </div>
 
   <div class="comment-nested" *ngIf="group.childComments && group.childComments.length > 0">

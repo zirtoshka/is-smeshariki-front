@@ -16,11 +16,11 @@ export class CarrotCountComponent implements OnInit {
   constructor(private carrotService: CarrotService) {}
 
   ngOnInit() {
-    // if(this.postId != null) {
-    //   this.count = this.carrotService.getCarrotCountPost(this.postId)
-    // } else if (this.commentId != null) {
-      // this.count = this.carrotService.getCarrotCountComment(this.commentId)
-    // }
+    if(this.postId != null) {
+      this.count = this.carrotService.getCarrotCountPost(this.postId)
+    } else if (this.commentId != null) {
+      this.count = this.carrotService.getCarrotCountComment(this.commentId)
+    }
 
   }
 }

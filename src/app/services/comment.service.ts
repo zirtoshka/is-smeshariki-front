@@ -17,7 +17,7 @@ export class CommentService {
       new CommentS(5, 'Это вложенный комментарий', 1, 1, 2, '2025-01-12'),
 
     ]
-    const b = Array.from({length: 7}, (_, i) => {
+    const b = Array.from({length: 10}, (_, i) => {
       const id = i + 5;
       const smesharikId = Math.floor(Math.random() * 50) + 1;
       const postId = Math.floor(Math.random() * 10) + 1;
