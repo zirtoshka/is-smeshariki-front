@@ -8,6 +8,7 @@ import {Post} from '../post';
 import {PostService} from '../diary/post.service';
 import {ActivatedRoute} from '@angular/router';
 import {carrotIcon, carrotTouchedIcon, IconService} from '../icon.service';
+import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 
 @Component({
   selector: 'app-post',
@@ -17,7 +18,8 @@ import {carrotIcon, carrotTouchedIcon, IconService} from '../icon.service';
     NzAvatarComponent,
     NzIconDirective,
     NgIf,
-    NzTagComponent
+    NzTagComponent,
+    CarrotCountComponent
   ],
   providers: [PostService],
   templateUrl: './post.component.html',
