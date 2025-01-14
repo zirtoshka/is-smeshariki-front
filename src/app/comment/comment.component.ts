@@ -8,6 +8,7 @@ import {CommentS} from '../comment';
 import {CommentService} from '../services/comment.service';
 import {ActivatedRoute} from '@angular/router';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {BackButtonComponent} from '../back-button/back-button.component';
 
 
 @Component({
@@ -19,7 +20,8 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     NzCardComponent,
     NzIconDirective,
     NzTagComponent,
-    NzButtonComponent
+    NzButtonComponent,
+    BackButtonComponent
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
@@ -34,7 +36,9 @@ export class CommentComponent implements OnInit {
   ) {
   }
 
-  goBack() {
+
+  handleGoBack(): void {
+    console.log('Go back clicked');
     this.location.back();
   }
 

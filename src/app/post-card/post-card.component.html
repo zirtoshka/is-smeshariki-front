@@ -1,9 +1,5 @@
-<div>
-  <button *ngIf="!isFeed" nz-button nzType="default" class="back-button" (click)="goBack()">
-    <i nz-icon nzType="arrow-left" nzTheme="outline"></i>
-    назад
-  </button>
-</div>
+<app-back-button [isFeed]="isFeed" (goBackEvent)="handleGoBack()"> dddd</app-back-button>
+
 <nz-card class="post-card" [nzBordered]="true" [nzHoverable]="true">
   <div class="post-header">
     <h3 class="post-title">

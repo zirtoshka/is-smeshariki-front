@@ -15,6 +15,7 @@ import {CommentService} from '../services/comment.service';
 import {Likeable} from '../base/likeable';
 import {PostTagComponent} from '../post-tag/post-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {BackButtonComponent} from '../back-button/back-button.component';
 
 
 @Component({
@@ -30,7 +31,8 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     NgForOf,
     NestedCommComponent,
     PostTagComponent,
-    NzButtonComponent
+    NzButtonComponent,
+    BackButtonComponent
   ],
   providers: [PostService],
   templateUrl: './post-card.component.html',
@@ -66,9 +68,11 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     // ];
   }
 
-  goBack() {
+  handleGoBack(): void {
+    console.log('Go back clicked');
     this.location.back();
   }
+
 
   ngOnInit(): void {
     if (!this.post) {
