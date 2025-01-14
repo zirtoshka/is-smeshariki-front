@@ -1,0 +1,64 @@
+<nz-modal [(nzVisible)]="isVisible"
+          [nzTitle]="isEditMode ? 'редактировать жалобу' : 'добавить жалобу'"
+          (nzOnCancel)="cancel()"
+          [nzContent]="forma"
+          [nzFooter]="modalFooter">
+  <ng-template #forma>
+    <form nz-form [formGroup]="validateForm" class="form">
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="violationType">тип нарушения</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzValidateStatus="violationType" nzHasFeedback>
+          <nz-select formControlName="violationType" [nzPlaceHolder]="'выберите тип нарушения'">
+            <nz-option *ngFor="let type of violationTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="postId">ид поста</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид поста">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input formControlName="postId" nz-input placeholder="ид поста"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="commentId">ид комментария</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид комментария">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input formControlName="commentId" nz-input placeholder="ид комментария"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="adminId">ид админа</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид админа">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input formControlName="adminId" nz-input placeholder="ид админа"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">статус</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzValidateStatus="status" nzHasFeedback>
+          <nz-select formControlName="status" [nzPlaceHolder]="'выберите статус'">
+            <nz-option *ngFor="let status of statusiki" [nzValue]="status" [nzLabel]="status"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+
+    </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">добавить</button>
+  </ng-template>
+</nz-modal>
+
+
+

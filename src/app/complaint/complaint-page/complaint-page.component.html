@@ -1,5 +1,20 @@
+
+
+<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
+
+<button nz-button nzType="primary" (click)="openAddForm()">добавить жалобу</button>
+
+<app-complaint-form
+  [isVisible] = "isVisible"
+  [isEditMode]="isEditMode"
+  [item]="itemForEdit"
+  (onSave)="onSave($event)"
+  (onCancel)="onCancel()">
+</app-complaint-form>
+
+
+
 <div class="toggle-container">
-  <label for="complaints-toggle">Показать:</label>
   <nz-switch
     id="complaints-toggle"
     [(ngModel)]="isMyComplaints"
@@ -7,8 +22,8 @@
   </nz-switch>
 
   <div class="toggle-label">
-    <span *ngIf="isMyComplaints" class="my-complaints">Мои жалобы</span>
-    <span *ngIf="!isMyComplaints" class="all-complaints">Все жалобы</span>
+    <span *ngIf="isMyComplaints" class="my-complaints">мои жалобы</span>
+    <span *ngIf="!isMyComplaints" class="all-complaints">все жалобы</span>
   </div>
 </div>
 

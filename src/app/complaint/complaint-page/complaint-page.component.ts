@@ -9,11 +9,14 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {HeaderComponent} from '../../header/header.component';
 import {PostCardComponent} from '../../post-card/post-card.component';
-import {Post} from '../../post';
 import {ComplaintCardComponent} from '../complaint-card/complaint-card.component';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
 import {BasePage} from '../../base/base-page';
 import {ApplicationCardComponent} from '../../application/application-card/application-card.component';
+import {SearchFilterComponent} from '../../search-filter/search-filter.component';
+import {ApplicationFormComponent} from '../../application/application-form/application-form.component';
+import {NzModalService} from 'ng-zorro-antd/modal';
+import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -32,8 +35,12 @@ import {ApplicationCardComponent} from '../../application/application-card/appli
     PostCardComponent,
     ComplaintCardComponent,
     PropensityCardComponent,
-    ApplicationCardComponent
+    ApplicationCardComponent,
+    SearchFilterComponent,
+    ApplicationFormComponent,
+    ComplaintFormComponent
   ],
+  providers: [NzModalService],
   templateUrl: './complaint-page.component.html',
   styleUrl: './complaint-page.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -81,6 +88,17 @@ export class ComplaintPageComponent extends BasePage<Complaint> {
       ''
     ),
   ];
+
+
+  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
+    console.log('Поиск:', searchData.query);
+    console.log('Статусы:', searchData.statuses);
+    this.fetchDataFromServer(searchData.query, searchData.statuses);
+  }
+
+  fetchDataFromServer(query: string, statuses: GeneralStatus[]) {
+    console.log(`Отправка данных на сервер: query="${query}", statuses="${statuses}"`);
+  }
 
 
 
