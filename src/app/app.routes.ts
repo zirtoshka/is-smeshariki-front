@@ -60,6 +60,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'comment/:id',
+    loadComponent: () => import('./comment/comment.component').then(m => m.CommentComponent),
+  },
+
+  {
     path: 'post-form',
     loadComponent: () => import('./post-form/post-form.component').then(m => m.PostFormComponent),
   },

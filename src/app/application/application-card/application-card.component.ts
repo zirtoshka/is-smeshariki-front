@@ -65,4 +65,8 @@ export class ApplicationCardComponent extends ContentBase<ApplicationForTreatmen
   navigateToPost(postId: number): void {
     this.router.navigate(['/post-card', postId]);
   }
+  navigateToComment(commentId: number): void {
+    this.router.navigate(['/comment', commentId]);
+
+  }
 }

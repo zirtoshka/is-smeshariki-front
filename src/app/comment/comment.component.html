@@ -1,3 +1,10 @@
+<div>
+  <button *ngIf="!isFeed" nz-button nzType="default" class="back-button" (click)="goBack()">
+    <i nz-icon nzType="arrow-left" nzTheme="outline"></i>
+    назад
+  </button>
+</div>
+
 <nz-card class="comment-container" [nzBordered]="true">
   <div class="comment-header">
     <nz-avatar [nzSrc]="getAvatarPath(comment.smesharikId)" nzSize="small"></nz-avatar>

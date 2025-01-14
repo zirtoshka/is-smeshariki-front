@@ -1,10 +1,14 @@
-import { Component, Input } from '@angular/core';
-import {NgIf} from '@angular/common';
+import {Component, Input, OnInit} from '@angular/core';
+import {Location, NgIf} from '@angular/common';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {CommentS} from '../comment';
+import {CommentService} from '../services/comment.service';
+import {ActivatedRoute} from '@angular/router';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
+
 
 @Component({
   selector: 'app-comment',
@@ -14,13 +18,26 @@ import {CommentS} from '../comment';
     NzAvatarComponent,
     NzCardComponent,
     NzIconDirective,
-    NzTagComponent
+    NzTagComponent,
+    NzButtonComponent
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })
-export class CommentComponent {
+export class CommentComponent implements OnInit {
   @Input() comment!: CommentS;
+  @Input() isFeed = false
+
+  constructor(private commentService: CommentService,
+              private route: ActivatedRoute,
+              private location: Location
+  ) {
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
 
   getAvatarPath(smesharikId: number): string {
     return `https://i.pravatar.cc/50?img=${smesharikId}`;
@@ -32,5 +49,12 @@ export class CommentComponent {
 
   onCommentClick(commentId: number): void {
     console.log(`Переход к комментарию с ID: ${commentId}`);
+  }
+
+  ngOnInit(): void {
+    if (!this.comment) {
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+      this.comment = this.commentService.getCommentsById(id)!;
+    }
   }
 }

@@ -15,18 +15,14 @@
         <strong>пост ID: </strong>
         <a (click)="navigateToPost(item.postId)" class="post-link">{{ item.postId }}</a>
       </p>
-      <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">Закрыть пост</button>
-      <app-post-card *ngIf="selectedPost" [post]="selectedPost"></app-post-card>
     </div>
 
 
     <div>
       <p *ngIf="item.commentId">
         <strong>комментарий ID: </strong>
-        <a (click)="showComment(item.commentId)" class="comment-link">{{ item.commentId }}</a>
+        <a (click)="navigateToComment(item.commentId)" class="comment-link">{{ item.commentId }}</a>
       </p>
-      <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">Закрыть коммент</button>
-      <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
     </div>
 
     <p>

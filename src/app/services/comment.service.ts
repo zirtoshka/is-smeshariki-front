@@ -42,7 +42,12 @@ export class CommentService {
     }
     return this.comments.filter((com) => com.postId === postId);
   }
-
+  getCommentsById(id: number | null) {
+    if (id != null) {
+      return this.comments.filter((comment) => comment.id != id)[0];
+    }
+    return;
+  }
 
   groupComments(comments: CommentS[]) {
     const map: { [key: string]: CommentS[] } = {};
