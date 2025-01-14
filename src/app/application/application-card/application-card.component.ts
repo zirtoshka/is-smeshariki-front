@@ -11,6 +11,7 @@ import {CommentComponent} from '../../comment/comment.component';
 import {PostCardComponent} from '../../post-card/post-card.component';
 import {ContentBase} from '../../content-base';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-application-card',
@@ -31,9 +32,11 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
   templateUrl: './application-card.component.html',
   styleUrl: './application-card.component.css'
 })
-export class ApplicationCardComponent extends ContentBase<ApplicationForTreatment>{
+export class ApplicationCardComponent extends ContentBase<ApplicationForTreatment> {
 
   @Input() declare item: ApplicationForTreatment;
+  @Input() currDoctorId: number | undefined;
+
   @Output() override edit = new EventEmitter<ApplicationForTreatment>();
   @Output() override delete = new EventEmitter<ApplicationForTreatment>();
 
@@ -41,13 +44,25 @@ export class ApplicationCardComponent extends ContentBase<ApplicationForTreatmen
   @Input() propensity!: Propensity;
   generalStatuses = Object.values(GeneralStatus);
 
-  onStatusChange( newStatus: GeneralStatus): void {
-      this.item.status = newStatus;
+  constructor(private router: Router) {
+    super();
+  }
+
+  onStatusChange(newStatus: GeneralStatus): void {
+    this.item.status = newStatus;
   }
 
   confirmStatus(): void {
-      console.log(`Подтверждение статуса: ${this.item.status} для заявки ${this.item.id}`);
-      // this.doctorService.updateApplicationStatus(applicationId, application-card.status).subscribe();
-    }
+    console.log(`Подтверждение статуса: ${this.item.status} для заявки ${this.item.id}`);
+    // this.doctorService.updateApplicationStatus(applicationId, application-card.status).subscribe();
+  }
 
+
+  canBeEdit() {
+    return this.item.doctorId == undefined || this.item.doctorId == this.currDoctorId;
+  }
+
+  navigateToPost(postId: number): void {
+    this.router.navigate(['/post-card', postId]);
+  }
 }

@@ -1,5 +1,7 @@
+<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
+
+
 <div class="toggle-container">
-  <label for="applications-toggle">Показать:</label>
   <nz-switch
     id="applications-toggle"
     [(ngModel)]="isMyApplications"
@@ -7,18 +9,19 @@
   </nz-switch>
 
   <div class="toggle-label">
-    <span *ngIf="isMyApplications" class="my-applications">Мои заявки</span>
-    <span *ngIf="!isMyApplications" class="all-applications">Все заявки</span>
+    <span *ngIf="isMyApplications" class="my-applications">я работаю над этим</span>
+    <span *ngIf="!isMyApplications" class="all-applications">все заявки</span>
   </div>
 </div>
 
 <div class="applications-container">
- <app-application-card
-   *ngFor="let item of items"
-   [item]="item"
-   (edit)="handleEdit($event)"
-   (delete)="handleDelete($event)"
-   [propensity]="propensityList[item.propensityId]"></app-application-card>
+  <app-application-card
+    *ngFor="let item of items"
+    [currDoctorId]="currDoctorId"
+    [item]="item"
+    (edit)="handleEdit($event)"
+    (delete)="handleDelete($event)"
+    [propensity]="propensityList[item.propensityId]"></app-application-card>
 </div>
 
 

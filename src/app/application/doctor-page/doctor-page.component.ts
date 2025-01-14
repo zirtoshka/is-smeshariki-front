@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
@@ -12,6 +12,7 @@ import {HeaderComponent} from '../../header/header.component';
 import {ApplicationCardComponent} from '../application-card/application-card.component';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
 import {BasePage} from '../../base/base-page';
+import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 
 @Component({
   selector: 'app-doctor-page',
@@ -28,31 +29,33 @@ import {BasePage} from '../../base/base-page';
     NzSwitchComponent,
     HeaderComponent,
     ApplicationCardComponent,
-    PropensityCardComponent
+    PropensityCardComponent,
+    SearchFilterComponent
   ],
   templateUrl: './doctor-page.component.html',
   styleUrl: './doctor-page.component.css'
 })
-export class DoctorPageComponent extends BasePage<ApplicationForTreatment>{
-  isMyApplications: boolean = true
+export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
+  isMyApplications: boolean = false
+
+  currDoctorId = 303; //todo
 
   constructor() {
     super();
     this.items = this.applications;
   }
 
-  propensityList:Propensity[]=[
+  propensityList: Propensity[] = [
     new Propensity(1, 'грустный вайб', 'Пациент нуждается в срочном лечении'),
     new Propensity(2, 'избыток меда', 'Показатели стабильны, но необходима проверка'),
     new Propensity(3, 'странный вайб', 'чзх')
-
 
 
   ];
   applications: ApplicationForTreatment[] = [
     new ApplicationForTreatment(
       1,
-      101,
+      1,
       null,
       null,
       GeneralStatus.new,
@@ -77,10 +80,24 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>{
   ];
 
 
-
-
   onToggleChange(): void {
     console.log(this.isMyApplications ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
+
+
+  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
+    console.log('Поиск:', searchData.query);
+    console.log('Статусы:', searchData.statuses);
+
+    // Логика для отправки данных на сервер
+    this.fetchDataFromServer(searchData.query, searchData.statuses);
+  }
+
+  // Пример функции для отправки данных на сервер
+  fetchDataFromServer(query: string, statuses: GeneralStatus[]) {
+    // Пример запроса. Настройте ваш HttpClient здесь.
+    console.log(`Отправка данных на сервер: query="${query}", statuses="${statuses}"`);
+  }
+
 
 }

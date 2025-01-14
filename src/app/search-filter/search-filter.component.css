@@ -1,0 +1,30 @@
+.search-filter {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.search-input,
+.status-filters,
+.reset-button {
+  flex: 1;
+  width: 50%;
+}
+
+.status-filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.status-button.active {
+  background-color: rgba(102, 0, 255, 0.56);
+  color: white;
+}
+
+.reset-button {
+  margin-bottom: 15px;
+}

@@ -1,0 +1,27 @@
+<div class="search-filter">
+  <input nz-input
+         type="text"
+         [(ngModel)]="searchQuery"
+         (ngModelChange)="onFilterChange()"
+         placeholder="введите текст для поиска"
+         class="search-input"
+  />
+
+
+  <div class="status-filters">
+    <div *ngFor="let status of statuses">
+      <button nz-button
+              type="button"
+              [ngClass]="{
+          active: selectedStatuses.includes(getStatus(status[0]))
+        }"
+              (click)="toggleStatus(getStatus(status[0]))"
+              class="status-button"
+      >
+        {{ status[1] }}
+      </button>
+    </div>
+  </div>
+
+  <button nz-button (click)="resetFilters()" class="reset-button">Сбросить фильтры</button>
+</div>

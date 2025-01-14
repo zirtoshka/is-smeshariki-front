@@ -13,6 +13,7 @@
   max-height: 200px;
   overflow-y: auto;
 }
+
 .toggle-container {
   margin-bottom: 20px;
   display: flex;
@@ -40,12 +41,12 @@
 }
 
 .my-applications {
-  color: #4CAF50;
+  color: #b13df3;
   font-weight: bold;
 }
 
 .all-applications {
-  color: #2196F3;
+  color: #5c21f3;
   font-weight: bold;
 }
 
