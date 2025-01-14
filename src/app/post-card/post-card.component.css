@@ -1,6 +1,8 @@
 .post-card {
   margin: 2%;
   padding: 2%;
+  display: flex;
+  flex-direction: column;
 }
 
 .large-icon {

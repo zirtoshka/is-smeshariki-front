@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {NgForOf, NgIf} from '@angular/common';
+import {Location, NgForOf, NgIf} from '@angular/common';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Post} from '../post';
 import {PostService} from '../services/post.service';
@@ -14,6 +14,7 @@ import {NestedCommComponent} from '../nested-comm/nested-comm.component';
 import {CommentService} from '../services/comment.service';
 import {Likeable} from '../base/likeable';
 import {PostTagComponent} from '../post-tag/post-tag.component';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
 
 
 @Component({
@@ -28,7 +29,8 @@ import {PostTagComponent} from '../post-tag/post-tag.component';
     CarrotCountComponent,
     NgForOf,
     NestedCommComponent,
-    PostTagComponent
+    PostTagComponent,
+    NzButtonComponent
   ],
   providers: [PostService],
   templateUrl: './post-card.component.html',
@@ -40,6 +42,8 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   isCommentExisted: boolean = false;
   isLiked = false;
 
+  @Input() isFeed = false
+
 
   @Input() post!: Post;
 
@@ -49,7 +53,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     private route: ActivatedRoute,
     private postService: PostService,
     private iconService: IconService,
-    protected commentService: CommentService,
+    protected commentService: CommentService, private location: Location
   ) {
     // this.commentsList =
     //   [
@@ -62,6 +66,9 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     // ];
   }
 
+  goBack() {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     if (!this.post) {

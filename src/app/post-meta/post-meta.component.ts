@@ -26,6 +26,7 @@ export class PostMetaComponent {
   @Input() post!: Post;
   constructor(private router: Router) {}
 
+
   navigateToPost(postId: number): void {
     this.router.navigate(['/post-card', postId]);
   }
