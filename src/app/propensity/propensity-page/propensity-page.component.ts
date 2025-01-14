@@ -6,10 +6,8 @@ import {Propensity} from '../../propensity';
 import {BasePage} from '../../base/base-page';
 import {PropensityCardComponent} from '../propensity-card/propensity-card.component';
 import {PropensityFormComponent} from '../propensity-form/propensity-form.component';
-import {NzFormModule} from 'ng-zorro-antd/form';
-import {NzCardComponent, NzCardModule} from 'ng-zorro-antd/card';
-import {NzButtonComponent, NzButtonModule} from 'ng-zorro-antd/button';
-import {ReactiveFormsModule} from '@angular/forms';
+import {NzCardComponent} from 'ng-zorro-antd/card';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzModalService} from 'ng-zorro-antd/modal';
 

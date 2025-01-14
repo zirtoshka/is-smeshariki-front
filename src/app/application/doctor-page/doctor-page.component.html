@@ -1,6 +1,19 @@
 <app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
 
+<button nz-button nzType="primary" (click)="openAddForm()">добавить завку на лечение</button>
+
+<app-application-form
+  [isVisible] = "isVisible"
+  [isEditMode]="isEditMode"
+  [item]="itemForEdit"
+  (onSave)="onSave($event)"
+  (onCancel)="onCancel()">
+</app-application-form>
+
+
+
+
 <div class="toggle-container">
   <nz-switch
     id="applications-toggle"

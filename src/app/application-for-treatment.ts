@@ -1,5 +1,4 @@
 import {GeneralStatus} from './enums';
-import {Propensity} from './propensity';
 
 export class ApplicationForTreatment {
   constructor(

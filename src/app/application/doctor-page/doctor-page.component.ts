@@ -13,6 +13,9 @@ import {ApplicationCardComponent} from '../application-card/application-card.com
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
 import {BasePage} from '../../base/base-page';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
+import {PropensityFormComponent} from '../../propensity/propensity-form/propensity-form.component';
+import {ApplicationFormComponent} from '../application-form/application-form.component';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-doctor-page',
@@ -30,8 +33,11 @@ import {SearchFilterComponent} from '../../search-filter/search-filter.component
     HeaderComponent,
     ApplicationCardComponent,
     PropensityCardComponent,
-    SearchFilterComponent
+    SearchFilterComponent,
+    PropensityFormComponent,
+    ApplicationFormComponent
   ],
+  providers: [NzModalService],
   templateUrl: './doctor-page.component.html',
   styleUrl: './doctor-page.component.css'
 })
