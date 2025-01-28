@@ -1,0 +1,58 @@
+<nz-modal [(nzVisible)]="isVisible"
+          [nzTitle]="isEditMode ? 'редактировать жалобу' : 'добавить жалобу'"
+          (nzOnCancel)="cancel()"
+          [nzContent]="forma"
+          [nzFooter]="modalFooter">
+  <ng-template #forma>
+    <form nz-form [formGroup]="validateForm" class="form">
+
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="postId">ид поста</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид поста">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input formControlName="postId" nz-input placeholder="ид поста"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="commentId">ид комментария</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид комментария">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input formControlName="commentId" nz-input placeholder="ид комментария"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="smesharikId">ид смешарика</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид смешарика">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input formControlName="smesharikId" nz-input placeholder="ид смешарика"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+
+
+        <nz-range-picker
+          [nzShowTime]="{ nzFormat: 'HH:mm' }"
+          nzFormat="yyyy-MM-dd HH:mm"
+          ngModel
+          (ngModelChange)="onChange($event)"
+          (nzOnCalendarChange)="onCalendarChange($event)"
+          (nzOnOk)="onOk($event)"
+        ></nz-range-picker>
+      </nz-form-item>
+
+
+    </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">добавить</button>
+  </ng-template>
+</nz-modal>
+
+

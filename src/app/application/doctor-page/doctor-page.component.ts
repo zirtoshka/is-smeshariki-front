@@ -91,15 +91,4 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
   }
 
 
-  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
-    console.log('Поиск:', searchData.query);
-    console.log('Статусы:', searchData.statuses);
-    this.fetchDataFromServer(searchData.query, searchData.statuses);
-  }
-
-  fetchDataFromServer(query: string, statuses: GeneralStatus[]) {
-    console.log(`Отправка данных на сервер: query="${query}", statuses="${statuses}"`);
-  }
-
-
 }

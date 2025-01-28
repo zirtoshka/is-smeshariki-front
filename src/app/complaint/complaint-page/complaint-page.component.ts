@@ -48,6 +48,7 @@ import {ComplaintFormComponent} from '../complaint-form/complaint-form.component
 })
 export class ComplaintPageComponent extends BasePage<Complaint> {
   isMyComplaints = false;
+
   constructor() {
     super();
     this.items = this.complaints;
@@ -88,18 +89,6 @@ export class ComplaintPageComponent extends BasePage<Complaint> {
       ''
     ),
   ];
-
-
-  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
-    console.log('Поиск:', searchData.query);
-    console.log('Статусы:', searchData.statuses);
-    this.fetchDataFromServer(searchData.query, searchData.statuses);
-  }
-
-  fetchDataFromServer(query: string, statuses: GeneralStatus[]) {
-    console.log(`Отправка данных на сервер: query="${query}", statuses="${statuses}"`);
-  }
-
 
 
   onToggleChange() {

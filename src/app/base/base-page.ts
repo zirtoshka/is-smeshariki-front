@@ -1,3 +1,4 @@
+import {GeneralStatus} from '../enums';
 
 export abstract class BasePage<T> {
   items: T[] = [];
@@ -36,5 +37,15 @@ export abstract class BasePage<T> {
   handleDelete(item: T): void {
     console.log('Удалить:', item);
     this.items = this.items.filter(i => i !== item);
+  }
+
+  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
+    console.log('Поиск:', searchData.query);
+    console.log('Статусы:', searchData.statuses);
+    this.fetchDataFromServer(searchData.query, searchData.statuses);
+  }
+
+  fetchDataFromServer(query: string, statuses: GeneralStatus[]) {
+    console.log(`Отправка данных на сервер: query="${query}", statuses="${statuses}"`);
   }
 }
