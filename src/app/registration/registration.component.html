@@ -1,20 +1,20 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="reg-form">
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
-                   nzTooltipTitle="What do you want others to call you">
+                   nzTooltipTitle="как вас зовут">
       <span>name</span>
     </nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите свое имя!">
       <input nz-input id="name" formControlName="name"/>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="login" nzRequired
-                   nzTooltipTitle="yours unique name">
+                   nzTooltipTitle="ваше уникальное имя">
       <span>login</span>
     </nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your login!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите логин, он должен быть длинне 4 символов!">
       <input nz-input id="login" formControlName="login"/>
     </nz-form-control>
   </nz-form-item>

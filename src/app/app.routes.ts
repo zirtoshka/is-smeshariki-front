@@ -1,7 +1,19 @@
-import {Routes} from '@angular/router';
-import {PostCardComponent} from './post-card/post-card.component';
+import {CanActivateFn, Router, Routes} from '@angular/router';
 import {SmesharikPageComponent} from './my-smesharik-page/smesharik-page.component';
+import {inject} from '@angular/core';
+import {AuthService} from './auth-tools/auth.service';
 
+
+const authGuard: CanActivateFn = (route, state) => {
+  if (inject(AuthService).isLoggedIn) return true;
+  inject(Router).navigate(['login']);
+  return true;
+}
+const isDoctor: CanActivateFn = (route, state) => {
+  if (inject(AuthService).isLoggedIn) return true;
+  inject(Router).navigate(['login']);
+  return true;
+}
 export const routes: Routes = [
   {path: '', component: SmesharikPageComponent, pathMatch: 'full'},
   // {path: '', redirectTo: '/profile', pathMatch: 'full'},
@@ -12,15 +24,18 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./my-smesharik-page/smesharik-page.component').then(m => m.SmesharikPageComponent)
+    loadComponent: () => import('./my-smesharik-page/smesharik-page.component').then(m => m.SmesharikPageComponent),
+    canActivate:[authGuard]
   },
   {
     path: 'notification',
-    loadComponent: () => import('./notification-page/notification-page.component').then(m => m.NotificationPageComponent)
+    loadComponent: () => import('./notification-page/notification-page.component').then(m => m.NotificationPageComponent),
+    canActivate:[authGuard]
   },
   {
     path: 'doctor',
-    loadComponent: () => import('./application/doctor-page/doctor-page.component').then(m => m.DoctorPageComponent)
+    loadComponent: () => import('./application/doctor-page/doctor-page.component').then(m => m.DoctorPageComponent),
+    canActivate:[isDoctor]
   },
   {
     path: 'complaint',

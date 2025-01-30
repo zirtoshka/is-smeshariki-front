@@ -68,7 +68,7 @@ export class RegistrationComponent {
     this.validateForm = this.fb.group({
       password: ['', [Validators.required]],
       checkPassword: ['', [Validators.required, this.confirmationValidator]],
-      login: ['', [Validators.required]],
+      login: ['', [Validators.required, Validators.minLength(4)]],
       name: ['', [Validators.required]],
       email:['', [Validators.pattern('.+@.+\\..+'), Validators.required]],
     });
@@ -85,20 +85,25 @@ export class RegistrationComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const {name, password, checkPassword} = this.validateForm.value;
-      if (name && password && checkPassword === password) {
-        this.userService.register(name, password);
+      const { name, login, email, password, checkPassword } = this.validateForm.value;
+
+      if (password !== checkPassword) {
+        this.validateForm.controls['checkPassword'].setErrors({ mismatch: true });
+        return;
       }
 
+      const body = { name, login, email, password };
+      this.userService.register(body);
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
-          control.updateValueAndValidity({onlySelf: true});
+          control.updateValueAndValidity({ onlySelf: true });
         }
       });
     }
   }
+
 
   updateConfirmValidator(): void {
     Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());

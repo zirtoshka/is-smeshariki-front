@@ -12,6 +12,7 @@ import {RouterLink} from '@angular/router';
 import {UserService} from '../services/user.service';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
+import {AuthService} from '../auth-tools/auth.service';
 
 @Component({
   selector: 'app-my-smesharik-page',
@@ -39,6 +40,8 @@ import {RoleTagComponent} from '../role-tag/role-tag.component';
 })
 export class SmesharikPageComponent {
   private userService = inject(UserService);
+  private authService = inject(AuthService);
+
   isEditing: boolean = false;
   isFormChanged: boolean = false;
 
@@ -81,6 +84,9 @@ export class SmesharikPageComponent {
     }
   }
 
+  logOut(){
+    this.authService.logOut();
+  }
 
   submitForm(): void {
     if (this.validateForm.valid) {
