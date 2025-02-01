@@ -6,8 +6,8 @@ import {catchError, lastValueFrom, throwError} from 'rxjs';
 import {Token} from './token';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 
-const TOKEN_PATH = 'token';
-const LOGIN = 'login';
+export const TOKEN_PATH = 'token';
+export const  LOGIN = 'login';
 const LOGIN_PATH="login"
 
 @Injectable({

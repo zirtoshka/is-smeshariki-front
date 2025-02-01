@@ -13,10 +13,10 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="edit-form">
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name"
-                   nzTooltipTitle="Как бы вы хотели, чтобы другие называли вас">
+                   nzTooltipTitle="как бы вы хотели, чтобы другие называли вас">
       <span>имя</span>
     </nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Введите имя!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите имя!">
       <input nz-input id="name" formControlName="name"/>
     </nz-form-control>
   </nz-form-item>
@@ -55,7 +55,85 @@
   <button nz-button nzType="default" (click)="toggleEdit()">
     {{ isEditing ? 'отмена редактирования' : 'редактировать профиль' }}
   </button>
+  <button nz-button nzType="default" (click)="toggleChangePassword()">
+    {{ isChangingPassword ? 'отмена смены пароля' : 'сменить пароль' }}
+  </button>
 </div>
+
+
+<div *ngIf="isChangingPassword">
+  <form [formGroup]="passwordForm">
+    <nz-form-item>
+      <!--      <nz-form-label [nzSpan]="6">введите старый пароль:</nz-form-label>-->
+      <nz-form-control [nzSpan]="18" [nzValidateStatus]="passwordForm.controls.oldPassword">
+        <nz-input-group [nzSuffix]="passwordSuffixOld">
+          <input nz-input [type]="passwordVisible.old ? 'text' : 'password'"
+                 formControlName="oldPassword"
+                 placeholder="старый пароль"/>
+        </nz-input-group>
+        <ng-template #passwordSuffixOld>
+          <i nz-icon [nzType]="passwordVisible.old ? 'eye-invisible' : 'eye'"
+             (click)="togglePasswordVisibility('old')"></i>
+        </ng-template>
+        <div class="ant-form-item-explain-error" *ngIf="passwordForm.controls.oldPassword.hasError('required')">
+          введите старый пароль
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [class.nz-form-item-has-error]="passwordForm.hasError('passwordsNotMatching')">
+      <!--      <nz-form-label [nzSpan]="6">введите новый пароль:</nz-form-label>-->
+      <nz-form-control [nzSpan]="18" [nzValidateStatus]="passwordForm.controls.newPassword">
+        <nz-input-group [nzSuffix]="passwordSuffixNew">
+          <input nz-input [type]="passwordVisible.new ? 'text' : 'password'" formControlName="newPassword"
+                 placeholder="новый пароль"/>
+        </nz-input-group>
+        <ng-template #passwordSuffixNew>
+          <i nz-icon [nzType]="passwordVisible.new ? 'eye-invisible' : 'eye'"
+             (click)="togglePasswordVisibility('new')"></i>
+        </ng-template>
+        <div class="ant-form-item-explain-error" *ngIf="passwordForm.controls.newPassword.hasError('required')">
+          введите новый пароль
+        </div>
+        <div class="ant-form-item-explain-error" *ngIf="passwordForm.controls.newPassword.hasError('minlength')">
+          длина пароля не меньше 6 символов
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [class.nz-form-item-has-error]="passwordForm.hasError('passwordsNotMatching')">
+<!--      <nz-form-label [nzSpan]="6">Подтвердите пароль:</nz-form-label>-->
+      <nz-form-control [nzSpan]="18" [nzValidateStatus]="passwordForm.controls.confirmPassword">
+        <nz-input-group [nzSuffix]="passwordSuffixConfirm">
+          <input nz-input [type]="passwordVisible.confirm ? 'text' : 'password'"
+                 formControlName="confirmPassword"
+                 placeholder="повторите новый пароль"/>
+        </nz-input-group>
+        <ng-template #passwordSuffixConfirm>
+          <i nz-icon [nzType]="passwordVisible.confirm ? 'eye-invisible' : 'eye'"
+             (click)="togglePasswordVisibility('confirm')"></i>
+        </ng-template>
+        <div class="ant-form-item-explain-error" *ngIf="passwordForm.controls.confirmPassword.hasError('required')">
+          Подтвердите пароль
+        </div>
+        <div class="ant-form-item-explain-error" *ngIf="passwordForm.hasError('passwordsNotMatching')">
+          Пароли не совпадают
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="6" [nzSpan]="18">
+        <button nz-button nzType="primary" [disabled]="passwordForm.invalid" (click)="submitPasswordChange()">
+          Подтвердить
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+</div>
+
 
 <div>
   <button nz-button nzType="default" (click)="logOut()">
