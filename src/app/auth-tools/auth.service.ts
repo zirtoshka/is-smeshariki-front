@@ -55,7 +55,7 @@ export class AuthService {
 
   private auth(login: string, token: string) {
     this.authToken = token;
-    this.login = "123456789"; //todo
+    this.login = login; //todo
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
     lastValueFrom(this.httpClient.get(`http://localhost:8081/api/smesharik/${this.login}`, {headers}))
@@ -74,7 +74,7 @@ export class AuthService {
       .post<Token>(`${this.baseUrl}/${action}`, body)
       .pipe(catchError(this.handleError.bind(this)))
       .subscribe({
-        next: (data) => this.auth("login", data.token),
+        next: (data) => this.auth(body.login, data.token),
         error: () => {
         }
       });
@@ -95,7 +95,7 @@ export class AuthService {
       if (typeof errors === 'object') {
         Object.entries(errors).forEach(([field, message]) => {
           this.notificationService.error(
-            `${field}`,
+            `укуси меня пчела`,
             `${message}`,
             {nzDuration: 5000}
           );

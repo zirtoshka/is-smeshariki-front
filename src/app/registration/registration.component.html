@@ -2,7 +2,7 @@
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
                    nzTooltipTitle="как вас зовут">
-      <span>name</span>
+      <span>имя</span>
     </nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите свое имя!">
       <input nz-input id="name" formControlName="name"/>
@@ -12,7 +12,7 @@
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="login" nzRequired
                    nzTooltipTitle="ваше уникальное имя">
-      <span>login</span>
+      <span>логин</span>
     </nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите логин, он должен быть длинне 4 символов!">
       <input nz-input id="login" formControlName="login"/>
@@ -24,14 +24,14 @@
                    nzTooltipTitle="email">
       <span>email</span>
     </nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your email!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="пожалуйста, введите свой email!">
       <input nz-input id="email" formControlName="email"/>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>пароль</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="пожалуйста, введите свой пароль!">
       <nz-input-group [nzSuffix]="passwordSuffix">
         <input
           nz-input
@@ -48,7 +48,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>еще раз пароль</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
       <nz-input-group [nzSuffix]="confirmPasswordSuffix">
         <input
@@ -63,21 +63,19 @@
            (click)="toggleConfirmPasswordVisibility()"></i>
       </ng-template>
       <ng-template #errorTpl let-control>
-        <ng-container *ngIf="control.errors?.['required']">Please confirm your password!</ng-container>
-        <ng-container *ngIf="control.errors?.['confirm']">Two passwords that you enter are inconsistent!</ng-container>
+        <ng-container *ngIf="control.errors?.['required']">пожалуйста, подтвердите свой пароль!</ng-container>
+        <ng-container *ngIf="control.errors?.['confirm']">два введенных вами пароля несовместимы!</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="primary" [disabled]="!this.validateForm.valid">Register</button>
+      <button nz-button nzType="primary" [disabled]="!this.validateForm.valid">зарегестрироваться</button>
     </nz-form-control>
   </nz-form-item>
 </form>
 
 <div class="navig">
-  <button nz-button nzType="primary" routerLink="/login">Login</button>
-
-  <button nz-button nzType="primary" routerLink="/profile">smesharik page</button>
+  <button nz-button nzType="primary" routerLink="/login">вход</button>
 </div>
