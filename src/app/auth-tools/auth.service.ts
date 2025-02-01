@@ -5,10 +5,10 @@ import {deleteCookie, getCookie, setCookie} from './cookie-utils';
 import {catchError, lastValueFrom, throwError} from 'rxjs';
 import {Token} from './token';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {getAuthToken, getLogin, setAuthToken, setLogin} from './auth-utils';
 
-export const TOKEN_PATH = 'token';
-export const  LOGIN = 'login';
-const LOGIN_PATH="login"
+
+const LOGIN_PATH = "login"
 
 @Injectable({
   providedIn: 'root'
@@ -19,48 +19,23 @@ export class AuthService {
   private router = inject(Router);
   private notificationService = inject(NzNotificationService);
 
-  get login(): string | null {
-    return sessionStorage.getItem(LOGIN);
-  }
-
-  set login(value: string | null | undefined) {
-    if (value == null) {
-      sessionStorage.removeItem(LOGIN);
-    } else {
-      sessionStorage.setItem(LOGIN, value);
-    }
-  }
-
-  get authToken(): string | null {
-    return getCookie(TOKEN_PATH);
-  }
-
-  set authToken(value: string | null | undefined) {
-    if (value == null) {
-      deleteCookie(TOKEN_PATH);
-      //todo add smth
-      // sessionStorage.removeItem("shoot");
-    }else{
-      setCookie(TOKEN_PATH, value);
-    }
-  }
 
   logOut() {
-    this.authToken = null;
-    this.login = undefined;
+    setAuthToken(null);
+    setLogin(undefined);
     this.router.navigate([LOGIN_PATH]);
   }
 
   get isLoggedIn(): boolean {
-    return this.authToken != null;
+    return getAuthToken() != null;
   }
 
   private auth(login: string, token: string) {
-    this.authToken = token;
-    this.login = login; //todo
+    setAuthToken(token);
+    setLogin(login); //todo
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
-    lastValueFrom(this.httpClient.get(`http://localhost:8081/api/smesharik/${this.login}`, {headers}))
+    lastValueFrom(this.httpClient.get(`http://localhost:8081/api/smesharik/${getLogin()}`, {headers}))
       .then(data => {
         this.router.navigate(['diary']).then(() => {
           console.log('Navigation to home successful');
@@ -87,7 +62,7 @@ export class AuthService {
     return this.postData({login, password}, "signin");
   }
 
-  register(body:any) {
+  register(body: any) {
     return this.postData(body, "signup");
   }
 

@@ -17,6 +17,7 @@ import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabe
 import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
+import {en_US, NzI18nService, ru_RU} from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: 'app-complaint-form',
@@ -53,7 +54,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   override validateForm: FormGroup<{
     violationType: FormControl<string>;
     description: FormControl<string>;
-    adminId: FormControl<string>;
+    adminLogin: FormControl<string>;
     postId: FormControl<string>;
     commentId: FormControl<string>;
     status: FormControl<string>;
@@ -63,12 +64,12 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   statusiki = Object.values(GeneralStatus);
   violationTypes = Object.values(ViolationType);
 
-  constructor(private fb: NonNullableFormBuilder) {
+  constructor(private fb: NonNullableFormBuilder, private i18n: NzI18nService) {
     super();
     this.validateForm = this.fb.group({
       violationType: [ViolationType.SPAM.toString(), [Validators.required]],
       description: [''],
-      adminId: ['', [Validators.pattern('\\d+')]],
+      adminLogin: ['', [Validators.pattern('\\d+')]],
       postId: ['', [Validators.pattern('\\d+')]],
       commentId: ['', [Validators.pattern('\\d+')]],
       status: [GeneralStatus.new.toString(), [Validators.required]],
@@ -80,7 +81,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
       this.validateForm.patchValue({
         violationType: this.item.violationType,
         description: this.item.description,
-        adminId: this.item.adminId?.toString() || '',
+        adminLogin: this.item.adminLogin?.toString() || '',
         postId: this.item.postId?.toString() || '',
         commentId: this.item.commentId?.toString() || '',
         status: this.item.status?.toString() || '',
@@ -89,7 +90,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
       this.validateForm.patchValue({
         violationType: ViolationType.SPAM.toString(),
         description: '',
-        adminId: '',
+        adminLogin: '',
         postId: '',
         commentId: '',
         status: GeneralStatus.new.toString(),
@@ -101,5 +102,11 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
     return this.validateForm.valid &&
       ((this.validateForm.value.postId === '' && this.validateForm.value.commentId !== '') ||
         (this.validateForm.value.postId !== '' && this.validateForm.value.commentId === ''));
+  }
+
+
+  changeLanguage(): void {
+    // this.i18n.setLocale( en_US);
+    this.i18n.setLocale( ru_RU );
   }
 }

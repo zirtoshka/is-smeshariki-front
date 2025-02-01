@@ -47,6 +47,7 @@ import {ComplaintFormComponent} from '../complaint-form/complaint-form.component
 
 })
 export class ComplaintPageComponent extends BasePage<Complaint> {
+  override action="complaint"
   isMyComplaints = false;
 
   constructor() {
@@ -70,7 +71,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> {
       2,
       ViolationType.eroticContent,
       'Оскорбительный комментарий',
-      301,
+      "301",
       null,
       1,
       GeneralStatus.done,
@@ -95,6 +96,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> {
     //todo
     console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
+
 
 
 }

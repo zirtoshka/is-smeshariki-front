@@ -19,7 +19,8 @@ import {RouterLink} from '@angular/router';
 import {UserService} from '../services/user.service';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
-import {AuthService, LOGIN} from '../auth-tools/auth.service';
+import {AuthService} from '../auth-tools/auth.service';
+import {LOGIN} from '../auth-tools/auth-utils';
 
 @Component({
   selector: 'app-my-smesharik-page',

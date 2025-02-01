@@ -78,6 +78,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     if (!this.post) {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.post = this.postService.getPostById(id)!;
+      // this.isLiked= this.postSevice.isLiked(id) todo
       this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
       this.isCommentExisted = this.commentsList.length > 0;
     }

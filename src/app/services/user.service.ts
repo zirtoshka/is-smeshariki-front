@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Smesharik} from '../auth-tools/smesharik';
 import {Observable} from 'rxjs';
 import {getCookie} from '../auth-tools/cookie-utils';
-import {TOKEN_PATH} from '../auth-tools/auth.service';
+import {TOKEN_PATH} from '../auth-tools/auth-utils';
 
 @Injectable({
   providedIn: 'root'

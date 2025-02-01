@@ -1,36 +1,56 @@
 import {GeneralStatus} from '../enums';
+import {BaseService} from './base.service';
+import {inject} from '@angular/core';
 
 export abstract class BasePage<T> {
+  action!: string;
   items: T[] = [];
 
-  itemForEdit:T|null=null;
+  itemForEdit: T | null = null;
 
   isEditMode: boolean = false;
   isVisible: boolean = false;
+  baseService: BaseService = inject(BaseService);
 
   openAddForm() {
-    this.itemForEdit=null
-    this.isEditMode=false
-    this.isVisible=true
+    this.itemForEdit = null
+    this.isEditMode = false
+    this.isVisible = true
 
   }
 
 
-  onSave(item:any) {
+  async onSave(item: any) {
     console.log("это сохранение ");
     console.log(item);
-    this.isVisible=false
+    item = {
+      violationType: 'SPAM',
+      description: 'НУ ЭТО СПАМ!',
+      post: 1,
+      comment: null,
+      status: 'NEW',
+    };
+    try {
+      const response = await this.baseService.createItem<any>(this.action, item)
+
+      console.log('Жалоба отправлена:', response);
+    } catch (error) {
+      console.error('Ошибка при отправке жалобы:', error);
+    }
+
+    this.isVisible = false
   }
 
+
   onCancel() {
-    this.isVisible=false
-    this.itemForEdit=null
+    this.isVisible = false
+    this.itemForEdit = null
   }
 
   handleEdit(item: T): void {
-    this.itemForEdit=item
-    this.isVisible=true
-    this.isEditMode=true
+    this.itemForEdit = item
+    this.isVisible = true
+    this.isEditMode = true
     console.log('Редактировать:', item);
   }
 
