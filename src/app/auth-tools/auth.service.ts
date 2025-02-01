@@ -7,6 +7,8 @@ import {Token} from './token';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 
 const TOKEN_PATH = 'token';
+const LOGIN = 'login';
+const LOGIN_PATH="login"
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +20,14 @@ export class AuthService {
   private notificationService = inject(NzNotificationService);
 
   get login(): string | null {
-    return sessionStorage.getItem("login");
+    return sessionStorage.getItem(LOGIN);
   }
 
   set login(value: string | null | undefined) {
     if (value == null) {
-      sessionStorage.removeItem("login");
+      sessionStorage.removeItem(LOGIN);
     } else {
-      sessionStorage.setItem("login", value);
+      sessionStorage.setItem(LOGIN, value);
     }
   }
 
@@ -46,7 +48,7 @@ export class AuthService {
   logOut() {
     this.authToken = null;
     this.login = undefined;
-    this.router.navigate(['login']);
+    this.router.navigate([LOGIN_PATH]);
   }
 
   get isLoggedIn(): boolean {
