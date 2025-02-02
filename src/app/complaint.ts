@@ -1,6 +1,6 @@
 import {GeneralStatus, getEnumKeyByValue, ViolationType} from './enums';
 
-export class Complaint {
+export class Complaint{
   constructor(
     public id: number,
     public violationType: ViolationType,

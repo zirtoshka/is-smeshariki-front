@@ -1,8 +1,10 @@
 import {GeneralStatus} from '../enums';
 import {BaseService} from './base.service';
 import {inject} from '@angular/core';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {HasId} from '../hasid';
 
-export abstract class BasePage<T> {
+export abstract class BasePage<T extends HasId> {
   action!: string;
   items: T[] = [];
 
@@ -11,6 +13,8 @@ export abstract class BasePage<T> {
   isEditMode: boolean = false;
   isVisible: boolean = false;
   baseService: BaseService = inject(BaseService);
+  private notificationService = inject(NzNotificationService);
+
 
   openAddForm() {
     this.itemForEdit = null
@@ -24,28 +28,35 @@ export abstract class BasePage<T> {
   }
 
   async onSave(item: any) {
-
-    console.log(item); // Печатает тип
-    let data=this.preparing(item)
-    console.log(data); // Печатает тип
-
-    // let data = this.preparing(item)
-    // item = {
-    //   violationType: 'SPAM',
-    //   description: 'НУ ЭТО СПАМ!',
-    //   post: 1,
-    //   comment: null,
-    //   status: 'NEW',
-    // };
-    // item = this.baseService.removeEmptyFields(item)
+    let data = this.preparing(item)
     try {
       const response = await this.baseService.createItem<any>(this.action, data)
-
-      console.log('Жалоба отправлена:', response);
-    } catch (error) {
-      console.error('Ошибка при отправке жалобы:', error);
+      this.notificationService.success(
+        "Ай молодца!",
+        "сохраниние успешно"
+      )
+    } catch (error: any) {
+      this.notificationService.error("Ёлки-иголки",
+        error
+      )
     }
+    this.isVisible = false
+  }
 
+
+  async onEdit(item: any) {
+    let data = this.preparing(item)
+    try {
+      const response = await this.baseService.updateItem<any>(this.action, data, this.itemForEdit?.id)
+      this.notificationService.success(
+        "Оба-на!",
+        "обновление успешно"
+      )
+    } catch (error: any) {
+      this.notificationService.error("Ёлки-иголки",
+        error
+      )
+    }
     this.isVisible = false
   }
 

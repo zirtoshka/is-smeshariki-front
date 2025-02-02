@@ -1,8 +1,10 @@
 import {EventEmitter, Input, Output} from '@angular/core';
+import {HasId} from '../hasid';
 
-export abstract class BaseForm<T> {
+export abstract class BaseForm<T extends HasId> {
   item: T | null = null;
   onSave = new EventEmitter<T>();
+  onEdit = new EventEmitter<T>();
   onCancel = new EventEmitter<void>();
 
   isEditMode: boolean = false;
@@ -13,7 +15,11 @@ export abstract class BaseForm<T> {
   save() {
     if (this.validateForm.valid) {
       const data: T = this.validateForm.value as T;
-      this.onSave.emit(data);
+      if (this.isEditMode) {
+        this.onEdit.emit(data);
+      } else {
+        this.onSave.emit(data);
+      }
     }
   }
 

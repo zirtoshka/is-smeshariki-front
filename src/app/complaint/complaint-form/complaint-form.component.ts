@@ -58,6 +58,9 @@ import { differenceInCalendarDays, setHours } from 'date-fns';
 export class ComplaintFormComponent extends BaseForm<Complaint> implements OnChanges {
   @Input() declare item: Complaint | null;
   @Output() override onSave = new EventEmitter<Complaint>();
+  @Output() override onEdit = new EventEmitter<Complaint>();
+
+
   @Output() override onCancel = new EventEmitter<void>();
 
   @Input() override isEditMode: boolean = false;

@@ -10,7 +10,6 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 export class BaseService {
 
   private readonly baseUrl = 'http://localhost:8081/api';
-  private notificationService = inject(NzNotificationService);
 
   constructor(protected httpClient: HttpClient) {}
 
@@ -29,10 +28,19 @@ export class BaseService {
         })
       );
     } catch (err: any) {
-      this.notificationService.error("Ёлки-иголки",
-        err.error.message,
-      )
-      throw new Error(err.message || 'Ошибка запроса');
+      throw new Error(err.error.message || 'Ошибка запроса');
+    }
+  }
+
+  async updateItem<T>(action: string, body: any, id:any): Promise<T> {
+    try {
+      return await lastValueFrom(
+        this.httpClient.put<T>(`${this.baseUrl}/${action}/${id}`, body, {
+          headers: this.getAuthHeaders(),
+        })
+      );
+    } catch (err: any) {
+      throw new Error(err.error.message || 'Ошибка запроса');
     }
   }
 

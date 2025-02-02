@@ -40,7 +40,7 @@
       class="status-selector"
       [nzAllowClear]="false"
       (ngModelChange)="onStatusChange(item.status)">
-<!--      <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>-->
+      <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>
     </nz-select>
     <button nz-button nzType="primary" (click)="confirmComplaintStatus()">Подтвердить</button>
 
