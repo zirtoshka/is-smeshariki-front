@@ -92,7 +92,7 @@ export class RegistrationComponent {
         return;
       }
 
-      const body = { name, login, email, password, role:"USER"}; //todo убрать роль
+      const body = { name, login, email, password}; //todo убрать роль
       this.userService.register(body);
     } else {
       Object.values(this.validateForm.controls).forEach(control => {

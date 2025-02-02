@@ -18,11 +18,11 @@ export class RoleTagComponent {
 
   getRoleColor(role: Roles): string {
     switch (role) {
-      case Roles.admin:
+      case Roles.ADMIN:
         return 'volcano';
-      case Roles.user:
+      case Roles.USER:
         return 'blue';
-      case Roles.doctor:
+      case Roles.DOCTOR:
         return 'green';
       default:
         return 'default';
@@ -31,11 +31,11 @@ export class RoleTagComponent {
 
   getRoleIcon(role: Roles): string {
     switch (role) {
-      case Roles.admin:
+      case Roles.ADMIN:
         return 'crown';
-      case Roles.user:
+      case Roles.USER:
         return 'user';
-      case Roles.doctor:
+      case Roles.DOCTOR:
         return 'medicine-box';
       default:
         return 'question-circle';

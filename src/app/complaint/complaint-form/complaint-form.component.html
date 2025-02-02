@@ -53,13 +53,36 @@
       </nz-form-item>
 
 
+
+
     </form>
+
+
+<!--    <nz-range-picker-->
+<!--      [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"-->
+<!--      nzFormat="yyyy-MM-dd HH:mm:ss"-->
+<!--    ></nz-range-picker>-->
+
+    <nz-range-picker
+      [(ngModel)]="dateRange"
+      [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"
+      nzFormat="yyyy-MM-dd HH:mm:ss"
+      (ngModelChange)="onDateChange()"
+    ></nz-range-picker>
+
+    <p *ngIf="dateRange">{{ formatDateRange(dateRange) }}</p>
+
+
   </ng-template>
   <ng-template #modalFooter>
     <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">
       {{ isEditMode ? 'сохранить изменения' : 'добавить' }}
     </button>
   </ng-template>
+
+
+
+
 </nz-modal>
 
 

@@ -46,7 +46,7 @@ import {LOGIN} from '../auth-tools/auth-utils';
   templateUrl: './smesharik-page.component.html',
   styleUrl: './smesharik-page.component.css'
 })
-export class SmesharikPageComponent implements OnInit{
+export class SmesharikPageComponent implements OnInit {
   private userService = inject(UserService);
   private authService = inject(AuthService);
 
@@ -69,8 +69,8 @@ export class SmesharikPageComponent implements OnInit{
   }>;
 
 
-
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(private fb: NonNullableFormBuilder) {
+  }
 
   ngOnInit(): void {
     const login = this.getLogin();
@@ -86,7 +86,7 @@ export class SmesharikPageComponent implements OnInit{
   loadSmesharik(login: string): void {
     this.userService.getSmesharikByLogin(login).subscribe({
       next: (data) => {
-        this.smesharik = data;
+        this.smesharik = Smesharik.fromJson(data);
         this.initForm();
       },
       error: (err) => {
@@ -106,7 +106,7 @@ export class SmesharikPageComponent implements OnInit{
       oldPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-    }, { validators: this.passwordsMatch });
+    }, {validators: this.passwordsMatch});
 
     this.passwordForm.disable();
     this.validateForm.disable();
@@ -114,6 +114,7 @@ export class SmesharikPageComponent implements OnInit{
       this.isFormChanged = this.validateForm.dirty;
     });
   }
+
   passwordVisible = {
     old: false,
     new: false,
@@ -133,24 +134,25 @@ export class SmesharikPageComponent implements OnInit{
       this.passwordForm.disable();
     }
   }
+
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
     if (!this.isEditing) {
       this.validateForm.disable()
-    }else {
+    } else {
       this.validateForm.enable()
     }
   }
 
-  logOut(){
+  logOut() {
     this.authService.logOut();
   }
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const {name, login,email} = this.validateForm.value;
+      const {name, login, email} = this.validateForm.value;
       if (name && login && email && login.length > 0) {
-        this.userService.editSmesharik(name,login,email);
+        this.userService.editSmesharik(name, login, email);
       }
       this.isFormChanged = false;
 
@@ -165,7 +167,7 @@ export class SmesharikPageComponent implements OnInit{
   }
 
   formIsChanged(): boolean {
-    const { name, login, email } = this.validateForm.value;
+    const {name, login, email} = this.validateForm.value;
     return (
       name !== this.smesharik.name ||
       login !== this.smesharik.login ||
@@ -174,8 +176,8 @@ export class SmesharikPageComponent implements OnInit{
   }
 
   submitPasswordChange(): void {
-    if (this.passwordForm.valid &&  this.passwordForm.value.oldPassword &&  this.passwordForm.value.newPassword) {
-      const { oldPassword, newPassword } = this.passwordForm.value;
+    if (this.passwordForm.valid && this.passwordForm.value.oldPassword && this.passwordForm.value.newPassword) {
+      const {oldPassword, newPassword} = this.passwordForm.value;
       this.userService.changePassword(this.smesharik.login, oldPassword, newPassword).subscribe({
         next: () => {
           console.log("Пароль успешно изменен");
@@ -189,22 +191,23 @@ export class SmesharikPageComponent implements OnInit{
       Object.values(this.passwordForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
+          control.updateValueAndValidity({onlySelf: true});
         }
       });
     }
   }
+
   passwordsMatch(group: AbstractControl): ValidationErrors | null {
     const newPassword = group.get('newPassword');
     const confirmPassword = group.get('confirmPassword');
 
     if (!newPassword || !confirmPassword) return null;
 
-    return newPassword.value === confirmPassword.value ? null : { passwordsNotMatching: true };
+    return newPassword.value === confirmPassword.value ? null : {passwordsNotMatching: true};
   }
 
 
-  saveIsAvailable(){
+  saveIsAvailable() {
 
     return !this.validateForm.valid || !this.isFormChanged || !this.formIsChanged();
   }

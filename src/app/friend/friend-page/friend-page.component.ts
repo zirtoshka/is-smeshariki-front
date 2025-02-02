@@ -22,14 +22,14 @@ export class FriendPageComponent {
       'https://i.pravatar.cc/100?img=3',
       true,
       '2023-01-01T12:00:00Z',
-      Roles.user),
+      Roles.USER),
     new Friend(
       'Ежик',
       'ezhik456',
       'https://i.pravatar.cc/100?img=4',
       false,
       '2023-01-02T14:00:00Z',
-      Roles.admin)];
+      Roles.ADMIN)];
 
   handleRemoveFriend(friend: Friend): void {
     console.log('Удалить друга:', friend);

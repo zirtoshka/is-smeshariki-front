@@ -31,7 +31,7 @@
     </div>
 
     <p><strong>Ответственный
-      администратор:</strong> {{ item.adminId ? 'Администратор ' + item.adminId : 'Не назначен' }}</p>
+      администратор:</strong> {{ item.adminLogin ? 'Администратор ' + item.adminLogin : 'Не назначен' }}</p>
   </div>
 
   <div class="complaint-actions">
@@ -49,7 +49,7 @@
       nz-button
       nzType="default"
       nzDanger
-      *ngIf="!item.adminId"
+      *ngIf="!item.adminLogin"
       (click)="assignAdminToComplaint($event)">
       Взять в обработку
     </button>
