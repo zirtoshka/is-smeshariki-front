@@ -14,6 +14,19 @@ export class Complaint{
   ) {}
 
 
+  static fromBackend(data: any): Complaint {
+    return new Complaint(
+      data.id,
+      ViolationType [data.violationType as keyof typeof ViolationType],
+      data.description,
+      data.admin ?? null,
+      data.post ?? null,
+      data.comment ?? null,
+      GeneralStatus[data.status as keyof typeof GeneralStatus],
+      data.creationDate,
+      data.closingDate ?? ""
+    );
+  }
 
   toBackendJson(): Record<string, any> {
     const data: Record<string, any> = {

@@ -59,4 +59,5 @@ export class ComplaintCardComponent extends ContentBase<Complaint> {
     // this.someService.assignAdmin(complaintId, 999).subscribe();
   }
 
+  protected readonly GeneralStatus = GeneralStatus;
 }

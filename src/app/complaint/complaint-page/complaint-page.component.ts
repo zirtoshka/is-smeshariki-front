@@ -55,7 +55,6 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
   complaintService: ComplaintService = inject(ComplaintService);
 
 
-
   override preparing(item: any): any {
     const complaint = new Complaint(
       item.id,
@@ -72,11 +71,9 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
   }
 
   ngOnInit(): void {
-    // Загружаем данные через сервис
-    this.complaintService.getComplaints(
-      ).subscribe({
+    this.complaintService.getComplaints().subscribe({
       next: (response) => {
-        this.items = response.content;  // Присваиваем массив жалоб из поля content
+        this.items = response.content.map(Complaint.fromBackend);
       },
       error: (err: any) => {
         console.error('Ошибка при загрузке жалоб:', err);
@@ -90,9 +87,6 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
     //todo
     console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
-
-
-
 
 
 }
