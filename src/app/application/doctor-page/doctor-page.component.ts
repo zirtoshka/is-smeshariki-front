@@ -64,7 +64,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
       1,
       null,
       null,
-      GeneralStatus.new,
+      GeneralStatus.NEW,
       0
     ),
     new ApplicationForTreatment(
@@ -72,7 +72,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
       null,
       1,
       221,
-      GeneralStatus.canceled,
+      GeneralStatus.CANCELED,
       1
     ),
     new ApplicationForTreatment(
@@ -80,7 +80,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
       null,
       3,
       303,
-      GeneralStatus.inProgress,
+      GeneralStatus.IN_PROGRESS,
       2
     ),
   ];

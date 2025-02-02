@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {BaseForm} from '../../base/base-form';
 import {Complaint} from '../../complaint';
 import {
@@ -57,7 +57,7 @@ import { differenceInCalendarDays, setHours } from 'date-fns';
 })
 export class ComplaintFormComponent extends BaseForm<Complaint> implements OnChanges {
   @Input() declare item: Complaint | null;
-  @Output() override onSave = new EventEmitter<any>();
+  @Output() override onSave = new EventEmitter<Complaint>();
   @Output() override onCancel = new EventEmitter<void>();
 
   @Input() override isEditMode: boolean = false;
@@ -75,7 +75,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
 
 
   statusiki = Object.values(GeneralStatus);
-  violationTypes = Object.values(ViolationType);
+  violationTypes= Object.values(ViolationType);
 
   constructor(private fb: NonNullableFormBuilder, private i18n: NzI18nService) {
     super();
@@ -88,7 +88,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
       adminLogin: ['', [Validators.pattern('\\d+')]],
       postId: ['', [Validators.pattern('\\d+')]],
       commentId: ['', [Validators.pattern('\\d+')]],
-      status: [GeneralStatus.new.toString(), [Validators.required]],
+      status: [GeneralStatus.NEW.toString(), [Validators.required]],
     });
   }
 
@@ -98,8 +98,8 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         violationType: this.item.violationType,
         description: this.item.description,
         adminLogin: this.item.adminLogin?.toString() || '',
-        postId: this.item.postId?.toString() || '',
-        commentId: this.item.commentId?.toString() || '',
+        postId: this.item.post?.toString() || '',
+        commentId: this.item.comment?.toString() || '',
         status: this.item.status?.toString() || '',
       });
     } else {
@@ -109,10 +109,12 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         adminLogin: '',
         postId: '',
         commentId: '',
-        status: GeneralStatus.new.toString(),
+        status: GeneralStatus.NEW.toString(),
       });
     }
   }
+
+
 
   formIsValid() {
     return this.validateForm.valid &&
@@ -159,5 +161,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
     if (!range[0] && range[1]) return `Конец: ${range[1].toLocaleString()}`;
     return `С: ${range[0].toLocaleString()} по: ${range[1].toLocaleString()}`;
   }
+
+
 
 }

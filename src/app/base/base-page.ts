@@ -19,19 +19,27 @@ export abstract class BasePage<T> {
 
   }
 
+  preparing(item: T): any {
+    return item;
+  }
 
   async onSave(item: any) {
-    console.log("это сохранение ");
-    console.log(item);
-    item = {
-      violationType: 'SPAM',
-      description: 'НУ ЭТО СПАМ!',
-      post: 1,
-      comment: null,
-      status: 'NEW',
-    };
+
+    console.log(item); // Печатает тип
+    let data=this.preparing(item)
+    console.log(data); // Печатает тип
+
+    // let data = this.preparing(item)
+    // item = {
+    //   violationType: 'SPAM',
+    //   description: 'НУ ЭТО СПАМ!',
+    //   post: 1,
+    //   comment: null,
+    //   status: 'NEW',
+    // };
+    // item = this.baseService.removeEmptyFields(item)
     try {
-      const response = await this.baseService.createItem<any>(this.action, item)
+      const response = await this.baseService.createItem<any>(this.action, data)
 
       console.log('Жалоба отправлена:', response);
     } catch (error) {

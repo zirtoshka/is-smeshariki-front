@@ -29,9 +29,14 @@ export class BaseService {
         })
       );
     } catch (err: any) {
+      this.notificationService.error("Ёлки-иголки",
+        err.error.message,
+      )
       throw new Error(err.message || 'Ошибка запроса');
     }
   }
+
+
 
 
 }

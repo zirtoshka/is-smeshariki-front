@@ -65,7 +65,7 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
     this.validateForm = this.fb.group({
       postId: ['', [Validators.pattern('\\d+')]],
       commentId: ['', [Validators.pattern('\\d+')]],
-      status: [GeneralStatus.new.toString(), [Validators.required]],
+      status: [GeneralStatus.NEW.toString(), [Validators.required]],
       propensityId: ['', [Validators.required, Validators.pattern('\\d+')]],
     });
   }
@@ -82,7 +82,7 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
       this.validateForm.patchValue({
         postId: '',
         commentId: '',
-        status: GeneralStatus.new.toString(),
+        status: GeneralStatus.NEW.toString(),
         propensityId: '',
       });
     }

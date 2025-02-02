@@ -47,8 +47,9 @@ import {ComplaintFormComponent} from '../complaint-form/complaint-form.component
 
 })
 export class ComplaintPageComponent extends BasePage<Complaint> {
-  override action="complaint"
+  override action = "complaint"
   isMyComplaints = false;
+
 
   constructor() {
     super();
@@ -56,47 +57,30 @@ export class ComplaintPageComponent extends BasePage<Complaint> {
   }
 
   complaints: Complaint[] = [
-    new Complaint(
-      1,
-      ViolationType.SPAM,
-      'Пост с рекламой товаров',
-      null,
-      101,
-      null,
-      GeneralStatus.new,
-      '2025-01-10',
-      ''
-    ),
-    new Complaint(
-      2,
-      ViolationType.eroticContent,
-      'Оскорбительный комментарий',
-      "301",
-      null,
-      1,
-      GeneralStatus.done,
-      '2025-01-09',
-      '2025-01-10'
-    ),
-    new Complaint(
-      3,
-      ViolationType.fraudOrMisleading,
-      'Нецензурная лексика в посте',
-      null,
-      null,
-      3,
-      GeneralStatus.inProgress,
-      '2025-01-08',
-      ''
-    ),
+    new Complaint(1, ViolationType.SPAM, 'Пост с рекламой товаров', null, 101, null, GeneralStatus.NEW, '2025-01-10', ''),
+    new Complaint(2, ViolationType.EROTIC_CONTENT, 'Оскорбительный комментарий', "301", null, 1, GeneralStatus.DONE, '2025-01-09', '2025-01-10'),
+    new Complaint(3, ViolationType.FRAUD_OR_MISLEADING, 'Нецензурная лексика в посте', null, null, 3, GeneralStatus.IN_PROGRESS, '2025-01-08', ''),
   ];
 
+  override preparing(item: any): any {
+    const complaint = new Complaint(
+      item.id,
+      item.violationType,
+      item.description,
+      item.adminLogin,
+      item.postId,
+      item.commentId,
+      item.status,
+      item.creationDate,
+      item.closingDate
+    );
+    return complaint.toBackendJson();
+  }
 
   onToggleChange() {
     //todo
     console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
-
 
 
 }

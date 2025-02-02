@@ -1,19 +1,24 @@
 export enum GeneralStatus {
-  new="новый",
-  inProgress="в процессе",
-  done="сделанно",
-  canceled="отменен"
+  NEW="новый",
+  IN_PROGRESS="в процессе",
+  DONE="сделанно",
+  CANCELED="отменен"
 }
 
+
 export enum FriendStatus{
-  new="новый",
-  friends="друзья"
+  NEW="новый",
+  FRIENDS="друзья"
 }
 
 export enum ViolationType{
   SPAM="SPAM",
-  eroticContent="извните, а где трусы (эротика)",
-  violence="жестокость",
-  honey="мЁд",
-  fraudOrMisleading="мошенничество или введение в заблуждение"
+  EROTIC_CONTENT="извните, а где трусы (эротика)",
+  VIOLENCE ="жестокость",
+  HONEY="мЁд",
+  FRAUD_OR_MISLEADING="мошенничество или введение в заблуждение"
+}
+
+export function getEnumKeyByValue(enumObj: any, value: string): string | undefined {
+  return Object.keys(enumObj).find(key => enumObj[key] === value);
 }
