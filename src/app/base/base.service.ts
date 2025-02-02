@@ -1,13 +1,13 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {getAuthToken} from '../auth-tools/auth-utils';
-import {lastValueFrom} from 'rxjs';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {lastValueFrom, Observable} from 'rxjs';
+import {PaginatedResponse} from '../paginated-response';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BaseService {
+export class BaseService <T> {
 
   private readonly baseUrl = 'http://localhost:8081/api';
 
@@ -42,6 +42,25 @@ export class BaseService {
     } catch (err: any) {
       throw new Error(err.error.message || 'Ошибка запроса');
     }
+  }
+
+
+
+  getItems<T>( endpoint: string,
+               params: { [key: string]: any }): Observable<PaginatedResponse<T>> {
+    let httpParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        httpParams = httpParams.set(key, params[key]);
+      }
+    });
+    return this.httpClient.get<PaginatedResponse<T>>(
+      `${this.baseUrl}/${endpoint}`,
+      {
+        headers: this.getAuthHeaders(),
+        params: httpParams
+      }
+    );
   }
 
 

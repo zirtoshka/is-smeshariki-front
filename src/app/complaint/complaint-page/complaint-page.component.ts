@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
 import {Complaint} from '../../complaint';
@@ -17,6 +17,8 @@ import {SearchFilterComponent} from '../../search-filter/search-filter.component
 import {ApplicationFormComponent} from '../../application/application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
+import {BaseService} from '../../base/base.service';
+import {ComplaintService} from '../../complaint.service';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -46,21 +48,13 @@ import {ComplaintFormComponent} from '../complaint-form/complaint-form.component
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
-export class ComplaintPageComponent extends BasePage<Complaint> {
+export class ComplaintPageComponent extends BasePage<Complaint> implements OnInit {
   override action = "complaint"
   isMyComplaints = false;
 
+  complaintService: ComplaintService = inject(ComplaintService);
 
-  constructor() {
-    super();
-    this.items = this.complaints;
-  }
 
-  complaints: Complaint[] = [
-    new Complaint(1, ViolationType.SPAM, 'Пост с рекламой товаров', null, 101, null, GeneralStatus.NEW, '2025-01-10', ''),
-    new Complaint(2, ViolationType.EROTIC_CONTENT, 'Оскорбительный комментарий', "301", null, 1, GeneralStatus.DONE, '2025-01-09', '2025-01-10'),
-    new Complaint(3, ViolationType.FRAUD_OR_MISLEADING, 'Нецензурная лексика в посте', null, null, 3, GeneralStatus.IN_PROGRESS, '2025-01-08', ''),
-  ];
 
   override preparing(item: any): any {
     const complaint = new Complaint(
@@ -77,10 +71,28 @@ export class ComplaintPageComponent extends BasePage<Complaint> {
     return complaint.toBackendJson();
   }
 
+  ngOnInit(): void {
+    // Загружаем данные через сервис
+    this.complaintService.getComplaints(
+      ).subscribe({
+      next: (response) => {
+        this.items = response.content;  // Присваиваем массив жалоб из поля content
+      },
+      error: (err: any) => {
+        console.error('Ошибка при загрузке жалоб:', err);
+        this.notificationService.error('Ошибка', 'Не удалось загрузить данные');
+      }
+    });
+  }
+
+
   onToggleChange() {
     //todo
     console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
+
+
+
 
 
 }

@@ -29,13 +29,20 @@
 </div>
 
 
-<div class="complaint-container">
-  <app-complaint-card
-    *ngFor="let item of items"
-    [item]="item"
-    (edit)="handleEdit($event)"
-    (delete)="handleDelete($event)"
-  ></app-complaint-card>
+
+
+<div *ngIf="items.length > 0">
+  <div class="complaint-container">
+    <app-complaint-card
+      *ngFor="let item of items"
+      [item]="item"
+      (edit)="handleEdit($event)"
+      (delete)="handleDelete($event)"
+    ></app-complaint-card>
+  </div>
+</div>
+<div *ngIf="items.length === 0">
+  <p>Нет доступных жалоб</p>
 </div>
 
 

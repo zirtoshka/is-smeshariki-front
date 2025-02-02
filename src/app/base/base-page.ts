@@ -12,8 +12,9 @@ export abstract class BasePage<T extends HasId> {
 
   isEditMode: boolean = false;
   isVisible: boolean = false;
-  baseService: BaseService = inject(BaseService);
-  private notificationService = inject(NzNotificationService);
+  baseService: BaseService<T> = inject(BaseService <T>);
+  protected notificationService = inject(NzNotificationService);
+
 
 
   openAddForm() {
