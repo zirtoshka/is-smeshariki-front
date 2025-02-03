@@ -33,7 +33,7 @@ export class Complaint{
       id: this.id,
       violationType: getEnumKeyByValue(ViolationType, this.violationType),
       description: this.description,
-      adminLogin: this.adminLogin,
+      admin: this.adminLogin,
       post: this.post,
       comment: this.comment,
       status: getEnumKeyByValue(GeneralStatus, this.status),

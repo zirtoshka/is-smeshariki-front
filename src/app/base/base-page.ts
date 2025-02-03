@@ -61,6 +61,7 @@ export abstract class BasePage<T extends HasId> {
     const complaintId = id ?? this.itemForEdit?.id;
     try {
       const response = await this.baseService.updateItem<any>(this.action, data, complaintId);
+      this.replaceItemById(complaintId, item);
       this.notificationService.success(
         "Оба-на!",
         "обновление успешно"
@@ -128,6 +129,15 @@ export abstract class BasePage<T extends HasId> {
       this.loading = true;
       this.fetchDataFromServer();
     }
+  }
+
+
+  replaceItemById(id: number | null | undefined, newItem: T) {
+    if (!id) return
+    newItem.id = id;
+    this.items = this.items.map(item =>
+      item.id === id ? {...item, ...newItem} : item
+    );
   }
 
 

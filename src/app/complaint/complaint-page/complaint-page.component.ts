@@ -18,6 +18,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
 import {ComplaintService} from '../../complaint.service';
 import {enumListToString, GeneralStatus} from '../../enums';
+import {getLogin} from '../../auth-tools/auth-utils';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -81,7 +82,16 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
     }).catch((error) => {
       console.error("Ошибка при обновлении:", error);
     });
+  }
 
+  handleTake(item: Complaint) {
+    item.adminLogin = getLogin();
+    console.log(this.itemForEdit)
+    this.onEdit(item, item.id).then(() => {
+      console.log('взял в обработку', item.adminLogin, ' жалобу', item.id);
+    }).catch((error) => {
+      console.error("Ошибка при обновлении:", error);
+    });
   }
 
 

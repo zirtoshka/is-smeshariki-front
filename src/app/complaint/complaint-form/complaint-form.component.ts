@@ -24,7 +24,7 @@ import {
   NzDatePickerModule,
   NzRangePickerComponent
 } from 'ng-zorro-antd/date-picker';
-import { differenceInCalendarDays, setHours } from 'date-fns';
+import {differenceInCalendarDays, setHours} from 'date-fns';
 
 
 @Component({
@@ -71,14 +71,14 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
     violationType: FormControl<string>;
     description: FormControl<string>;
     adminLogin: FormControl<string>;
-    postId: FormControl<string>;
-    commentId: FormControl<string>;
+    post: FormControl<string>;
+    comment: FormControl<string>;
     status: FormControl<string>;
   }>;
 
 
   statusiki = Object.values(GeneralStatus);
-  violationTypes= Object.values(ViolationType);
+  violationTypes = Object.values(ViolationType);
 
   constructor(private fb: NonNullableFormBuilder, private i18n: NzI18nService) {
     super();
@@ -88,9 +88,9 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
     this.validateForm = this.fb.group({
       violationType: [ViolationType.SPAM.toString(), [Validators.required]],
       description: [''],
-      adminLogin: ['', [Validators.pattern('\\d+')]],
-      postId: ['', [Validators.pattern('\\d+')]],
-      commentId: ['', [Validators.pattern('\\d+')]],
+      adminLogin: [''],
+      post: ['', [Validators.pattern('\\d+')]],
+      comment: ['', [Validators.pattern('\\d+')]],
       status: [GeneralStatus.NEW.toString(), [Validators.required]],
     });
   }
@@ -101,8 +101,8 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         violationType: this.item.violationType,
         description: this.item.description,
         adminLogin: this.item.adminLogin?.toString() || '',
-        postId: this.item.post?.toString() || '',
-        commentId: this.item.comment?.toString() || '',
+        post: this.item.post?.toString() || '',
+        comment: this.item.comment?.toString() || '',
         status: this.item.status?.toString() || '',
       });
     } else {
@@ -110,25 +110,24 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         violationType: ViolationType.SPAM.toString(),
         description: '',
         adminLogin: '',
-        postId: '',
-        commentId: '',
+        post: '',
+        comment: '',
         status: GeneralStatus.NEW.toString(),
       });
     }
   }
 
 
-
   formIsValid() {
     return this.validateForm.valid &&
-      ((this.validateForm.value.postId === '' && this.validateForm.value.commentId !== '') ||
-        (this.validateForm.value.postId !== '' && this.validateForm.value.commentId === ''));
+      ((this.validateForm.value.post === '' && this.validateForm.value.comment !== '') ||
+        (this.validateForm.value.post !== '' && this.validateForm.value.comment === ''));
   }
 
 
   changeLanguage(): void {
     // this.i18n.setLocale( en_US);
-    this.i18n.setLocale( ru_RU );
+    this.i18n.setLocale(ru_RU);
   }
 
   timeDefaultValue = setHours(new Date(), 0);
@@ -148,7 +147,6 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   }
 
 
-
   dateRange: Date[] = [];
 
   onDateChange() {
@@ -164,7 +162,6 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
     if (!range[0] && range[1]) return `Конец: ${range[1].toLocaleString()}`;
     return `С: ${range[0].toLocaleString()} по: ${range[1].toLocaleString()}`;
   }
-
 
 
 }

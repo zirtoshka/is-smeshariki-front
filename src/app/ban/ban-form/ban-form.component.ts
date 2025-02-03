@@ -57,7 +57,7 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
   override validateForm: FormGroup<{
     reason: FormControl<string>;
     smesharikId: FormControl<string>;
-    postId: FormControl<string>;
+    post: FormControl<string>;
     commentId: FormControl<string>;
     creationDate: FormControl<string>;
     endDate: FormControl<string>;
@@ -69,7 +69,7 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
     this.validateForm = this.fb.group({
       reason: ['', [Validators.required]],
       smesharikId: ['', [Validators.pattern('\\d+')]],
-      postId: ['', [Validators.pattern('\\d+')]],
+      post: ['', [Validators.pattern('\\d+')]],
       commentId: ['', [Validators.pattern('\\d+')]],
       creationDate: [''],
       endDate: ['']
@@ -81,7 +81,7 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
       this.validateForm.patchValue({
         reason: this.item.reason,
         smesharikId: this.item.smesharikId?.toString() || '',
-        postId: this.item.postId?.toString() || '',
+        post: this.item.postId?.toString() || '',
         commentId: this.item.commentId?.toString() || '',
         creationDate: this.item.creationDate?.toString() || '',
         endDate: this.item.creationDate?.toString() || '',
@@ -90,7 +90,7 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
       this.validateForm.patchValue({
         reason: '',
         smesharikId: '',
-        postId: '',
+        post: '',
         commentId: '',
         creationDate: '',
         endDate: ''
@@ -100,8 +100,8 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
 
   formIsValid() {
     return this.validateForm.valid &&
-      ((this.validateForm.value.postId === '' && this.validateForm.value.commentId !== '') ||
-        (this.validateForm.value.postId !== '' && this.validateForm.value.commentId === ''));
+      ((this.validateForm.value.post === '' && this.validateForm.value.commentId !== '') ||
+        (this.validateForm.value.post !== '' && this.validateForm.value.commentId === ''));
   }
 
 

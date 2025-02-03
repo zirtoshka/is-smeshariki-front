@@ -52,7 +52,7 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
 
 
   override validateForm: FormGroup<{
-    postId: FormControl<string>;
+    post: FormControl<string>;
     commentId: FormControl<string>;
     status: FormControl<string>;
     propensityId: FormControl<string>;
@@ -63,7 +63,7 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
   constructor(private fb: NonNullableFormBuilder) {
     super();
     this.validateForm = this.fb.group({
-      postId: ['', [Validators.pattern('\\d+')]],
+      post: ['', [Validators.pattern('\\d+')]],
       commentId: ['', [Validators.pattern('\\d+')]],
       status: [GeneralStatus.NEW.toString(), [Validators.required]],
       propensityId: ['', [Validators.required, Validators.pattern('\\d+')]],
@@ -73,14 +73,14 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
   ngOnChanges() {
     if (this.item) {
       this.validateForm.patchValue({
-        postId: this.item.postId?.toString() || '',
+        post: this.item.postId?.toString() || '',
         commentId: this.item.commentId?.toString() || '',
         status: this.item.status?.toString() || '',
         propensityId: this.item.propensityId?.toString() || '',
       });
     } else {
       this.validateForm.patchValue({
-        postId: '',
+        post: '',
         commentId: '',
         status: GeneralStatus.NEW.toString(),
         propensityId: '',
@@ -90,8 +90,8 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
 
   formIsValid() {
     return this.validateForm.valid &&
-      ((this.validateForm.value.postId === '' && this.validateForm.value.commentId !== '') ||
-        (this.validateForm.value.postId !== '' && this.validateForm.value.commentId === ''));
+      ((this.validateForm.value.post === '' && this.validateForm.value.commentId !== '') ||
+        (this.validateForm.value.post !== '' && this.validateForm.value.commentId === ''));
   }
 
 

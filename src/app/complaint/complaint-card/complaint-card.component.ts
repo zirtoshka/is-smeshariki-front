@@ -36,6 +36,7 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
   @Input() declare item: Complaint;
   @Output() override edit = new EventEmitter<Complaint>();
   @Output() override delete = new EventEmitter<Complaint>();
+  @Output() override takeIt = new EventEmitter<Complaint>();
 
   @Output() statusConfirmed = new EventEmitter<{ item: Complaint; status: GeneralStatus }>();
 
@@ -56,9 +57,9 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
   }
 
 
-  assignAdminToComplaint(event: any): void {
-    let adminId = event.emit("adminId")
-    console.log(`Администратор c id ${adminId} назначен на жалобу №${this.item.id}`);
+  assignAdminToComplaint(): void {
+    this.takeIt.emit(this.item);
+    // console.log(`Администратор c id ${adminId} назначен на жалобу №${this.item.id}`);
     //todo
     // this.someService.assignAdmin(complaintId, 999).subscribe();
   }
