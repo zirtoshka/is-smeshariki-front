@@ -11,21 +11,27 @@ export class ComplaintService {
 
   private baseService = inject(BaseService);
 
-  public getComplaints(
-    description: string | null=null,
-    sortField: string ="creationDate",
-    ascending: boolean = false,
-    page: number = 0,
-    size: number =2,
-  ):  Observable<PaginatedResponse<Complaint>>{
-    const params = {
-      description: description,
-      sortField: sortField,
-      ascending: ascending,
-      page: page,
-      size: size
+  getComplaints(options: Partial<{
+    description: string;
+    sortField: string;
+    ascending: boolean;
+    page: number;
+    size: number;
+    statuses: string|null;
+    isMine: boolean;
+  }> = {}): Observable<PaginatedResponse<Complaint>> {
+    const defaultOptions = {
+      description: null,
+      sortField: "creationDate",
+      ascending: false,
+      page: 0,
+      size: 2,
+      statuses: null,
+      isMine: null
     };
 
-    return this.baseService.getItems('complaint', params);
+    const params = { ...defaultOptions, ...options };
+
+    return this.baseService.getItems("complaint", params);
   }
 }

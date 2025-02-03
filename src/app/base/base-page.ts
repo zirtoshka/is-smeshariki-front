@@ -1,12 +1,20 @@
 import {GeneralStatus} from '../enums';
 import {BaseService} from './base.service';
-import {inject} from '@angular/core';
+import {Directive, HostListener, inject} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {HasId} from '../hasid';
 
+
+@Directive()
 export abstract class BasePage<T extends HasId> {
   action!: string;
   items: T[] = [];
+
+
+  loading = true;
+  allLoaded = false;
+
+  page = 0;
 
   itemForEdit: T | null = null;
 
@@ -15,6 +23,9 @@ export abstract class BasePage<T extends HasId> {
   baseService: BaseService<T> = inject(BaseService <T>);
   protected notificationService = inject(NzNotificationService);
 
+
+  selectedStatuses: GeneralStatus[] = [];
+  searchQuery: string = '';
 
 
   openAddForm() {
@@ -80,12 +91,45 @@ export abstract class BasePage<T extends HasId> {
   }
 
   handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
-    console.log('Поиск:', searchData.query);
-    console.log('Статусы:', searchData.statuses);
-    this.fetchDataFromServer(searchData.query, searchData.statuses);
+    this.searchQuery = searchData.query
+    this.selectedStatuses = searchData.statuses
+    this.page = 0;
+    this.allLoaded = false
+    // this.items = []
+    this.fetchDataFromServer(true);
   }
 
-  fetchDataFromServer(query: string, statuses: GeneralStatus[]) {
-    console.log(`Отправка данных на сервер: query="${query}", statuses="${statuses}"`);
+
+  fetchHelper(newItems: T[], replacementIsNeeded: boolean = false) {
+    if (replacementIsNeeded) {
+      this.items = []
+    }
+    const uniqueNewItems = newItems.filter(
+      (newItem) => !this.items.some((existingItem) => existingItem.id === newItem.id)
+    );
+    if (newItems.length) {
+      this.items = [...this.items, ...uniqueNewItems];
+      this.page++;
+    } else {
+      this.allLoaded = true;
+    }
+    this.loading = false;
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (this.loading || this.allLoaded) return;
+
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.documentElement.scrollHeight - 200;
+
+    if (scrollPosition >= threshold) {
+      this.loading = true;
+      this.fetchDataFromServer();
+    }
+  }
+
+
+  fetchDataFromServer(replacementIsNeeded: boolean = false) {
   }
 }

@@ -1,8 +1,7 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, OnInit} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
 import {Complaint} from '../../complaint';
-import {GeneralStatus, ViolationType} from '../../enums';
 import {FormsModule} from '@angular/forms';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
@@ -19,6 +18,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
 import {BaseService} from '../../base/base.service';
 import {ComplaintService} from '../../complaint.service';
+import {enumListToString, GeneralStatus, getEnumKeyByValue} from '../../enums';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -71,22 +71,36 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
   }
 
   ngOnInit(): void {
-    this.complaintService.getComplaints().subscribe({
-      next: (response) => {
-        this.items = response.content.map(Complaint.fromBackend);
-      },
-      error: (err: any) => {
-        console.error('Ошибка при загрузке жалоб:', err);
-        this.notificationService.error('Ошибка', 'Не удалось загрузить данные');
-      }
-    });
+    this.fetchDataFromServer()
   }
 
 
   onToggleChange() {
-    //todo
-    console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
+    this.page = 0;
+    this.allLoaded = false
+    // this.items = []
+    this.fetchDataFromServer(true);
+    // console.log(this.isMyComplaints ? 'Отображаются мои заявки' : 'Отображаются все заявки');
   }
 
+
+  override fetchDataFromServer(replacementIsNeeded: boolean = false) {
+    this.complaintService.getComplaints(
+      {page: this.page,
+        description:this.searchQuery,
+        statuses: enumListToString(this.selectedStatuses),
+        isMine:this.isMyComplaints? this.isMyComplaints : undefined
+      })
+      .subscribe({
+      next: (response) => {
+        const newItems = response.content.map(Complaint.fromBackend);
+        this.fetchHelper(newItems, replacementIsNeeded)
+      },
+      error: (err: any) => {
+        console.error('Ошибка при загрузке:', err);
+        this.notificationService.error('Держите меня, я падаю…', 'не удалось загрузить данные');
+      }
+    });
+  }
 
 }

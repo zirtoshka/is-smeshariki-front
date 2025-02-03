@@ -22,3 +22,10 @@ export enum ViolationType{
 export function getEnumKeyByValue(enumObj: any, value: string): string | undefined {
   return Object.keys(enumObj).find(key => enumObj[key] === value);
 }
+
+export function enumListToString(statuses: GeneralStatus[]): string | null {
+  if (statuses.length === 0) {
+    return null;
+  }
+  return statuses.map(status => getEnumKeyByValue(GeneralStatus, status)).join(',');
+}
