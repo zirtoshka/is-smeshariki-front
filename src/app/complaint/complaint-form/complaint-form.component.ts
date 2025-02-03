@@ -80,11 +80,8 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   statusiki = Object.values(GeneralStatus);
   violationTypes = Object.values(ViolationType);
 
-  constructor(private fb: NonNullableFormBuilder, private i18n: NzI18nService) {
+  constructor(private fb: NonNullableFormBuilder) {
     super();
-    // this.i18n.setLocale( en_US );
-    this.setCustomLocale();
-
     this.validateForm = this.fb.group({
       violationType: [ViolationType.SPAM.toString(), [Validators.required]],
       description: [''],
@@ -125,26 +122,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   }
 
 
-  changeLanguage(): void {
-    // this.i18n.setLocale( en_US);
-    this.i18n.setLocale(ru_RU);
-  }
-
   timeDefaultValue = setHours(new Date(), 0);
-
-
-  setCustomLocale() {
-    this.i18n.setLocale({
-      ...ru_RU,
-      DatePicker: {
-        ...ru_RU.DatePicker,
-        lang: {
-          ...ru_RU.DatePicker.lang,
-          rangeQuarterPlaceholder: ['Начало квартала', 'Конец квартала'],
-        },
-      },
-    });
-  }
 
 
   dateRange: Date[] = [];
