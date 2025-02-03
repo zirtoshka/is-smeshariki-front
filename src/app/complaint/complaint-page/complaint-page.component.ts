@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, OnInit} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
 import {Complaint} from '../../complaint';
@@ -16,9 +16,8 @@ import {SearchFilterComponent} from '../../search-filter/search-filter.component
 import {ApplicationFormComponent} from '../../application/application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
-import {BaseService} from '../../base/base.service';
 import {ComplaintService} from '../../complaint.service';
-import {enumListToString, GeneralStatus, getEnumKeyByValue} from '../../enums';
+import {enumListToString, GeneralStatus} from '../../enums';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -61,8 +60,8 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
       item.violationType,
       item.description,
       item.adminLogin,
-      item.postId,
-      item.commentId,
+      item.post,
+      item.comment,
       item.status,
       item.creationDate,
       item.closingDate
@@ -72,6 +71,17 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   ngOnInit(): void {
     this.fetchDataFromServer()
+  }
+
+  handleStatusConfirmed(event: { item: Complaint; status: GeneralStatus }) {
+    event.item.status = event.status;
+    console.log(this.itemForEdit)
+    this.onEdit(event.item, event.item.id).then(() => {
+      console.log('Подтвержден статус:', event.status, 'для жалобы:', event.item.id);
+    }).catch((error) => {
+      console.error("Ошибка при обновлении:", error);
+    });
+
   }
 
 
@@ -86,21 +96,22 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
     this.complaintService.getComplaints(
-      {page: this.page,
-        description:this.searchQuery,
+      {
+        page: this.page,
+        description: this.searchQuery,
         statuses: enumListToString(this.selectedStatuses),
-        isMine:this.isMyComplaints? this.isMyComplaints : undefined
+        isMine: this.isMyComplaints ? this.isMyComplaints : undefined
       })
       .subscribe({
-      next: (response) => {
-        const newItems = response.content.map(Complaint.fromBackend);
-        this.fetchHelper(newItems, replacementIsNeeded)
-      },
-      error: (err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationService.error('Держите меня, я падаю…', 'не удалось загрузить данные');
-      }
-    });
+        next: (response) => {
+          const newItems = response.content.map(Complaint.fromBackend);
+          this.fetchHelper(newItems, replacementIsNeeded)
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationService.error('Держите меня, я падаю…', 'не удалось загрузить данные');
+        }
+      });
   }
 
 }

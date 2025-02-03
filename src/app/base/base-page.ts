@@ -56,10 +56,11 @@ export abstract class BasePage<T extends HasId> {
   }
 
 
-  async onEdit(item: any) {
-    let data = this.preparing(item)
+  async onEdit(item: any, id?: number) {
+    let data = this.preparing(item);
+    const complaintId = id ?? this.itemForEdit?.id;
     try {
-      const response = await this.baseService.updateItem<any>(this.action, data, this.itemForEdit?.id)
+      const response = await this.baseService.updateItem<any>(this.action, data, complaintId);
       this.notificationService.success(
         "Оба-на!",
         "обновление успешно"

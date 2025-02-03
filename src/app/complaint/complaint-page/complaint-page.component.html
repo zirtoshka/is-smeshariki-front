@@ -1,18 +1,15 @@
-
-
 <app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
 <button nz-button nzType="primary" (click)="openAddForm()">добавить жалобу</button>
 
 <app-complaint-form
-  [isVisible] = "isVisible"
+  [isVisible]="isVisible"
   [isEditMode]="isEditMode"
   [item]="itemForEdit"
   (onSave)="onSave($event)"
   (onEdit)="onEdit($event)"
   (onCancel)="onCancel()">
 </app-complaint-form>
-
 
 
 <div class="toggle-container">
@@ -29,8 +26,6 @@
 </div>
 
 
-
-
 <div *ngIf="items.length > 0">
   <div class="complaint-container">
     <app-complaint-card
@@ -38,6 +33,7 @@
       [item]="item"
       (edit)="handleEdit($event)"
       (delete)="handleDelete($event)"
+      (statusConfirmed)="handleStatusConfirmed($event)"
     ></app-complaint-card>
   </div>
 </div>

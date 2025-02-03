@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzCardComponent, NzCardMetaComponent} from "ng-zorro-antd/card";
@@ -32,23 +32,27 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
   templateUrl: './complaint-card.component.html',
   styleUrl: './complaint-card.component.css'
 })
-export class ComplaintCardComponent extends ContentBase<Complaint> {
+export class ComplaintCardComponent extends ContentBase<Complaint> implements OnInit{
   @Input() declare item: Complaint;
   @Output() override edit = new EventEmitter<Complaint>();
   @Output() override delete = new EventEmitter<Complaint>();
 
+  @Output() statusConfirmed = new EventEmitter<{ item: Complaint; status: GeneralStatus }>();
+
+
   generalStatuses = Object.values(GeneralStatus);
+  selectedStatus!: GeneralStatus;
 
-
-  onStatusChange(newStatus: GeneralStatus): void {
-    this.item.status = newStatus;
+  ngOnInit() {
+    this.selectedStatus = this.item.status;
   }
 
 
+
+
+
   confirmComplaintStatus(): void {
-    console.log(`Подтверждение статуса: ${this.item.status} для жалобы ${this.item.id}`);
-    //todo
-    // this.someService.updateComplaintStatus(complaintId, complaint-card.status).subscribe();
+    this.statusConfirmed.emit({ item: this.item, status: this.selectedStatus });
   }
 
 
