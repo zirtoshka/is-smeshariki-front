@@ -37,8 +37,4 @@ export class BanCardComponent extends ContentBase<Ban> {
   constructor(protected dateFormatterService: DataFormaterService) {
     super();
   }
-
-
-
-  protected readonly Context = Context;
 }

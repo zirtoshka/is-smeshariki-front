@@ -11,7 +11,7 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {SearchFilterComponent} from "../../search-filter/search-filter.component";
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {BanFormComponent} from '../ban-form/ban-form.component';
-import {BanService} from '../../ban.service';
+import {BanService} from '../../services/ban.service';
 
 
 @Component({

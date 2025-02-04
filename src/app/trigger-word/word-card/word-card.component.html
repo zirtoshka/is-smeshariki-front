@@ -1,1 +1,42 @@
-<p>word-card works!</p>
+<nz-card class="item-card" [nzBordered]="true" [nzHoverable]="true">
+  <div class="item-header">
+    <div class="item-header-info">
+      <h4 class="item-title">триггерное слово ID: {{ item.id }}</h4>
+    </div>
+  </div>
+
+  <div class="cloud-container">
+    <svg width="0" height="0">
+      <defs>
+        <filter id="shiny">
+          <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="20"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <span class="cloud-text">{{ item.word }}</span>
+  </div>
+
+
+
+  <div class="item-links">
+    <div>
+      <p>
+        <strong>наклонность ID: </strong>
+        <a (click)="showPost(item.propensity)">{{ item.propensity }}</a>
+      </p>
+      <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">закрыть</button>
+    </div>
+  </div>
+
+  <div class="item-actions">
+    <button nz-button nzType="default" (click)="onEdit(item)">
+      <i nz-icon nzType="edit"></i> редактировать
+    </button>
+    <button nz-button nzType="default" nzDanger (click)="onDelete(item)">
+      <i nz-icon nzType="delete"></i> удалить
+    </button>
+  </div>
+
+</nz-card>

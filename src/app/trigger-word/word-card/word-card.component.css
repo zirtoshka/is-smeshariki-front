@@ -1,0 +1,36 @@
+@keyframes shimmer {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.cloud-container {
+  display: inline-block;
+  padding: 20px 40px;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  text-shadow: 2px 2px 10px rgba(77, 80, 234, 0.8);
+  position: relative;
+
+  background: radial-gradient(circle,
+  #df80ff 10%,
+  #ff40df 40%,
+  #f500f1 80%);
+  filter: url(#shiny);
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.5);
+  animation: shimmer 5s infinite ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+.cloud-container:hover {
+  transform: scale(1.1);
+}
+
+.cloud-text {
+  position: relative;
+  z-index: 1;
+}

@@ -16,10 +16,9 @@ import {SearchFilterComponent} from '../../search-filter/search-filter.component
 import {ApplicationFormComponent} from '../../application/application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
-import {ComplaintService} from '../../complaint.service';
+import {ComplaintService} from '../../services/complaint.service';
 import {enumListToString, GeneralStatus} from '../../model/enums';
 import {getLogin} from '../../auth-tools/auth-utils';
-import {Ban} from '../../model/ban';
 
 @Component({
   selector: 'app-complaint-card-page',

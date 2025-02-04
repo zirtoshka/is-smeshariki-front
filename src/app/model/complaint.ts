@@ -22,7 +22,7 @@ export class Complaint extends BaseModel<Complaint> {
     this.comment = data.comment ?? null;
     this.status = GeneralStatus[data.status as keyof typeof GeneralStatus];
     this.creationDate = data.creationDate;
-    this.closingDate = data.closingDate ?? "";
+    this.closingDate = data.closingDate ?? null;
 
   }
 

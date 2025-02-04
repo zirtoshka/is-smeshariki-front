@@ -1,13 +1,13 @@
 import {BaseModel} from './base-data';
 
-export class Ban  extends BaseModel<Ban>{
+export class Ban extends BaseModel<Ban> {
   id: number | null;
   reason: string;
   smesharik: any;
   post: string | null;
   comment: string | null;
-  creationDate: string;
-  endDate: string;
+  creationDate: Date | null;
+  endDate: Date | null;
 
   constructor(data: any) {
     super();
@@ -16,8 +16,8 @@ export class Ban  extends BaseModel<Ban>{
     this.smesharik = data.smesharik ?? null;
     this.post = data.post ?? null;
     this.comment = data.comment ?? null;
-    this.creationDate = data.creationDate ?? "";
-    this.endDate = data.endDate ?? "";
+    this.creationDate = data.creationDate ?? null;
+    this.endDate = data.endDate ?? null;
   }
 
   toBackendJson(): Record<string, any> {

@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
-import {BaseService} from './base/base.service';
+import {BaseService} from '../base/base.service';
 import {Observable} from 'rxjs';
-import {PaginatedResponse} from './paginated-response';
-import {Complaint} from './model/complaint';
+import {PaginatedResponse} from '../paginated-response';
+import {Complaint} from '../model/complaint';
 
 @Injectable({
   providedIn: 'root'

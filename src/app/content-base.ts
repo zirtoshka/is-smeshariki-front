@@ -17,17 +17,17 @@ export abstract class ContentBase<T> extends BaseCard<T> {
 
   ]
 
-  showPost(postId: number): void {
+  showPost(postId: number|string): void {
     //todo
     this.selectedPost = this.posts.find(post => post.id === postId) || null;
   }
 
-  showSmesharik(smesharik: number): void {
+  showSmesharik(smesharik: number|string): void {
     //todo
     this.selectedPost = this.posts.find(post => post.id === smesharik) || null;
   }
 
-  showComment(commentId: number): void {
+  showComment(commentId: number|string): void {
     this.selectedComment = this.comments.find(comment => comment.id === commentId) || null;
   }
 
