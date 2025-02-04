@@ -52,6 +52,16 @@
         </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description">описание</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите описание">
+          <nz-input-group nzPrefixIcon="form">
+            <textarea nz-input formControlName="description" placeholder="описание"
+                      [nzAutosize]="{ minRows: 1, maxRows: 3 }"></textarea>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
 
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="creationDate">дата создания</nz-form-label>

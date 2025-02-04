@@ -13,7 +13,7 @@ import {NgForOf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
-import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
+import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
@@ -37,7 +37,8 @@ import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
     NzRowDirective,
     NzSelectComponent,
     ReactiveFormsModule,
-    NzDatePickerComponent
+    NzDatePickerComponent,
+    NzAutosizeDirective
   ],
   providers: [{provide: LOCALE_ID, useValue: 'ru'}],
   templateUrl: './ban-form.component.html',
@@ -51,6 +52,7 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
   @Input() override isEditMode: boolean = false;
   @Input() override isVisible: boolean = false;
 
+  timeDefaultValue = new Date();
 
   override validateForm: FormGroup<{
     reason: FormControl<string>;
@@ -66,7 +68,7 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
     super();
     this.validateForm = this.fb.group({
       reason: ['', [Validators.required]],
-      smesharik: ['', [Validators.pattern('\\d+')]],
+      smesharik: [''],
       post: ['', [Validators.pattern('\\d+')]],
       comment: ['', [Validators.pattern('\\d+')]],
       creationDate: [''],
@@ -97,10 +99,16 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
   }
 
   formIsValid() {
-    return this.validateForm.valid &&
-      ((this.validateForm.value.post === '' && this.validateForm.value.comment !== '') ||
-        (this.validateForm.value.post !== '' && this.validateForm.value.comment === ''));
+    const { post, comment, smesharik } = this.validateForm.value;
+
+    const isOnlyOneFieldFilled =
+      (post !== '' && comment === '' && smesharik === '') ||
+      (post === '' && comment !== '' && smesharik === '') ||
+      (post === '' && comment === '' && smesharik !== '');
+
+    return this.validateForm.valid && isOnlyOneFieldFilled;
   }
+
 
 
   onChange(result: Date): void {

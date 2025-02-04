@@ -15,7 +15,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
-import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
+import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {
@@ -48,7 +48,8 @@ import {setHours} from 'date-fns';
     NzDatePickerModule,
     NzRangePickerComponent,
     NzDatePickerComponent,
-    NgIf
+    NgIf,
+    NzAutosizeDirective
   ],
   templateUrl: './complaint-form.component.html',
   styleUrl: './complaint-form.component.css'

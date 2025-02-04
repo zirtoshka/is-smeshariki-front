@@ -44,6 +44,7 @@ export abstract class BasePage<T extends HasId> {
     let data = this.preparing(item)
     try {
       const response = await this.baseService.createItem<any>(this.action, data)
+      this.items.push(response as T);
       this.notificationService.success(
         "Ай молодца!",
         "сохраниние успешно"
@@ -142,7 +143,7 @@ export abstract class BasePage<T extends HasId> {
     );
   }
 
-  formatDataFromBackend(data: any){
+  formatDataFromBackend(data: any) {
     return data;
   }
 

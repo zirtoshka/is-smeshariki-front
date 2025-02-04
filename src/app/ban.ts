@@ -1,4 +1,4 @@
-import {GeneralStatus, ViolationType} from './enums';
+import {GeneralStatus, getEnumKeyByValue, ViolationType} from './enums';
 
 export class Ban {
   constructor(
@@ -23,4 +23,24 @@ export class Ban {
       data.endDate ?? ""
     );
   }
+
+
+  toBackendJson(): Record<string, any> {
+    const data: Record<string, any> = {
+      id: this.id,
+      reason: this.reason,
+      smesharik: this.smesharik,
+      post: this.post,
+      comment: this.comment,
+      creationDate: this.creationDate,
+      endDate: this.endDate,
+    };
+
+    Object.keys(data).forEach(
+      (key) => (data[key] === "" || data[key] === null) && delete data[key]
+    );
+
+    return data;
+  }
+
 }

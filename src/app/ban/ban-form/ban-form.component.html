@@ -5,7 +5,15 @@
           [nzFooter]="modalFooter">
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
-
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="reason">причина</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите причину">
+          <nz-input-group nzPrefixIcon="form">
+            <textarea nz-input formControlName="reason" placeholder="причина"
+                      [nzAutosize]="{ minRows: 1, maxRows: 3 }"></textarea>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
 
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="post">ид поста</nz-form-label>
@@ -26,25 +34,35 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="smesharik">ид смешарика</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид смешарика">
-          <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="smesharik" nz-input placeholder="ид смешарика"/>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="smesharik">логин смешарика</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите логин смешарика">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="smesharik" nz-input placeholder="логин смешарика"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="creationDate">дата создания</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-date-picker
+            formControlName="creationDate"
+            [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"
+            nzFormat="yyyy-MM-dd HH:mm:ss">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
 
 
-        <nz-range-picker
-          [nzShowTime]="{ nzFormat: 'HH:mm' }"
-          nzFormat="yyyy-MM-dd HH:mm"
-          ngModel
-          (ngModelChange)="onChange($event)"
-          (nzOnCalendarChange)="onCalendarChange($event)"
-          (nzOnOk)="onOk($event)"
-        ></nz-range-picker>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="endDate">дата конца</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-date-picker
+            formControlName="endDate"
+            [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"
+            nzFormat="yyyy-MM-dd HH:mm:ss">
+          </nz-date-picker>
+        </nz-form-control>
       </nz-form-item>
 
 

@@ -45,6 +45,18 @@ export class BanPageComponent extends BasePage<Ban>  implements OnInit {
     this.fetchDataFromServer()
   }
 
+  override preparing(item: Ban): any {
+    const ban=new Ban(
+      item.id,
+      item.reason,
+      item.smesharik,
+      item.post,
+      item.comment,
+      item.creationDate,
+      item.endDate,
+    )
+    return ban.toBackendJson();
+  }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
     this.banService.getBans(
