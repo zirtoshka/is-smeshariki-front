@@ -38,9 +38,7 @@ export class BanCardComponent extends ContentBase<Ban> {
     super();
   }
 
-  getAvatarPath(smesharikId: number): string {
-    return `https://i.pravatar.cc/100?img=${smesharikId}`;
-  }
+
 
   protected readonly Context = Context;
 }

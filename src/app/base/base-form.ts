@@ -1,5 +1,6 @@
 import {EventEmitter, Input, Output} from '@angular/core';
 import {HasId} from '../hasid';
+import {FormGroup} from '@angular/forms';
 
 export abstract class BaseForm<T extends HasId> {
   item: T | null = null;
@@ -10,7 +11,8 @@ export abstract class BaseForm<T extends HasId> {
   isEditMode: boolean = false;
   isVisible: boolean = false;
 
-  validateForm: any;
+  // validateForm: any;
+  validateForm!: FormGroup;
 
   save() {
     if (this.validateForm.valid) {

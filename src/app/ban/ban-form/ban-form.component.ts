@@ -17,6 +17,7 @@ import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-z
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import {Complaint} from '../../complaint';
 
 @Component({
   selector: 'app-ban-form',
@@ -49,20 +50,14 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
   @Output() override onSave = new EventEmitter<any>();
   @Output() override onCancel = new EventEmitter<void>();
 
+  @Output() override onEdit = new EventEmitter<Ban>();
+
   @Input() override isEditMode: boolean = false;
   @Input() override isVisible: boolean = false;
 
   timeDefaultValue = new Date();
 
-  override validateForm: FormGroup<{
-    reason: FormControl<string>;
-    smesharik: FormControl<string>;
-    post: FormControl<string>;
-    comment: FormControl<string>;
-    creationDate: FormControl<string>;
-    endDate: FormControl<string>;
-  }>;
-
+  // override validateForm: FormGroup;
 
   constructor(private fb: NonNullableFormBuilder) {
     super();
@@ -71,8 +66,8 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
       smesharik: [''],
       post: ['', [Validators.pattern('\\d+')]],
       comment: ['', [Validators.pattern('\\d+')]],
-      creationDate: [''],
-      endDate: ['']
+      creationDate: [null],
+      endDate: [null]
     });
   }
 
@@ -83,8 +78,9 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
         smesharik: this.item.smesharik?.toString() || '',
         post: this.item.post?.toString() || '',
         comment: this.item.comment?.toString() || '',
-        creationDate: this.item.creationDate?.toString() || '',
-        endDate: this.item.creationDate?.toString() || '',
+        creationDate: this.item.creationDate ? new Date(this.item.creationDate) : null,
+        endDate: this.item.endDate ? new Date(this.item.endDate) : null,
+
       });
     } else {
       this.validateForm.patchValue({
@@ -92,14 +88,14 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
         smesharik: '',
         post: '',
         comment: '',
-        creationDate: '',
-        endDate: ''
+        creationDate: null,
+        endDate: null
       });
     }
   }
 
   formIsValid() {
-    const { post, comment, smesharik } = this.validateForm.value;
+    const {post, comment, smesharik} = this.validateForm.value;
 
     const isOnlyOneFieldFilled =
       (post !== '' && comment === '' && smesharik === '') ||
@@ -108,7 +104,6 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
 
     return this.validateForm.valid && isOnlyOneFieldFilled;
   }
-
 
 
   onChange(result: Date): void {
