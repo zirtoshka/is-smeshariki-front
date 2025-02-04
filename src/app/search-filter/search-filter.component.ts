@@ -22,6 +22,8 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
 export class SearchFilterComponent {
 
   @Input() isStatusesNeeded = true;
+  @Input() isSearchNeeded = true;
+
   statuses = Object.entries(GeneralStatus);
 
   selectedStatuses: GeneralStatus[] = [];

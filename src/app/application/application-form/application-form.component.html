@@ -6,19 +6,19 @@
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="postId">ид поста</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="post">ид поста</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид поста">
           <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="postId" nz-input placeholder="ид поста"/>
+            <input formControlName="post" nz-input placeholder="ид поста"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="commentId">ид комментария</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="comment">ид комментария</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид комментария">
           <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="commentId" nz-input placeholder="ид комментария"/>
+            <input formControlName="comment" nz-input placeholder="ид комментария"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -26,25 +26,29 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">статус</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzValidateStatus="status" nzHasFeedback>
-          <nz-select  formControlName="status" [nzPlaceHolder]="'выберите статус'">
-<!--            <nz-option *ngFor="let status of statusiki" [nzValue]="status" [nzLabel]="status"></nz-option>-->
+          <nz-select formControlName="status" [nzPlaceHolder]="'выберите статус'">
+            <nz-option *ngFor="let status of statusiki" [nzValue]="status" [nzLabel]="status"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="propensityId" nzRequired>ид наклонности</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="propensities" nzRequired>ид наклонности</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид наклонности">
           <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="propensityId" nz-input placeholder="ид наклонности"/>
+            <input formControlName="propensities" nz-input placeholder="ид наклонности"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
+
     </form>
   </ng-template>
   <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">добавить</button>
+    <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">
+      {{ isEditMode ? 'сохранить изменения' : 'добавить' }}
+    </button>
   </ng-template>
+
 </nz-modal>
 
 

@@ -6,49 +6,55 @@
   </nz-card-meta>
 
   <div class="application-details">
-    <p><strong>наклонность: </strong> {{ propensity.name }}</p>
-    <p><strong>описание: </strong> {{ propensity.description }}</p>
-
+    <p><strong>наклонности ид: </strong>{{ item.propensities }}</p>
 
     <div>
-      <p *ngIf="item.postId">
+      <p *ngIf="item.post">
         <strong>пост ID: </strong>
-        <a (click)="navigateToPost(item.postId)" class="post-link">{{ item.postId }}</a>
+        <a (click)="navigateToPost(item.post)" class="post-link">{{ item.post }}</a>
       </p>
     </div>
 
 
     <div>
-      <p *ngIf="item.commentId">
+      <p *ngIf="item.comment">
         <strong>комментарий ID: </strong>
-        <a (click)="navigateToComment(item.commentId)" class="comment-link">{{ item.commentId }}</a>
+        <a (click)="navigateToComment(item.comment)" class="comment-link">{{ item.comment }}</a>
       </p>
     </div>
 
     <p>
-      <strong>доктор ID: </strong>
-      <span *ngIf="item.doctorId; else noDoctor">
-              {{ item.doctorId }}
+      <strong>доктор: </strong>
+      <span *ngIf="item.doctor; else noDoctor">
+              {{ item.doctor }}
         </span>
     </p>
+
     <ng-template #noDoctor>
       <span style="color: #ff613b;">доктор еще не назначен</span>
     </ng-template>
   </div>
 
-  <div class="application-actions" *ngIf="canBeEdit()">
+  <div class="application-actions" >
     <nz-select
-      [(ngModel)]="item.status"
+      [(ngModel)]="selectedStatus"
       class="status-selector"
-      [nzDropdownClassName]="'status-dropdown'"
-      [nzAllowClear]="false"
-      (ngModelChange)="onStatusChange(item.status)">
-<!--      <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>-->
+      [nzAllowClear]="false">
+      <nz-option *ngFor="let status of generalStatuses" [nzValue]="status" [nzLabel]="status"></nz-option>
     </nz-select>
-    <button nz-button nzType="primary" (click)="confirmStatus()">подтвердить</button>
+    <button nz-button nzType="primary" (click)="confirmComplaintStatus()">подтвердить</button>
+
+    <button
+      nz-button
+      nzType="default"
+      nzDanger
+      *ngIf="!item.doctor"
+      (click)="assignDoctorToApplication()">
+      взять в обработку
+    </button>
   </div>
 
-  <div class="application-actions">
+    <div class="application-actions">
     <button nz-button nzType="default" (click)="onEdit(item)">
       <i nz-icon nzType="edit"></i> редактировать
     </button>

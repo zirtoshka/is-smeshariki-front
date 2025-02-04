@@ -1,17 +1,15 @@
-<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
+<app-search-filter [isSearchNeeded]="false" (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
 
 <button nz-button nzType="primary" (click)="openAddForm()">добавить завку на лечение</button>
 
-<app-application-form
-  [isVisible] = "isVisible"
-  [isEditMode]="isEditMode"
-  [item]="itemForEdit"
-  (onSave)="onSave($event)"
-  (onCancel)="onCancel()">
-</app-application-form>
-
-
+<!--<app-application-form-->
+<!--  [isVisible] = "isVisible"-->
+<!--  [isEditMode]="isEditMode"-->
+<!--  [item]="itemForEdit"-->
+<!--  (onSave)="onSave($event)"-->
+<!--  (onCancel)="onCancel()">-->
+<!--</app-application-form>-->
 
 
 <div class="toggle-container">
@@ -30,11 +28,12 @@
 <div class="applications-container">
   <app-application-card
     *ngFor="let item of items"
-    [currDoctorId]="currDoctorId"
     [item]="item"
     (edit)="handleEdit($event)"
     (delete)="handleDelete($event)"
-    [propensity]="propensityList[item.propensityId]"></app-application-card>
+    (statusConfirmed)="handleStatusConfirmed($event)"
+    (takeIt)="handleTake($event)"
+  ></app-application-card>
 </div>
 
 

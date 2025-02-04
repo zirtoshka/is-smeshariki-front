@@ -1,4 +1,4 @@
-import {GeneralStatus} from '../model/enums';
+import {GeneralStatus, getEnumKeyByValue} from '../model/enums';
 import {BaseService} from './base.service';
 import {Directive, HostListener, inject} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
@@ -36,7 +36,7 @@ export abstract class BasePage<T extends HasId> {
 
   }
 
-  preparing(item: T): any {
+  preparing(item: any): any {
     return item;
   }
 
@@ -60,6 +60,9 @@ export abstract class BasePage<T extends HasId> {
 
   async onEdit(item: any, id?: number) {
     let data = this.preparing(item);
+    console.log(item)
+    console.log(data)
+    console.log(getEnumKeyByValue(GeneralStatus, item.status))
     const complaintId = id ?? this.itemForEdit?.id;
     try {
       const response = await this.baseService.updateItem<any>(this.action, data, complaintId);

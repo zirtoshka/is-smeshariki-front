@@ -74,7 +74,6 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   handleTake(item: Complaint) {
     item.adminLogin = getLogin();
-    console.log(this.itemForEdit)
     this.onEdit(item, item.id).then(() => {
       console.log('взял в обработку', item.adminLogin, ' жалобу', item.id);
     }).catch((error) => {
