@@ -44,6 +44,19 @@ export class BaseService <T> {
     }
   }
 
+  async deleteItem<T>(action: string, id:any): Promise<T> {
+    try {
+      return await lastValueFrom(
+        this.httpClient.delete<T>(`${this.baseUrl}/${action}/${id}`, {
+          headers: this.getAuthHeaders(),
+        })
+      );
+    } catch (err: any) {
+      throw new Error(err.error.message || 'ошибка запроса');
+    }
+  }
+
+
 
 
   getItems<T>( endpoint: string,

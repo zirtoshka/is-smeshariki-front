@@ -1,1 +1,33 @@
-<p>word-form works!</p>
+<nz-modal [(nzVisible)]="isVisible"
+          [nzTitle]="isEditMode ? 'редактировать слово' : 'добавить слово'"
+          (nzOnCancel)="cancel()"
+          [nzContent]="forma"
+          [nzFooter]="modalFooter">
+  <ng-template #forma>
+    <form nz-form [formGroup]="validateForm" class="form">
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="word">триггерное слово</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите триггерное слово">
+          <nz-input-group nzPrefixIcon="thunderbolt">
+            <input formControlName="word" nz-input placeholder="триггерное слово"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="propensity">наклонность</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид наклонности">
+          <nz-input-group nzPrefixIcon="gift">
+            <input formControlName="propensity" nz-input placeholder="ид наклоннности"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+
+    </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">добавить</button>
+  </ng-template>
+</nz-modal>

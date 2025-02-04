@@ -2,8 +2,6 @@ import {Component, EventEmitter, Input, LOCALE_ID, OnChanges, Output} from '@ang
 import {BaseForm} from '../../base/base-form';
 import {Ban} from '../../model/ban';
 import {
-  FormControl,
-  FormGroup,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -17,7 +15,6 @@ import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-z
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
-import {Complaint} from '../../model/complaint';
 
 @Component({
   selector: 'app-ban-form',
@@ -103,20 +100,5 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
       (post === '' && comment === '' && smesharik !== '');
 
     return this.validateForm.valid && isOnlyOneFieldFilled;
-  }
-
-
-  onChange(result: Date): void {
-    console.log('Selected Time: ', result);
-    const date = new Date();
-    console.log(date.toLocaleDateString('ru'));
-  }
-
-  onOk(result: Date | Date[] | null): void {
-    console.log('onOk', result);
-  }
-
-  onCalendarChange(result: Array<Date | null>): void {
-    console.log('onCalendarChange', result);
   }
 }

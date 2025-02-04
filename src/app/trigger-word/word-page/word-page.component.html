@@ -1,17 +1,16 @@
-<p>word-page works!</p>
 <app-search-filter [isStatusesNeeded]="false" (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
 
 <button nz-button nzType="primary" (click)="openAddForm()">добавить триггерное слово</button>
 
-<!--<app-word-form-->
-<!--  [isVisible] = "isVisible"-->
-<!--  [isEditMode]="isEditMode"-->
-<!--  [item]="itemForEdit"-->
-<!--  (onSave)="onSave($event)"-->
-<!--  (onEdit)="onEdit($event)"-->
-<!--  (onCancel)="onCancel()">-->
-<!--</app-word-form>-->
+<app-word-form
+  [isVisible] = "isVisible"
+  [isEditMode]="isEditMode"
+  [item]="itemForEdit"
+  (onSave)="onSave($event)"
+  (onEdit)="onEdit($event)"
+  (onCancel)="onCancel()">
+</app-word-form>
 
 
 

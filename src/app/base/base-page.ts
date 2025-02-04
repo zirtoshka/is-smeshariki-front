@@ -89,9 +89,26 @@ export abstract class BasePage<T extends HasId> {
     console.log('Редактировать:', item);
   }
 
-  handleDelete(item: T): void {
+  async handleDelete(item: T) {
     console.log('Удалить:', item);
-    this.items = this.items.filter(i => i !== item);
+    const complaintId = item.id
+    // const complaintId = item.id ?? this.itemForEdit?.id;
+    try {
+      const response = await this.baseService.deleteItem<any>(this.action, complaintId);
+      this.items = this.items.filter(i => i !== item);
+      if (!this.allLoaded) {
+        this.fetchDataFromServer(true)
+      }
+      this.notificationService.success(
+        "Хо-хо!",
+        "удаление успешно"
+      )
+    } catch (error: any) {
+      this.notificationService.error("Ёлки-иголки",
+        error
+      )
+    }
+    this.isVisible = false
   }
 
   handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {

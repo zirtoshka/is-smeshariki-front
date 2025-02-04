@@ -9,6 +9,7 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {WordFormComponent} from '../word-form/word-form.component';
 import {WordCardComponent} from '../word-card/word-card.component';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-word-page',
@@ -22,6 +23,7 @@ import {WordCardComponent} from '../word-card/word-card.component';
     WordFormComponent,
     WordCardComponent
   ],
+  providers:[NzModalService],
   templateUrl: './word-page.component.html',
   styleUrl: './word-page.component.css'
 })
