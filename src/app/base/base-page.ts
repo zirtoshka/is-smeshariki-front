@@ -3,6 +3,7 @@ import {BaseService} from './base.service';
 import {Directive, HostListener, inject} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {HasId} from '../hasid';
+import {Complaint} from '../complaint';
 
 
 @Directive()
@@ -61,7 +62,7 @@ export abstract class BasePage<T extends HasId> {
     const complaintId = id ?? this.itemForEdit?.id;
     try {
       const response = await this.baseService.updateItem<any>(this.action, data, complaintId);
-      this.replaceItemById(complaintId, item);
+      this.replaceItemById(complaintId, response as T);
       this.notificationService.success(
         "Оба-на!",
         "обновление успешно"

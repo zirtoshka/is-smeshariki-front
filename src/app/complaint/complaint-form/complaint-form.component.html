@@ -53,22 +53,31 @@
       </nz-form-item>
 
 
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="creationDate">дата создания</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-date-picker
+            formControlName="creationDate"
+            [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"
+            nzFormat="yyyy-MM-dd HH:mm:ss">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="closingDate">дата закрытия</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-date-picker
+            formControlName="closingDate"
+            [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"
+            nzFormat="yyyy-MM-dd HH:mm:ss">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+
     </form>
-
-
-<!--    <nz-range-picker-->
-<!--      [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"-->
-<!--      nzFormat="yyyy-MM-dd HH:mm:ss"-->
-<!--    ></nz-range-picker>-->
-
-    <nz-range-picker
-      [(ngModel)]="dateRange"
-      [nzShowTime]="{ nzHideDisabledOptions: true, nzDefaultOpenValue: timeDefaultValue }"
-      nzFormat="yyyy-MM-dd HH:mm:ss"
-      (ngModelChange)="onDateChange()"
-    ></nz-range-picker>
-
-    <p *ngIf="dateRange">{{ formatDateRange(dateRange) }}</p>
 
 
   </ng-template>
@@ -77,8 +86,6 @@
       {{ isEditMode ? 'сохранить изменения' : 'добавить' }}
     </button>
   </ng-template>
-
-
 
 
 </nz-modal>

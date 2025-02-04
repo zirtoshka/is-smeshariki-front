@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {BaseForm} from '../../base/base-form';
 import {Complaint} from '../../complaint';
+import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {
   FormControl,
   FormGroup,
@@ -17,14 +18,11 @@ import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabe
 import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
-import {en_US, NzI18nService, ru_RU} from 'ng-zorro-antd/i18n';
 import {
-  DisabledTimeFn, DisabledTimePartial,
   NzDatePickerComponent,
-  NzDatePickerModule,
   NzRangePickerComponent
 } from 'ng-zorro-antd/date-picker';
-import {differenceInCalendarDays, setHours} from 'date-fns';
+import {setHours} from 'date-fns';
 
 
 @Component({
@@ -67,14 +65,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   @Input() override isVisible: boolean = false;
 
 
-  override validateForm: FormGroup<{
-    violationType: FormControl<string>;
-    description: FormControl<string>;
-    adminLogin: FormControl<string>;
-    post: FormControl<string>;
-    comment: FormControl<string>;
-    status: FormControl<string>;
-  }>;
+  override validateForm: FormGroup;
 
 
   statusiki = Object.values(GeneralStatus);
@@ -89,6 +80,8 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
       post: ['', [Validators.pattern('\\d+')]],
       comment: ['', [Validators.pattern('\\d+')]],
       status: [GeneralStatus.NEW.toString(), [Validators.required]],
+      creationDate: [null],
+      closingDate: [null],
     });
   }
 
@@ -101,6 +94,8 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         post: this.item.post?.toString() || '',
         comment: this.item.comment?.toString() || '',
         status: this.item.status?.toString() || '',
+        creationDate: this.item.creationDate ? new Date(this.item.creationDate) : null,
+        closingDate: this.item.closingDate ? new Date(this.item.closingDate) : null,
       });
     } else {
       this.validateForm.patchValue({
@@ -110,6 +105,8 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         post: '',
         comment: '',
         status: GeneralStatus.NEW.toString(),
+        creationDate: null,
+        closingDate: null,
       });
     }
   }
@@ -122,24 +119,7 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   }
 
 
-  timeDefaultValue = setHours(new Date(), 0);
-
-
-  dateRange: Date[] = [];
-
-  onDateChange() {
-    if (this.dateRange && this.dateRange.length === 1) {
-      // Если выбрана только одна дата, принудительно фиксируем ее
-      this.dateRange = [this.dateRange[0], undefined as unknown as Date]; // Хак, но работает
-    }
-  }
-
-  formatDateRange(range: Date[]): string {
-    if (!range || range.length === 0) return 'Дата не выбрана';
-    if (range[0] && !range[1]) return `Начало: ${range[0].toLocaleString()}`;
-    if (!range[0] && range[1]) return `Конец: ${range[1].toLocaleString()}`;
-    return `С: ${range[0].toLocaleString()} по: ${range[1].toLocaleString()}`;
-  }
+  timeDefaultValue = new Date();
 
 
 }

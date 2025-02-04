@@ -59,9 +59,6 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
 
   assignAdminToComplaint(): void {
     this.takeIt.emit(this.item);
-    // console.log(`Администратор c id ${adminId} назначен на жалобу №${this.item.id}`);
-    //todo
-    // this.someService.assignAdmin(complaintId, 999).subscribe();
   }
 
   protected readonly GeneralStatus = GeneralStatus;

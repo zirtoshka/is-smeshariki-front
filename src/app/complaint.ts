@@ -1,6 +1,6 @@
 import {GeneralStatus, getEnumKeyByValue, ViolationType} from './enums';
 
-export class Complaint{
+export class Complaint {
   constructor(
     public id: number,
     public violationType: ViolationType,
@@ -9,9 +9,10 @@ export class Complaint{
     public post: number | null,
     public comment: number | null,
     public status: GeneralStatus,
-    public creationDate: string,
-    public closingDate: string,
-  ) {}
+    public creationDate: Date | null,
+    public closingDate: Date | null,
+  ) {
+  }
 
 
   static fromBackend(data: any): Complaint {
