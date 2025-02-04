@@ -15,7 +15,7 @@ export class ApplicationForTreatment extends BaseModel<ApplicationForTreatment> 
     this.post = data.post ?? null;
     this.comment = data.comment ?? null;
     this.doctor = data.doctor ?? null;
-    this.status = GeneralStatus[data.status as keyof typeof GeneralStatus];
+    this.status = GeneralStatus[data.status as keyof typeof GeneralStatus] ?? data.status;
     this.propensities = data.propensities ?? null;
   }
 

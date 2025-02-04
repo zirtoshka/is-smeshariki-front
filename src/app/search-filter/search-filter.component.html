@@ -1,7 +1,7 @@
 <div class="search-filter" >
   <input nz-input
          type="text"
-         *ngIf="!isSearchNeeded"
+         *ngIf="isSearchNeeded"
          [(ngModel)]="searchQuery"
          (ngModelChange)="onFilterChange()"
          placeholder="введите текст для поиска"

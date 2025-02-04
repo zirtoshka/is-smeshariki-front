@@ -19,6 +19,7 @@ import {ComplaintFormComponent} from '../complaint-form/complaint-form.component
 import {ComplaintService} from '../../services/complaint.service';
 import {enumListToString, GeneralStatus} from '../../model/enums';
 import {getLogin} from '../../auth-tools/auth-utils';
+import {ApplicationForTreatment} from '../../model/application-for-treatment';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -73,8 +74,9 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
   }
 
   handleTake(item: Complaint) {
-    item.adminLogin = getLogin();
-    this.onEdit(item, item.id).then(() => {
+    const newItem = new Complaint(item);
+    newItem.adminLogin = getLogin();
+    this.onEdit(newItem, newItem.id).then(() => {
       console.log('взял в обработку', item.adminLogin, ' жалобу', item.id);
     }).catch((error) => {
       console.error("Ошибка при обновлении:", error);

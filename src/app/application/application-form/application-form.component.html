@@ -5,26 +5,32 @@
           [nzFooter]="modalFooter">
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="post">ид поста</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид поста">
+      <nz-form-item *ngIf="validateForm.value.post">
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="post"
+                       nzTooltipTitle="это поле заполняется системой и не подлежит редактированию">ид поста
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
           <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="post" nz-input placeholder="ид поста"/>
+            <input [value]="validateForm.get('post')?.value" nz-input placeholder="ид поста" readonly/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item *ngIf="validateForm.value?.comment">
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="comment"
+                       nzTooltipTitle="это поле заполняется системой и не подлежит редактированию">
+          ид комментария
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-input-group nzPrefixIcon="field-number">
+            <input [value]="validateForm.get('comment')?.value" nz-input placeholder="ид комментария" readonly/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="comment">ид комментария</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид комментария">
-          <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="comment" nz-input placeholder="ид комментария"/>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">статус</nz-form-label>
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="status">статус</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzValidateStatus="status" nzHasFeedback>
           <nz-select formControlName="status" [nzPlaceHolder]="'выберите статус'">
             <nz-option *ngFor="let status of statusiki" [nzValue]="status" [nzLabel]="status"></nz-option>
@@ -33,10 +39,22 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="propensities" nzRequired>ид наклонности</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите ид наклонности">
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="propensities"
+                       nzTooltipTitle="это поле заполняется системой и не подлежит редактированию">
+          ид наклонности
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
           <nz-input-group nzPrefixIcon="field-number">
-            <input formControlName="propensities" nz-input placeholder="ид наклонности"/>
+            <input [value]="validateForm.get('propensities')?.value" nz-input placeholder="ид наклонности" readonly/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="doctor">логин доктора</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите логин доктора">
+          <nz-input-group nzPrefixIcon="medicine-box">
+            <input formControlName="doctor" nz-input placeholder="логин доктора"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>

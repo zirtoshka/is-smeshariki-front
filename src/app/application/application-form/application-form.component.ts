@@ -58,11 +58,11 @@ export class ApplicationFormComponent extends BaseForm<ApplicationForTreatment> 
   constructor(private fb: NonNullableFormBuilder) {
     super();
     this.validateForm = this.fb.group({
-      post: ['', [Validators.pattern('\\d+')]],
-      comment: ['', [Validators.pattern('\\d+')]],
+      post: [{ value: '' }, [Validators.pattern('\\d+')]],
+      comment: [{ value: ''}, [Validators.pattern('\\d+')]],
       doctor: ['', ],
       status: [GeneralStatus.NEW.toString(), [Validators.required]],
-      propensities: ['', [Validators.required]],
+      propensities: [{ value: '' }],
     });
   }
 

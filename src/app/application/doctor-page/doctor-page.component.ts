@@ -20,6 +20,7 @@ import {ApplicationService} from '../../services/application.service';
 import {Complaint} from '../../model/complaint';
 import {getLogin} from '../../auth-tools/auth-utils';
 import {ComplaintCardComponent} from '../../complaint/complaint-card/complaint-card.component';
+import {ComplaintFormComponent} from '../../complaint/complaint-form/complaint-form.component';
 
 @Component({
   selector: 'app-doctor-page',
@@ -40,7 +41,8 @@ import {ComplaintCardComponent} from '../../complaint/complaint-card/complaint-c
     SearchFilterComponent,
     PropensityFormComponent,
     ApplicationFormComponent,
-    ComplaintCardComponent
+    ComplaintCardComponent,
+    ComplaintFormComponent
   ],
   providers: [NzModalService],
   templateUrl: './doctor-page.component.html',
@@ -76,9 +78,9 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
 
 
   handleTake(item: ApplicationForTreatment) {
-    item.doctor = getLogin();
-    console.log(this.itemForEdit)
-    this.onEdit(item, item.id).then(() => {
+    const newItem = new ApplicationForTreatment(item);
+    newItem.doctor = getLogin();
+    this.onEdit(newItem, newItem.id).then(() => {
       console.log('взял в обработку', item.doctor, ' заявку', item.id);
     }).catch((error) => {
       console.error("Ошибка при обновлении:", error);

@@ -17,10 +17,10 @@ export class Complaint extends BaseModel<Complaint> {
     this.id = data.id;
     this.violationType = ViolationType [data.violationType as keyof typeof ViolationType];
     this.description = data.description;
-    this.adminLogin = data.admin ?? null;
+    this.adminLogin = data.admin ? data.admin: data.adminLogin;
     this.post = data.post ?? null;
     this.comment = data.comment ?? null;
-    this.status = GeneralStatus[data.status as keyof typeof GeneralStatus];
+    this.status = GeneralStatus[data.status as keyof typeof GeneralStatus] ?? data.status;
     this.creationDate = data.creationDate;
     this.closingDate = data.closingDate ?? null;
 

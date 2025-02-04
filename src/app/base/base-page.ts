@@ -4,6 +4,7 @@ import {Directive, HostListener, inject} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {HasId} from '../model/hasid';
 import {Complaint} from '../model/complaint';
+import {throwError} from 'rxjs';
 
 
 @Directive()
@@ -60,17 +61,14 @@ export abstract class BasePage<T extends HasId> {
 
   async onEdit(item: any, id?: number) {
     let data = this.preparing(item);
-    console.log(item)
-    console.log(data)
-    console.log(getEnumKeyByValue(GeneralStatus, item.status))
     const complaintId = id ?? this.itemForEdit?.id;
     try {
       const response = await this.baseService.updateItem<any>(this.action, data, complaintId);
-      this.replaceItemById(complaintId, response as T);
       this.notificationService.success(
         "Оба-на!",
         "обновление успешно"
       )
+      this.replaceItemById(complaintId, response as T);
     } catch (error: any) {
       this.notificationService.error("Ёлки-иголки",
         error
