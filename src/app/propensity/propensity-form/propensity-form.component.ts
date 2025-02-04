@@ -15,7 +15,7 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {BaseForm} from '../../base/base-form';
-import {Propensity} from '../../propensity';
+import {Propensity} from '../../model/propensity';
 
 @Component({
   selector: 'app-propensity-form',

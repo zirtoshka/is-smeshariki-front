@@ -1,5 +1,5 @@
 import {EventEmitter, Input, Output} from '@angular/core';
-import {HasId} from '../hasid';
+import {HasId} from '../model/hasid';
 import {FormGroup} from '@angular/forms';
 
 export abstract class BaseForm<T extends HasId> {

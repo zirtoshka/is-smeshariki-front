@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {BaseForm} from '../../base/base-form';
-import {Complaint} from '../../complaint';
+import {Complaint} from '../../model/complaint';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {
   FormControl,
@@ -10,7 +10,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import {GeneralStatus, ViolationType} from '../../enums';
+import {GeneralStatus, ViolationType} from '../../model/enums';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';

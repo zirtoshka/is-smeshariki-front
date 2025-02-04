@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
-import {Friend} from '../../friend';
+import {Friend} from '../../model/friend';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {NgIf} from '@angular/common';
 import {NzIconDirective} from 'ng-zorro-antd/icon';

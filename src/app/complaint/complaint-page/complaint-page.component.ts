@@ -1,7 +1,7 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NgForOf, NgIf} from '@angular/common';
-import {Complaint} from '../../complaint';
+import {Complaint} from '../../model/complaint';
 import {FormsModule} from '@angular/forms';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
@@ -17,8 +17,9 @@ import {ApplicationFormComponent} from '../../application/application-form/appli
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
 import {ComplaintService} from '../../complaint.service';
-import {enumListToString, GeneralStatus} from '../../enums';
+import {enumListToString, GeneralStatus} from '../../model/enums';
 import {getLogin} from '../../auth-tools/auth-utils';
+import {Ban} from '../../model/ban';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -56,18 +57,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
 
   override preparing(item: any): any {
-    const complaint = new Complaint(
-      item.id,
-      item.violationType,
-      item.description,
-      item.adminLogin,
-      item.post,
-      item.comment,
-      item.status,
-      item.creationDate,
-      item.closingDate
-    );
-    return complaint.toBackendJson();
+    return new Complaint(item).toBackendJson();
   }
 
   ngOnInit(): void {
@@ -113,7 +103,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
       })
       .subscribe({
         next: (response) => {
-          const newItems = response.content.map(Complaint.fromBackend);
+          const newItems = response.content.map(data => Complaint.fromBackend(data));
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {

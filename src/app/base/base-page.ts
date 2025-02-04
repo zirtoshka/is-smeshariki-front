@@ -1,9 +1,9 @@
-import {GeneralStatus} from '../enums';
+import {GeneralStatus} from '../model/enums';
 import {BaseService} from './base.service';
 import {Directive, HostListener, inject} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {HasId} from '../hasid';
-import {Complaint} from '../complaint';
+import {HasId} from '../model/hasid';
+import {Complaint} from '../model/complaint';
 
 
 @Directive()

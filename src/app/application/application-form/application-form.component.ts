@@ -9,7 +9,7 @@ import {
   Validators
 } from '@angular/forms';
 import {ApplicationForTreatment} from '../../application-for-treatment';
-import {GeneralStatus} from '../../enums';
+import {GeneralStatus} from '../../model/enums';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';

@@ -1,5 +1,5 @@
-import {Post} from './post';
-import {CommentS} from './comment';
+import {Post} from './model/post';
+import {CommentS} from './model/comment';
 import {BaseCard} from './base/base-card';
 import {Smesharik} from './auth-tools/smesharik';
 

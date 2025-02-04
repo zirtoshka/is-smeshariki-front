@@ -3,7 +3,7 @@ import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {DatePipe, NgIf} from '@angular/common';
-import {Ban} from '../../ban';
+import {Ban} from '../../model/ban';
 import {ContentBase} from '../../content-base';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {PostCardComponent} from '../../post-card/post-card.component';

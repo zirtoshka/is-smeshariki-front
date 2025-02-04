@@ -1,4 +1,4 @@
-import {GeneralStatus} from './enums';
+import {GeneralStatus} from './model/enums';
 
 export class ApplicationForTreatment {
   constructor(

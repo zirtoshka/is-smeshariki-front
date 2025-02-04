@@ -48,6 +48,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'word',
+    loadComponent: () => import('./trigger-word/word-page/word-page.component').then(m => m.WordPageComponent)
+  },
+
+  {
     path: 'friends',
     loadComponent: () => import('./friend/friend-page/friend-page.component').then(m => m.FriendPageComponent)
   },

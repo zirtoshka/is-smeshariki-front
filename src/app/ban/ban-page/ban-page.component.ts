@@ -3,7 +3,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {FormsModule} from '@angular/forms';
 import {BanCardComponent} from '../ban-card/ban-card.component';
-import {Ban} from '../../ban';
+import {Ban} from '../../model/ban';
 import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
 import {BasePage} from '../../base/base-page';
 import {ApplicationFormComponent} from "../../application/application-form/application-form.component";
@@ -29,13 +29,13 @@ import {BanService} from '../../ban.service';
     SearchFilterComponent,
     BanFormComponent
   ],
-  providers: [NzModalService,  { provide: LOCALE_ID, useValue: 'ru' }],
+  providers: [NzModalService, {provide: LOCALE_ID, useValue: 'ru'}],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   templateUrl: './ban-page.component.html',
   styleUrl: './ban-page.component.css'
 })
-export class BanPageComponent extends BasePage<Ban>  implements OnInit {
+export class BanPageComponent extends BasePage<Ban> implements OnInit {
 
   override action = "ban"
 
@@ -46,16 +46,7 @@ export class BanPageComponent extends BasePage<Ban>  implements OnInit {
   }
 
   override preparing(item: Ban): any {
-    const ban=new Ban(
-      item.id,
-      item.reason,
-      item.smesharik,
-      item.post,
-      item.comment,
-      item.creationDate,
-      item.endDate,
-    )
-    return ban.toBackendJson();
+    return new Ban(item).toBackendJson();
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
@@ -66,7 +57,7 @@ export class BanPageComponent extends BasePage<Ban>  implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          const newItems = response.content.map(Ban.fromBackend);
+          const newItems = response.content.map(data => Ban.fromBackend(data));
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
@@ -75,8 +66,6 @@ export class BanPageComponent extends BasePage<Ban>  implements OnInit {
         }
       });
   }
-
-
 
 
 }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {Context, FriendCardComponent} from '../friend-card/friend-card.component';
-import {Friend} from '../../friend';
+import {Friend} from '../../model/friend';
 import {Roles} from '../../auth-tools/smesharik';
 
 @Component({

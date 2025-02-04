@@ -1,4 +1,4 @@
-import {Post} from '../post';
+import {Post} from '../model/post';
 
 export class PostService {
   posts: Post[] = Array.from({ length: 100 }, (_, i) => {

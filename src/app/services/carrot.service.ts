@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Carrot} from '../carrot';
+import {Carrot} from '../model/carrot';
 
 @Injectable({
   providedIn: 'root'

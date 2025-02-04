@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Post} from '../post';
+import {Post} from '../model/post';
 import {NgIf} from '@angular/common';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzCardComponent} from 'ng-zorro-antd/card';

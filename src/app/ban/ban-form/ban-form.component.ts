@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, LOCALE_ID, OnChanges, Output} from '@angular/core';
 import {BaseForm} from '../../base/base-form';
-import {Ban} from '../../ban';
+import {Ban} from '../../model/ban';
 import {
   FormControl,
   FormGroup,
@@ -17,7 +17,7 @@ import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-z
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
-import {Complaint} from '../../complaint';
+import {Complaint} from '../../model/complaint';
 
 @Component({
   selector: 'app-ban-form',

@@ -1,4 +1,4 @@
-import {Roles} from './auth-tools/smesharik';
+import {Roles} from '../auth-tools/smesharik';
 
 export class Friend {
   constructor(

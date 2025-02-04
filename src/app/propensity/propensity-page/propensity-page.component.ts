@@ -2,7 +2,7 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {BanCardComponent} from "../../ban/ban-card/ban-card.component";
 import {CommonModule, NgForOf, NgIf} from "@angular/common";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
-import {Propensity} from '../../propensity';
+import {Propensity} from '../../model/propensity';
 import {BasePage} from '../../base/base-page';
 import {PropensityCardComponent} from '../propensity-card/propensity-card.component';
 import {PropensityFormComponent} from '../propensity-form/propensity-form.component';

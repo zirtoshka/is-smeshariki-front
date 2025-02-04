@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {GeneralStatus} from '../enums';
+import {GeneralStatus} from '../model/enums';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzInputDirective} from 'ng-zorro-antd/input';
 import {NzButtonComponent} from 'ng-zorro-antd/button';

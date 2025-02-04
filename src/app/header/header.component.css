@@ -1,5 +1,5 @@
 .nz-header {
-  padding: 10px 30px;
+  /*padding: 5px 30px;*/
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +20,7 @@
 
 .menu {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-between;
   margin: 0;
 }

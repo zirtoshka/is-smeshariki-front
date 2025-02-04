@@ -4,7 +4,7 @@ import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
-import {CommentS} from '../comment';
+import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
 import {ActivatedRoute} from '@angular/router';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
