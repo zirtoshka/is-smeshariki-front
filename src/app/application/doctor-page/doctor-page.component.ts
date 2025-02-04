@@ -51,13 +51,12 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
     this.items = this.applications;
   }
 
-  propensityList: Propensity[] = [
-    new Propensity(1, 'грустный вайб', 'Пациент нуждается в срочном лечении'),
-    new Propensity(2, 'избыток меда', 'Показатели стабильны, но необходима проверка'),
-    new Propensity(3, 'странный вайб', 'чзх')
-
-
-  ];
+  propensityList: Propensity[] = []
+  //   new Propensity(1, 'грустный вайб', 'Пациент нуждается в срочном лечении'),
+  //   new Propensity(2, 'избыток меда', 'Показатели стабильны, но необходима проверка'),
+  //   new Propensity(3, 'странный вайб', 'чзх')
+  //
+  // ];
   applications: ApplicationForTreatment[] = [
     new ApplicationForTreatment(
       1,

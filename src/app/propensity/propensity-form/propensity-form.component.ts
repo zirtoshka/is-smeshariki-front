@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
-import {NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
+import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-zorro-antd/input';
 import {NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzFormModule} from 'ng-zorro-antd/form';
@@ -16,6 +16,7 @@ import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {BaseForm} from '../../base/base-form';
 import {Propensity} from '../../model/propensity';
+import {Ban} from '../../model/ban';
 
 @Component({
   selector: 'app-propensity-form',
@@ -32,6 +33,7 @@ import {Propensity} from '../../model/propensity';
     NzModalComponent,
     NzIconDirective,
     NzInputGroupComponent,
+    NzAutosizeDirective,
   ],
   providers: [NzModalService],
   templateUrl: './propensity-form.component.html',
@@ -42,6 +44,7 @@ export class PropensityFormComponent extends BaseForm<Propensity> implements OnC
 
   @Output() override onSave = new EventEmitter<any>();
   @Output() override onCancel = new EventEmitter<void>();
+  @Output() override onEdit = new EventEmitter<Propensity>();
 
   @Input()override isEditMode: boolean = false;
   @Input()override isVisible: boolean = false;
@@ -55,7 +58,7 @@ export class PropensityFormComponent extends BaseForm<Propensity> implements OnC
     super();
     this.validateForm = this.fb.group({
       name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      description: [''],
     });
   }
 

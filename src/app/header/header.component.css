@@ -1,9 +1,11 @@
-.nz-header {
-  /*padding: 5px 30px;*/
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/*nz-header {*/
+/*  margin: 10px;*/
+/*  height: 100%;*/
+/*  padding: 5px 30px;*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*}*/
 
 .logo a {
   color: #fff;

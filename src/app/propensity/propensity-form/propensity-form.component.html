@@ -6,19 +6,20 @@
   <ng-template #forma>
   <form nz-form [formGroup]="validateForm" class="form" >
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>имя</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">название</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите название наклонности">
-        <nz-input-group nzPrefixIcon="user">
+        <nz-input-group nzPrefixIcon="gift">
           <input formControlName="name" nz-input placeholder="имя"/>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzRequired>description</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите название description">
-        <nz-input-group nzPrefixIcon="user">
-          <input formControlName="description" nz-input placeholder="description"/>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description">описание</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите описание">
+        <nz-input-group nzPrefixIcon="form">
+            <textarea nz-input formControlName="description" placeholder="описание"
+                      [nzAutosize]="{ minRows: 1, maxRows: 3 }"></textarea>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
