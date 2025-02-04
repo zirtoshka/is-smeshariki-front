@@ -123,4 +123,8 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
       });
   }
 
+  override formatDataFromBackend(data: Complaint) {
+    return Complaint.fromBackend(data);
+  }
+
 }

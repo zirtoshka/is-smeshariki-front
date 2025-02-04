@@ -136,11 +136,15 @@ export abstract class BasePage<T extends HasId> {
   replaceItemById(id: number | null | undefined, newItem: T) {
     if (!id) return
     newItem.id = id;
+    newItem = this.formatDataFromBackend(newItem)
     this.items = this.items.map(item =>
       item.id === id ? {...item, ...newItem} : item
     );
   }
 
+  formatDataFromBackend(data: any){
+    return data;
+  }
 
   fetchDataFromServer(replacementIsNeeded: boolean = false) {
   }
