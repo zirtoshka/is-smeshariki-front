@@ -114,10 +114,10 @@
              (click)="togglePasswordVisibility('confirm')"></i>
         </ng-template>
         <div class="ant-form-item-explain-error" *ngIf="passwordForm.controls.confirmPassword.hasError('required')">
-          Подтвердите пароль
+          подтвердите пароль
         </div>
         <div class="ant-form-item-explain-error" *ngIf="passwordForm.hasError('passwordsNotMatching')">
-          Пароли не совпадают
+          пароли не совпадают
         </div>
       </nz-form-control>
     </nz-form-item>
@@ -126,7 +126,7 @@
     <nz-form-item>
       <nz-form-control [nzOffset]="6" [nzSpan]="18">
         <button nz-button nzType="primary" [disabled]="passwordForm.invalid" (click)="submitPasswordChange()">
-          Подтвердить
+          подтвердить
         </button>
       </nz-form-control>
     </nz-form-item>

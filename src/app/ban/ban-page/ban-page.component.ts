@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {FormsModule} from '@angular/forms';
@@ -11,6 +11,8 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {SearchFilterComponent} from "../../search-filter/search-filter.component";
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {BanFormComponent} from '../ban-form/ban-form.component';
+import {BanService} from '../../ban.service';
+
 
 @Component({
   selector: 'app-ban-card-page',
@@ -33,19 +35,36 @@ import {BanFormComponent} from '../ban-form/ban-form.component';
   templateUrl: './ban-page.component.html',
   styleUrl: './ban-page.component.css'
 })
-export class BanPageComponent extends BasePage<Ban> {
-  isMyBans = false;
+export class BanPageComponent extends BasePage<Ban>  implements OnInit {
 
-  constructor() {
-    super();
-    this.items = [
-      new Ban(1, "fofoofofof", 1, 101, 3, '2025-01-10', '2025-01-11')
-    ];
+  override action = "ban"
+
+  banService: BanService = inject(BanService)
+
+  ngOnInit(): void {
+    this.fetchDataFromServer()
   }
 
-  onToggleChange() {
-    //todo
-    console.log(this.isMyBans ? 'Отображаются мои заявки' : 'Отображаются все заявки');
+
+  override fetchDataFromServer(replacementIsNeeded: boolean = false) {
+    this.banService.getBans(
+      {
+        page: this.page,
+        filter: this.searchQuery,
+      })
+      .subscribe({
+        next: (response) => {
+          const newItems = response.content.map(Ban.fromBackend);
+          this.fetchHelper(newItems, replacementIsNeeded)
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationService.error('Держите меня, я падаю…', 'не удалось загрузить данные');
+        }
+      });
   }
+
+
+
 
 }

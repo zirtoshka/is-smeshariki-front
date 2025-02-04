@@ -76,7 +76,6 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   handleStatusConfirmed(event: { item: Complaint; status: GeneralStatus }) {
     event.item.status = event.status;
-    console.log(this.itemForEdit)
     this.onEdit(event.item, event.item.id).then(() => {
       console.log('Подтвержден статус:', event.status, 'для жалобы:', event.item.id);
     }).catch((error) => {

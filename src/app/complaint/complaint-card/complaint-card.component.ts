@@ -11,6 +11,7 @@ import {GeneralStatus} from '../../enums';
 import {CommentComponent} from '../../comment/comment.component';
 import {ContentBase} from '../../content-base';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {DataFormaterService} from '../../data-formater.service';
 
 @Component({
   selector: 'app-complaint-card',
@@ -32,7 +33,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
   templateUrl: './complaint-card.component.html',
   styleUrl: './complaint-card.component.css'
 })
-export class ComplaintCardComponent extends ContentBase<Complaint> implements OnInit{
+export class ComplaintCardComponent extends ContentBase<Complaint> implements OnInit {
   @Input() declare item: Complaint;
   @Output() override edit = new EventEmitter<Complaint>();
   @Output() override delete = new EventEmitter<Complaint>();
@@ -40,6 +41,9 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
 
   @Output() statusConfirmed = new EventEmitter<{ item: Complaint; status: GeneralStatus }>();
 
+  constructor(protected dateFormatterService: DataFormaterService) {
+    super();
+  }
 
   generalStatuses = Object.values(GeneralStatus);
   selectedStatus!: GeneralStatus;
@@ -49,11 +53,8 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
   }
 
 
-
-
-
   confirmComplaintStatus(): void {
-    this.statusConfirmed.emit({ item: this.item, status: this.selectedStatus });
+    this.statusConfirmed.emit({item: this.item, status: this.selectedStatus});
   }
 
 

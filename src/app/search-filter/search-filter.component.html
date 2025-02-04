@@ -8,7 +8,7 @@
   />
 
 
-  <div class="status-filters">
+  <div class="status-filters" *ngIf="isStatusesNeeded">
     <div *ngFor="let status of statuses">
       <button nz-button
               type="button"
@@ -23,5 +23,5 @@
     </div>
   </div>
 
-  <button nz-button (click)="resetFilters()" class="reset-button">Сбросить фильтры</button>
+  <button nz-button (click)="resetFilters()" class="reset-button">сбросить фильтры</button>
 </div>

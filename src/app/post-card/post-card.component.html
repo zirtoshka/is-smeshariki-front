@@ -9,14 +9,14 @@
         nzIcon="user"></nz-avatar>
 
       <span class="post-author">post ID: {{ post.id }}</span>
-      <span class="post-author">Автор ID: {{ post.authorId }}</span>
+      <span class="post-author">автор ID: {{ post.authorId }}</span>
     </h3>
     <div class="post-tag">
       <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
     </div>
     <p class="post-date">
       <i nz-icon nzType="calendar" nzTheme="outline"></i>
-      Опубликовано: {{ post.publicationDate }}
+      опубликовано: {{ post.publicationDate }}
     </p>
 
   </div>
@@ -46,7 +46,7 @@
 
   <div class="comment-toggle" *ngIf="isCommentExisted">
     <i (click)="toggleComments()">
-      {{ isCommentsVisible ? 'Скрыть комментарии' : 'Показать комментарии' }}
+      {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}
     </i>
   </div>
   <div class="comment-toggle" *ngIf="!isCommentExisted">

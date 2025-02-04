@@ -87,7 +87,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment> {
 
 
   onToggleChange(): void {
-    console.log(this.isMyApplications ? 'Отображаются мои заявки' : 'Отображаются все заявки');
+    console.log(this.isMyApplications ? 'отображаются мои заявки' : 'отображаются все заявки');
   }
 
 

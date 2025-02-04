@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, LOCALE_ID, OnChanges, Output} from '@angular/core';
 import {BaseForm} from '../../base/base-form';
-import {Complaint} from '../../complaint';
 import {Ban} from '../../ban';
 import {
   FormControl,
@@ -10,7 +9,6 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import {GeneralStatus, ViolationType} from '../../enums';
 import {NgForOf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
@@ -56,9 +54,9 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
 
   override validateForm: FormGroup<{
     reason: FormControl<string>;
-    smesharikId: FormControl<string>;
+    smesharik: FormControl<string>;
     post: FormControl<string>;
-    commentId: FormControl<string>;
+    comment: FormControl<string>;
     creationDate: FormControl<string>;
     endDate: FormControl<string>;
   }>;
@@ -68,9 +66,9 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
     super();
     this.validateForm = this.fb.group({
       reason: ['', [Validators.required]],
-      smesharikId: ['', [Validators.pattern('\\d+')]],
+      smesharik: ['', [Validators.pattern('\\d+')]],
       post: ['', [Validators.pattern('\\d+')]],
-      commentId: ['', [Validators.pattern('\\d+')]],
+      comment: ['', [Validators.pattern('\\d+')]],
       creationDate: [''],
       endDate: ['']
     });
@@ -80,18 +78,18 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
     if (this.item) {
       this.validateForm.patchValue({
         reason: this.item.reason,
-        smesharikId: this.item.smesharikId?.toString() || '',
-        post: this.item.postId?.toString() || '',
-        commentId: this.item.commentId?.toString() || '',
+        smesharik: this.item.smesharik?.toString() || '',
+        post: this.item.post?.toString() || '',
+        comment: this.item.comment?.toString() || '',
         creationDate: this.item.creationDate?.toString() || '',
         endDate: this.item.creationDate?.toString() || '',
       });
     } else {
       this.validateForm.patchValue({
         reason: '',
-        smesharikId: '',
+        smesharik: '',
         post: '',
-        commentId: '',
+        comment: '',
         creationDate: '',
         endDate: ''
       });
@@ -100,8 +98,8 @@ export class BanFormComponent extends BaseForm<Ban> implements OnChanges {
 
   formIsValid() {
     return this.validateForm.valid &&
-      ((this.validateForm.value.post === '' && this.validateForm.value.commentId !== '') ||
-        (this.validateForm.value.post !== '' && this.validateForm.value.commentId === ''));
+      ((this.validateForm.value.post === '' && this.validateForm.value.comment !== '') ||
+        (this.validateForm.value.post !== '' && this.validateForm.value.comment === ''));
   }
 
 

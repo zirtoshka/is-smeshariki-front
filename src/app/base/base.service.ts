@@ -28,7 +28,7 @@ export class BaseService <T> {
         })
       );
     } catch (err: any) {
-      throw new Error(err.error.message || 'Ошибка запроса');
+      throw new Error(err.error.message || 'ошибка запроса');
     }
   }
 
@@ -40,7 +40,7 @@ export class BaseService <T> {
         })
       );
     } catch (err: any) {
-      throw new Error(err.error.message || 'Ошибка запроса');
+      throw new Error(err.error.message || 'ошибка запроса');
     }
   }
 

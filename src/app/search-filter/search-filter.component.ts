@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {GeneralStatus} from '../enums';
-import {NgClass, NgForOf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzInputDirective} from 'ng-zorro-antd/input';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 
@@ -13,12 +13,15 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     NgForOf,
     NzInputDirective,
     NgClass,
-    NzButtonComponent
+    NzButtonComponent,
+    NgIf
   ],
   templateUrl: './search-filter.component.html',
   styleUrl: './search-filter.component.css'
 })
 export class SearchFilterComponent {
+
+  @Input() isStatusesNeeded = true;
   statuses = Object.entries(GeneralStatus);
 
   selectedStatuses: GeneralStatus[] = [];

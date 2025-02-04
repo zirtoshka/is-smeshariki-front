@@ -89,8 +89,8 @@ export class AuthService {
 
   private showGenericError() {
     this.notificationService.error(
-      'Ошибка',
-      'Что-то пошло не так, попробуйте позже.',
+      'ошибка',
+      'что-то пошло не так, попробуйте позже.',
       {nzDuration: 5000}
     );
   }
