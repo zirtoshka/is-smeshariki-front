@@ -1,18 +1,46 @@
-export enum PostTag{
-  draft='черновик',
-  private='приватный',
-  public='публичный'
+import {BaseModel} from './base-data';
+
+export enum PostTag {
+  draft = 'черновик',
+  private = 'приватный',
+  public = 'публичный'
 }
 
-export class Post {
-  constructor(
-    public id: number,
-    public authorId: number,
-    public isDraft: boolean,
-    public isPrivate: boolean,
-    public text: string,
-    public pathToImage: string,
-    public publicationDate: string,
-    public creationDate: string,
-    ) { }
+export class Post extends BaseModel<Post> {
+  id: number;
+  author: string;
+  isDraft: boolean;
+  isPrivate: boolean;
+  text: string;
+  pathToImage: string | null;
+  publicationDate: Date | null;
+  creationDate: Date | null;
+  countCarrots: number | null;
+
+  constructor(data: any) {
+    super();
+    this.id = data.id;
+    this.author = data.author;
+    this.isDraft = data.isDraft;
+    this.isPrivate = data.isPrivate;
+    this.text = data.text;
+    this.pathToImage = data.pathToImage;
+    this.publicationDate = data.publicationDate;
+    this.creationDate = data.creationDate;
+    this.countCarrots = data.counCarrots;
+  }
+
+  toBackendJson(): Record<string, any> {
+    const data: Record<string, any> = {
+      id: this.id,
+    };
+
+    Object.keys(data).forEach(
+      (key) => (data[key] === "" || data[key] === null) && delete data[key]
+    );
+
+    return data;
+  }
+
+
 }

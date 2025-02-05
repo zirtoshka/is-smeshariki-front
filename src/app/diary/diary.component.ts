@@ -34,13 +34,13 @@ export class DiaryComponent implements OnInit{
   fetchPosts(): void {
     console.log("сейчас загружено постов: ", this.posts.length)
     console.log("сейчас идет запрос для подгрузки постов", this.page, this.offset)
-    const newPosts = this.postService.getPosts(this.page * this.offset, this.offset);
-    if (newPosts.length) {
-      this.posts = [...this.posts, ...newPosts];
-      this.page++;
-    } else {
-      this.allLoaded = true; // Больше постов нет
-    }
+    // const newPosts = this.postService.getPosts(this.page * this.offset, this.offset);
+    // if (newPosts.length) {
+    //   this.posts = [...this.posts, ...newPosts];
+    //   this.page++;
+    // } else {
+    //   this.allLoaded = true; // Больше постов нет
+    // }
     this.loading = false;
   }
 
