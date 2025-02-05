@@ -1,14 +1,14 @@
 export enum Roles {
-  ADMIN = 'админ',
-  USER = 'смешарик',
-  DOCTOR = 'доктор'
+  ADMIN = "админ",
+  USER = "смешарик",
+  DOCTOR = "доктор"
 }
 
-export namespace Roles {
-  export function fromString(role: string): Roles | null {
-    return (Roles as any)[role] ?? null;
-  }
+
+export function fromString(role: string): Roles | null {
+  return (Roles as any)[role] ?? null;
 }
+
 
 export class Smesharik {
   constructor(
@@ -28,7 +28,7 @@ export class Smesharik {
       data.login,
       data.password,
       data.email,
-      Roles.fromString(data.role) ?? Roles.USER,
+      fromString(data.role) ?? Roles.USER,
       data.isOnline,
       data.lastActive
     );

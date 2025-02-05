@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {Friend} from '../../model/friend';
@@ -7,6 +7,7 @@ import {NgIf} from '@angular/common';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {RoleTagComponent} from '../../role-tag/role-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {BasePage} from '../../base/base-page';
 
 export enum Context {
   friends,
@@ -31,7 +32,7 @@ export enum Context {
   templateUrl: './friend-card.component.html',
   styleUrl: './friend-card.component.css'
 })
-export class FriendCardComponent {
+export class FriendCardComponent  {
   @Input() friend!: Friend;
 
   @Input() context!: Context;
@@ -39,6 +40,7 @@ export class FriendCardComponent {
   @Output() addFriend = new EventEmitter<Friend>();
   @Output() removeFriend = new EventEmitter<Friend>();
   @Output() makeAdmin = new EventEmitter<Friend>();
+
 
 
   onAddFriend(friend: Friend): void {
