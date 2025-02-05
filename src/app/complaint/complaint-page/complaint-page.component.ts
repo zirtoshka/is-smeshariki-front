@@ -108,7 +108,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
         },
         error: (err: any) => {
           console.error('Ошибка при загрузке:', err);
-          this.notificationService.error('Держите меня, я падаю…', 'не удалось загрузить данные');
+          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
         }
       });
   }

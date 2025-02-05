@@ -7,11 +7,12 @@ import {PaginatedResponse} from '../paginated-response';
 @Injectable({
   providedIn: 'root'
 })
-export class BaseService <T> {
+export class BaseService<T> {
 
   private readonly baseUrl = 'http://localhost:8081/api';
 
-  constructor(protected httpClient: HttpClient) {}
+  constructor(protected httpClient: HttpClient) {
+  }
 
   protected getAuthHeaders(): HttpHeaders {
     return new HttpHeaders({
@@ -28,11 +29,11 @@ export class BaseService <T> {
         })
       );
     } catch (err: any) {
-      throw new Error(err.error.message || 'ошибка запроса');
+      throw err;
     }
   }
 
-  async updateItem<T>(action: string, body: any, id:any): Promise<T> {
+  async updateItem<T>(action: string, body: any, id: any): Promise<T> {
     try {
       return await lastValueFrom(
         this.httpClient.put<T>(`${this.baseUrl}/${action}/${id}`, body, {
@@ -40,11 +41,11 @@ export class BaseService <T> {
         })
       );
     } catch (err: any) {
-      throw new Error(err.error.message || 'ошибка запроса');
+      throw err;
     }
   }
 
-  async deleteItem<T>(action: string, id:any): Promise<T> {
+  async deleteItem<T>(action: string, id: any): Promise<T> {
     try {
       return await lastValueFrom(
         this.httpClient.delete<T>(`${this.baseUrl}/${action}/${id}`, {
@@ -52,15 +53,13 @@ export class BaseService <T> {
         })
       );
     } catch (err: any) {
-      throw new Error(err.error.message || 'ошибка запроса');
+      throw err;
     }
   }
 
 
-
-
-  getItems<T>( endpoint: string,
-               params: { [key: string]: any }): Observable<PaginatedResponse<T>> {
+  getItems<T>(endpoint: string,
+              params: { [key: string]: any }): Observable<PaginatedResponse<T>> {
     let httpParams = new HttpParams();
     Object.keys(params).forEach(key => {
       if (params[key] !== undefined && params[key] !== null) {
@@ -75,9 +74,6 @@ export class BaseService <T> {
       }
     );
   }
-
-
-
 
 
 }

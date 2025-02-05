@@ -5,6 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {HasId} from '../model/hasid';
 import {Complaint} from '../model/complaint';
 import {throwError} from 'rxjs';
+import {NotificationCustomService} from '../notification-custom.service';
 
 
 @Directive()
@@ -23,7 +24,7 @@ export abstract class BasePage<T extends HasId> {
   isEditMode: boolean = false;
   isVisible: boolean = false;
   baseService: BaseService<T> = inject(BaseService <T>);
-  protected notificationService = inject(NzNotificationService);
+  protected notificationCustomService = inject(NotificationCustomService);
 
 
   selectedStatuses: GeneralStatus[] = [];
@@ -46,12 +47,12 @@ export abstract class BasePage<T extends HasId> {
     try {
       const response = await this.baseService.createItem<any>(this.action, data)
       this.items.push(response as T);
-      this.notificationService.success(
+      this.notificationCustomService.handleSuccess(
         "Ай молодца!",
         "сохраниние успешно"
       )
     } catch (error: any) {
-      this.notificationService.error("Ёлки-иголки",
+      this.notificationCustomService.handleErrorAsync(
         error
       )
     }
@@ -64,13 +65,13 @@ export abstract class BasePage<T extends HasId> {
     const complaintId = id ?? this.itemForEdit?.id;
     try {
       const response = await this.baseService.updateItem<any>(this.action, data, complaintId);
-      this.notificationService.success(
+      this.notificationCustomService.handleSuccess(
         "Оба-на!",
         "обновление успешно"
       )
       this.replaceItemById(complaintId, response as T);
     } catch (error: any) {
-      this.notificationService.error("Ёлки-иголки",
+      this.notificationCustomService.handleErrorAsync(
         error
       )
     }
@@ -100,12 +101,12 @@ export abstract class BasePage<T extends HasId> {
       if (!this.allLoaded) {
         this.fetchDataFromServer(true)
       }
-      this.notificationService.success(
+      this.notificationCustomService.handleSuccess(
         "Хо-хо!",
         "удаление успешно"
       )
     } catch (error: any) {
-      this.notificationService.error("Ёлки-иголки",
+      this.notificationCustomService.handleErrorAsync(
         error
       )
     }
