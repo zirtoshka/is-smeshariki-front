@@ -8,9 +8,11 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {RoleTagComponent} from '../../role-tag/role-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 
-export enum  Context {
+export enum Context {
   friends,
-  requests
+  requests,
+  admin,
+  doctor
 
 }
 
@@ -36,6 +38,8 @@ export class FriendCardComponent {
 
   @Output() addFriend = new EventEmitter<Friend>();
   @Output() removeFriend = new EventEmitter<Friend>();
+  @Output() makeAdmin = new EventEmitter<Friend>();
+
 
   onAddFriend(friend: Friend): void {
     this.addFriend.emit(friend);
@@ -45,6 +49,13 @@ export class FriendCardComponent {
     this.removeFriend.emit(friend);
   }
 
+  onMakeAdmin(friend: Friend): void {
+    this.makeAdmin.emit(friend);
+  }
+
+  onMakeDoctor(friend: Friend): void {
+    this.makeAdmin.emit(friend);
+  }
 
   protected readonly Context = Context;
 }

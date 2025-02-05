@@ -33,6 +33,14 @@
     <button *ngIf="context === Context.friends" nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend)">
       <i nz-icon nzType="user-delete"></i> удалить из друзей
     </button>
+    <button  *ngIf="context === Context.admin" nz-button nzType="dashed" (click)="onMakeAdmin(friend)">
+      <i nz-icon nzType="user-add"></i> сделать администратором
+    </button>
+
+    <button *ngIf="context === Context.doctor"  nz-button nzType="dashed" (click)="onMakeDoctor(friend)">
+      <i nz-icon nzType="user-add"></i> сделать доктором
+    </button>
+
   </div>
 
 
