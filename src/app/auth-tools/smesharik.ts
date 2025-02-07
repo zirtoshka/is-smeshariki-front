@@ -14,25 +14,27 @@ export class Smesharik {
   constructor(
     public name: string,
     public login: string,
-    public password: string,
+    public password: string | null,
     public email: string,
     public role: Roles,
     public isOnline: boolean,
-    public lastActive: string,
-    public color:string
+    public lastActive: string | null = null,
+    public color: string
   ) {
   }
 
   static fromJson(data: any): Smesharik {
+    console.log("Ответ от сервера:", data);
     return new Smesharik(
       data.name,
       data.login,
-      data.password,
+      data.password ?? null,
       data.email,
       fromString(data.role) ?? Roles.USER,
       data.isOnline,
-      data.lastActive,
+      data.lastActive ?? null,
       data.color,
     );
   }
+
 }

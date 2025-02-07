@@ -20,7 +20,9 @@ import {UserService} from '../services/user.service';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 import {AuthService} from '../auth-tools/auth.service';
-import {LOGIN} from '../auth-tools/auth-utils';
+import {LOGIN, setLogin} from '../auth-tools/auth-utils';
+import {NzColorPickerComponent} from 'ng-zorro-antd/color-picker';
+import {NotificationCustomService} from '../notification-custom.service';
 
 @Component({
   selector: 'app-my-smesharik-page',
@@ -41,7 +43,8 @@ import {LOGIN} from '../auth-tools/auth-utils';
     ReactiveFormsModule,
     RouterLink,
     NzTagComponent,
-    RoleTagComponent
+    RoleTagComponent,
+    NzColorPickerComponent
   ],
   templateUrl: './smesharik-page.component.html',
   styleUrl: './smesharik-page.component.css'
@@ -60,6 +63,7 @@ export class SmesharikPageComponent implements OnInit {
     name: FormControl<string>;
     login: FormControl<string>;
     email: FormControl<string>;
+    color: FormControl<string>;
   }>;
 
   passwordForm!: FormGroup<{
@@ -68,9 +72,26 @@ export class SmesharikPageComponent implements OnInit {
     confirmPassword: FormControl<string>;
   }>;
 
+  protected notificationCustomService = inject(NotificationCustomService);
 
   constructor(private fb: NonNullableFormBuilder) {
+    this.validateForm = this.fb.group({
+      login: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      email: ['', [Validators.pattern('.+@.+\\..+'), Validators.required]],
+      color: ['#6d18ff']
+    });
+
+    this.passwordForm = this.fb.group({
+      oldPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+    }, {validators: this.passwordsMatch});
+
+    this.passwordForm.disable();
+    this.validateForm.disable();
   }
+
 
   ngOnInit(): void {
     const login = this.getLogin();
@@ -90,24 +111,25 @@ export class SmesharikPageComponent implements OnInit {
         this.initForm();
       },
       error: (err) => {
+        this.notificationCustomService.handleErrorAsync(err);
         console.error("Ошибка загрузки данных:", err);
       }
     });
   }
 
   initForm(): void {
-    this.validateForm = this.fb.group({
-      login: [this.smesharik.login, [Validators.required]],
-      name: [this.smesharik.name, [Validators.required]],
-      email: [this.smesharik.email, [Validators.pattern('.+@.+\\..+'), Validators.required]],
+    this.validateForm.patchValue({
+      login: this.smesharik.login,
+      name: this.smesharik.name,
+      email: this.smesharik.email,
+      color: this.smesharik.color,
     });
 
-    this.passwordForm = this.fb.group({
-      oldPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-    }, {validators: this.passwordsMatch});
-
+    this.passwordForm.patchValue({
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    });
     this.passwordForm.disable();
     this.validateForm.disable();
     this.validateForm.valueChanges.subscribe(() => {
@@ -150,11 +172,26 @@ export class SmesharikPageComponent implements OnInit {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const {name, login, email} = this.validateForm.value;
+      const {name, login, email, color} = this.validateForm.value;
       if (name && login && email && login.length > 0) {
-        this.userService.editSmesharik(name, login, email);
+        const body = {name, login, email, color};
+        this.userService.editSmesharik(this.smesharik.login, body).subscribe({
+          next: (data) => {
+            this.smesharik = Smesharik.fromJson(data);
+            this.notificationCustomService.handleSuccess(
+              "Оба-на!",
+              "обновление успешно"
+            )
+
+            this.initForm();
+            this.isEditing = false;
+          },
+          error: (err) => {
+            console.error("Ошибка загрузки данных:", err);
+          }
+        });
+
       }
-      this.isFormChanged = false;
 
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -167,11 +204,12 @@ export class SmesharikPageComponent implements OnInit {
   }
 
   formIsChanged(): boolean {
-    const {name, login, email} = this.validateForm.value;
+    const {name, login, email, color} = this.validateForm.value;
     return (
       name !== this.smesharik.name ||
       login !== this.smesharik.login ||
-      email !== this.smesharik.email
+      email !== this.smesharik.email ||
+      color !== this.smesharik.color
     );
   }
 
@@ -180,11 +218,11 @@ export class SmesharikPageComponent implements OnInit {
       const {oldPassword, newPassword} = this.passwordForm.value;
       this.userService.changePassword(this.smesharik.login, oldPassword, newPassword).subscribe({
         next: () => {
-          console.log("Пароль успешно изменен");
+          this.notificationCustomService.handleSuccess("Радикально!", "пароль успешно изменен")
           this.toggleChangePassword();
         },
         error: (err) => {
-          console.error("Ошибка смены пароля:", err);
+          this.notificationCustomService.handleErrorAsync(err)
         }
       });
     } else {

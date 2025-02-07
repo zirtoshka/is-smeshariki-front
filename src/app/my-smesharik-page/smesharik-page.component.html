@@ -1,12 +1,12 @@
 <nz-avatar
   [nzSize]="64"
-  [style.background-color]="smesharik.color"
+  [style.background-color]="smesharik ? smesharik.color : '#6d18ff'"
 
   [style]="{ 'background-color': '#8228e6' }"
   nzIcon="user"></nz-avatar>
 
 <div class="role-info">
-  <app-role-tag [role]="smesharik.role"></app-role-tag>
+  <app-role-tag [role]="smesharik ? smesharik.role : Roles.USER"></app-role-tag>
 </div>
 
 
@@ -28,6 +28,13 @@
     </nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="введите логин!">
       <input nz-input id="login" formControlName="login"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzTooltipTitle="ваш цвет">выберите цвет</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <nz-color-picker formControlName="color" nzShowText></nz-color-picker>
     </nz-form-control>
   </nz-form-item>
 
