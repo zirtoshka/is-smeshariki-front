@@ -23,6 +23,7 @@ import {RouterLink} from '@angular/router';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NgIf} from '@angular/common';
 import {AuthService} from '../auth-tools/auth.service';
+import {NzColorPickerComponent} from 'ng-zorro-antd/color-picker';
 
 @Component({
   selector: 'app-registration',
@@ -45,7 +46,8 @@ import {AuthService} from '../auth-tools/auth.service';
     RouterLink,
     FormsModule,
     NzIconDirective,
-    NgIf
+    NgIf,
+    NzColorPickerComponent
   ],
 
   styleUrls: ['./registration.component.css']
@@ -61,6 +63,7 @@ export class RegistrationComponent {
     name: FormControl<string>;
     login: FormControl<string>;
     email: FormControl<string>;
+    color:FormControl<string>;
   }>;
 
 
@@ -71,6 +74,7 @@ export class RegistrationComponent {
       login: ['', [Validators.required, Validators.minLength(4)]],
       name: ['', [Validators.required]],
       email:['', [Validators.pattern('.+@.+\\..+'), Validators.required]],
+      color:['#6d18ff']
     });
   }
 
@@ -85,14 +89,14 @@ export class RegistrationComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const { name, login, email, password, checkPassword } = this.validateForm.value;
+      const { name, login, email, password, checkPassword, color } = this.validateForm.value;
 
       if (password !== checkPassword) {
         this.validateForm.controls['checkPassword'].setErrors({ mismatch: true });
         return;
       }
 
-      const body = { name, login, email, password}; //todo убрать роль
+      const body = { name, login, email, password, color}; //todo убрать роль
       this.userService.register(body);
     } else {
       Object.values(this.validateForm.controls).forEach(control => {

@@ -20,6 +20,13 @@
   </nz-form-item>
 
   <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzTooltipTitle="ваш цвет">выберите цвет</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <nz-color-picker formControlName="color" nzShowText></nz-color-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired
                    nzTooltipTitle="email">
       <span>email</span>

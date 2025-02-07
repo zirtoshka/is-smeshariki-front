@@ -1,9 +1,9 @@
-<!--<nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>-->
 <nz-avatar
   [nzSize]="64"
+  [style.background-color]="smesharik.color"
+
   [style]="{ 'background-color': '#8228e6' }"
   nzIcon="user"></nz-avatar>
-<!--<nz-avatar nzSize="large" nzIcon="user"></nz-avatar>-->
 
 <div class="role-info">
   <app-role-tag [role]="smesharik.role"></app-role-tag>
@@ -102,7 +102,7 @@
     </nz-form-item>
 
     <nz-form-item [class.nz-form-item-has-error]="passwordForm.hasError('passwordsNotMatching')">
-<!--      <nz-form-label [nzSpan]="6">Подтвердите пароль:</nz-form-label>-->
+      <!--      <nz-form-label [nzSpan]="6">Подтвердите пароль:</nz-form-label>-->
       <nz-form-control [nzSpan]="18" [nzValidateStatus]="passwordForm.controls.confirmPassword">
         <nz-input-group [nzSuffix]="passwordSuffixConfirm">
           <input nz-input [type]="passwordVisible.confirm ? 'text' : 'password'"
