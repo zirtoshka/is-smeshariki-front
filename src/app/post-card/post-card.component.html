@@ -31,7 +31,7 @@
       [class.liked]="isLiked"
       (click)="toggleLike()"
     ></i>
-    <app-carrot-count [postId]="post.id"></app-carrot-count>
+    <app-carrot-count [count]="post.countCarrots ? post.countCarrots :0"></app-carrot-count>
   </div>
 
 
@@ -68,7 +68,7 @@
 
 
 <ng-template #title>
-  {{post.smesharikAuthor?.name}}
-  {{post.author}}
-  {{post.id}}
+  {{ post.smesharikAuthor?.name }}
+  {{ post.author }}
+  {{ post.id }}
 </ng-template>

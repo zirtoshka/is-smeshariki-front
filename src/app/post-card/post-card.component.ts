@@ -112,6 +112,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
         .subscribe((success) => {
           if (success) {
             this.isLiked = true
+            this.post.countCarrots++;
             this.setCarrotIcon()
           }
         });
@@ -120,6 +121,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
         .subscribe((success) => {
           if (success) {
             this.isLiked = false
+            this.post.countCarrots--;
             this.setCarrotIcon()
           }
         });

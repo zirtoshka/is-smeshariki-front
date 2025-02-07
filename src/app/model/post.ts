@@ -16,8 +16,8 @@ export class Post extends BaseModel<Post> {
   pathToImage: string | null;
   publicationDate: Date | null;
   creationDate: Date | null;
-  countCarrots: number | null;
-  smesharikAuthor:Smesharik|null;
+  countCarrots: number = 0;
+  smesharikAuthor: Smesharik | null;
 
   constructor(data: any) {
     super();
@@ -29,7 +29,7 @@ export class Post extends BaseModel<Post> {
     this.pathToImage = data.pathToImage;
     this.publicationDate = data.publicationDate;
     this.creationDate = data.creationDate;
-    this.countCarrots = data.counCarrots;
+    this.countCarrots = data.countCarrots;
     this.smesharikAuthor = data.smesharikAuthor;
   }
 

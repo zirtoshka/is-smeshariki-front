@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CarrotService} from '../services/carrot.service';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-carrot-count',
@@ -8,19 +7,8 @@ import {CarrotService} from '../services/carrot.service';
   templateUrl: './carrot-count.component.html',
   styleUrl: './carrot-count.component.css'
 })
-export class CarrotCountComponent implements OnInit {
-  @Input() postId: number | null =null;
-  @Input() commentId: number | null =null;
-  count: number = 0;
+export class CarrotCountComponent {
+  @Input() commentId: number | null = null; //todo delete
+  @Input() count: number = 0;
 
-  constructor(private carrotService: CarrotService) {}
-
-  ngOnInit() {
-    if(this.postId != null) {
-      this.count = this.carrotService.getCarrotCountPost(this.postId)
-    } else if (this.commentId != null) {
-      this.count = this.carrotService.getCarrotCountComment(this.commentId)
-    }
-
-  }
 }
