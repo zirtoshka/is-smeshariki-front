@@ -75,5 +75,64 @@ export class BaseService<T> {
     );
   }
 
+  getMessageByParams(endpoint: string, params: { [key: string]: any }) {
+    let httpParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        httpParams = httpParams.set(key, params[key]);
+      }
+    });
+    return this.httpClient.get<{ message: string }>(
+      `${this.baseUrl}/${endpoint}`,
+      {
+        headers: this.getAuthHeaders(),
+        params: httpParams
+      }
+    );
+  }
+
+
+  getItemById<T>(endpoint: string, id: number): Observable<T> {
+    return this.httpClient.get<T>(
+      `${this.baseUrl}/${endpoint}/${id}`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
+
+
+  postWithParams(endpoint: string, params: { [key: string]: any }) {
+    let httpParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        httpParams = httpParams.set(key, params[key]);
+      }
+    });
+    return this.httpClient.post(
+      `${this.baseUrl}/${endpoint}`,
+      null,
+      {
+        headers: this.getAuthHeaders(),
+        params: httpParams
+      }
+    );
+  }
+
+  deleteWithParams(endpoint: string, params: { [key: string]: any }) {
+    let httpParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        httpParams = httpParams.set(key, params[key]);
+      }
+    });
+    return this.httpClient.delete<{ message: string }>(
+      `${this.baseUrl}/${endpoint}`,
+      {
+        headers: this.getAuthHeaders(),
+        params: httpParams
+      }
+    );
+  }
 
 }

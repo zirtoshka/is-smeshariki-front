@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {NzCardComponent} from 'ng-zorro-antd/card';
+import {Component, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {Location, NgForOf, NgIf} from '@angular/common';
+import {DatePipe, Location, NgForOf, NgIf} from '@angular/common';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Post} from '../model/post';
 import {PostService} from '../services/post.service';
@@ -16,6 +16,10 @@ import {Likeable} from '../base/likeable';
 import {PostTagComponent} from '../post-tag/post-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {BackButtonComponent} from '../back-button/back-button.component';
+import {DataFormaterService} from '../data-formater.service';
+import {NotificationCustomService} from '../notification-custom.service';
+import {CarrotService} from '../services/carrot.service';
+import {isLocalCompilationDiagnostics} from '@angular/compiler-cli';
 
 
 @Component({
@@ -32,9 +36,10 @@ import {BackButtonComponent} from '../back-button/back-button.component';
     NestedCommComponent,
     PostTagComponent,
     NzButtonComponent,
-    BackButtonComponent
+    BackButtonComponent,
+    NzCardMetaComponent
   ],
-  providers: [PostService],
+  providers: [PostService, DatePipe],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
@@ -42,9 +47,12 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   commentsList: CommentS[] = [];
   isCommentsVisible: boolean = false;
   isCommentExisted: boolean = false;
-  isLiked = false;
+  isLiked: boolean = false;
+
 
   @Input() isFeed = false
+  protected notificationCustomService = inject(NotificationCustomService);
+  protected carrotService = inject(CarrotService);
 
 
   @Input() post!: Post;
@@ -55,17 +63,9 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     private route: ActivatedRoute,
     private postService: PostService,
     private iconService: IconService,
-    protected commentService: CommentService, private location: Location
+    protected commentService: CommentService, private location: Location,
+    protected dateFormatterService: DataFormaterService
   ) {
-    // this.commentsList =
-    //   [
-    //   new CommentS(1, 'Это первый комментарий', 1, 1, null, '2025-01-12'),
-    //   new CommentS(2, 'Это вложенный комментарий', 1, 1, 1, '2025-01-12'),
-    //   new CommentS(3, 'Еще один комментарий', 1, 1, null, '2025-01-13'),
-    //   new CommentS(4, 'Еще один вложенный комментарий', 1, 1, 3, '2025-01-13'),
-    //   new CommentS(5, 'Это вложенный комментарий', 1, 1, 2, '2025-01-12'),
-    //
-    // ];
   }
 
   handleGoBack(): void {
@@ -77,11 +77,24 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   ngOnInit(): void {
     if (!this.post) {
       const id = Number(this.route.snapshot.paramMap.get('id'));
-      this.post = this.postService.getPostById(id)!;
-      // this.isLiked= this.postSevice.isLiked(id) todo
-      this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
-      this.isCommentExisted = this.commentsList.length > 0;
+      this.postService.getPostById(id).subscribe({
+        next: (response) => {
+          this.post = Post.fromBackend(response);
+          this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
+          this.isCommentExisted = this.commentsList.length > 0;
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        }
+      });
+    } else {
+      console.log(this.post)
     }
+    this.carrotService.isLikePost(this.post.id).subscribe((result) => {
+      this.isLiked = result;
+      this.setCarrotIcon()
+    });
   }
 
 
@@ -94,14 +107,27 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
 
 
   toggleLike() {
-    this.isLiked = !this.isLiked;
+    if (!this.isLiked) {
+      this.carrotService.setCarrotOnPost(this.post.id)
+        .subscribe((success) => {
+          if (success) {
+            this.isLiked = true
+            this.setCarrotIcon()
+          }
+        });
+    } else {
+      this.carrotService.deleteCarrotOnPost(this.post.id)
+        .subscribe((success) => {
+          if (success) {
+            this.isLiked = false
+            this.setCarrotIcon()
+          }
+        });
+    }
+  }
+
+  setCarrotIcon() {
     this.iconCarrot = this.isLiked ? carrotTouchedIcon : carrotIcon;
-
-    const url = this.isLiked
-      ? `/api/posts/${this.post.id}/like`
-      : `/api/posts/${this.post.id}/unlike`;
-
-    console.log("происходит морковканье поста с ид", this.post.id, url)
   }
 
   toggleComments() {

@@ -7,10 +7,15 @@
   </nz-card-meta>
 
   <div class="complaint-details">
+    <p class="item-date">
+      <i nz-icon nzType="calendar" nzTheme="outline"></i>
+      дата создания: {{ this.dateFormatterService.formatDate(item.creationDate) }} <br>
+      <i nz-icon nzType="stop" nzTheme="outline"></i>
+      дата конеца: {{ this.dateFormatterService.formatDate(item.closingDate) || 'не закрыта' }}
+    </p>
+
     <p><strong>тип нарушения:</strong> {{ item.violationType }}</p>
     <p><strong>описание:</strong> {{ item.description }}</p>
-    <p><strong>дата создания:</strong> {{ this.dateFormatterService.formatDate(item.creationDate) }}</p>
-    <p><strong>дата закрытия:</strong> {{ this.dateFormatterService.formatDate(item.closingDate) || 'не закрыта' }}</p>
     <div>
       <p *ngIf="item.post">
         <strong>пост ID:</strong>
@@ -19,7 +24,6 @@
       <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">закрыть пост</button>
       <app-post-card *ngIf="selectedPost" [post]="selectedPost"></app-post-card>
     </div>
-
 
     <div>
       <p *ngIf="item.comment">

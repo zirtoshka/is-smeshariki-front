@@ -25,9 +25,7 @@ export class BanService {
       page: 0,
       size: 2,
     };
-
     const params = { ...defaultOptions, ...options };
-
     return this.baseService.getItems("ban", params);
   }
 }

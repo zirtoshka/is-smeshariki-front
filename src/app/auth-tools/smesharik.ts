@@ -18,7 +18,8 @@ export class Smesharik {
     public email: string,
     public role: Roles,
     public isOnline: boolean,
-    public lastActive: string
+    public lastActive: string,
+    public color:string
   ) {
   }
 
@@ -30,7 +31,8 @@ export class Smesharik {
       data.email,
       fromString(data.role) ?? Roles.USER,
       data.isOnline,
-      data.lastActive
+      data.lastActive,
+      data.color,
     );
   }
 }

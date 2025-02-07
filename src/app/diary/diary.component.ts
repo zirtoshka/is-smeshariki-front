@@ -1,8 +1,10 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, inject, OnInit} from '@angular/core';
 import {PostService} from '../services/post.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostMetaComponent} from '../post-meta/post-meta.component';
 import {PostCardComponent} from '../post-card/post-card.component';
+import {NotificationCustomService} from '../notification-custom.service';
+import {Post} from '../model/post';
 
 @Component({
   selector: 'app-diary',
@@ -18,29 +20,48 @@ import {PostCardComponent} from '../post-card/post-card.component';
   styleUrl: './diary.component.css'
 })
 export class DiaryComponent implements OnInit{
-  posts: any[] = [];
+  items: any[] = [];
   loading = true;
   error = false;
+
   page = 0; // Текущая страница
-  offset = 4; // Количество постов за раз
   allLoaded = false; // Флаг окончания подгрузки
 
-  constructor(private postService: PostService) {}
+  protected notificationCustomService = inject(NotificationCustomService);
+  protected postService = inject(PostService);
 
   ngOnInit(): void {
     this.fetchPosts();
   }
 
-  fetchPosts(): void {
-    console.log("сейчас загружено постов: ", this.posts.length)
-    console.log("сейчас идет запрос для подгрузки постов", this.page, this.offset)
-    // const newPosts = this.postService.getPosts(this.page * this.offset, this.offset);
-    // if (newPosts.length) {
-    //   this.posts = [...this.posts, ...newPosts];
-    //   this.page++;
-    // } else {
-    //   this.allLoaded = true; // Больше постов нет
-    // }
+  fetchPosts(replacementIsNeeded: boolean = false): void {
+    const newPosts = this.postService.getDiary({
+      page: this.page,
+    }).subscribe({
+      next: (response) => {
+        const newItems = response.content.map(data => Post.fromBackend(data));
+        this.fetchHelper(newItems, replacementIsNeeded)
+      },
+      error: (err: any) => {
+        console.error('Ошибка при загрузке:', err);
+        this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+      }
+    });
+  }
+
+  fetchHelper(newItems: Post[], replacementIsNeeded: boolean = false) {
+    if (replacementIsNeeded) {
+      this.items = []
+    }
+    const uniqueNewItems = newItems.filter(
+      (newItem) => !this.items.some((existingItem) => existingItem.id === newItem.id)
+    );
+    if (newItems.length) {
+      this.items = [...this.items, ...uniqueNewItems];
+      this.page++;
+    } else {
+      this.allLoaded = true;
+    }
     this.loading = false;
   }
 
@@ -57,17 +78,3 @@ export class DiaryComponent implements OnInit{
     }
   }
 }
-
-
-
-// this.newsService.getNews('us', 'technology').subscribe({
-//   next: (response) => {
-//     this.news = response.articles;
-//     this.loading = false;
-//   },
-//   error: (err) => {
-//     console.error('Error fetching news:', err);
-//     this.error = true;
-//     this.loading = false;
-//   }
-// });

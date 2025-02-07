@@ -3,9 +3,12 @@ import {NgForOf, NgIf} from '@angular/common';
 import {PostService} from '../services/post.service';
 import {PostCardComponent} from '../post-card/post-card.component';
 import {BanCardComponent} from '../ban/ban-card/ban-card.component';
-import {Ban} from '../model/ban';
 import {NotificationCustomService} from '../notification-custom.service';
 import {Post} from '../model/post';
+import {SearchFilterComponent} from '../search-filter/search-filter.component';
+import {DataFormaterService} from '../data-formater.service';
+import {UserService} from '../services/user.service';
+import {Smesharik} from '../auth-tools/smesharik';
 
 @Component({
   selector: 'app-feed',
@@ -14,7 +17,8 @@ import {Post} from '../model/post';
     NgForOf,
     NgIf,
     PostCardComponent,
-    BanCardComponent
+    BanCardComponent,
+    SearchFilterComponent
   ],
   providers: [PostService],
   templateUrl: './feed.component.html',
@@ -22,6 +26,8 @@ import {Post} from '../model/post';
 })
 export class FeedComponent implements OnInit {
   items: any[] = [];
+  private authorsMap = new Map<string, Smesharik>();
+
   loading = true;
   error = false;
 
@@ -32,54 +38,70 @@ export class FeedComponent implements OnInit {
 
   protected notificationCustomService = inject(NotificationCustomService);
   protected postService = inject(PostService);
+  protected authorService = inject(UserService);
 
 
   ngOnInit(): void {
     this.fetchPosts();
   }
 
-  fetchPosts(): void {
-    console.log("сейчас загружено постов: ", this.items.length)
-    // console.log("сейчас идет запрос для подгрузки постов", this.page, this.offset)
-    const newPosts = this.postService.getPosts({
+  fetchPosts(replacementIsNeeded: boolean = false): void {
+    const newPosts = this.postService.getFeed({
       page: this.page,
       filter: this.searchQuery,
     }).subscribe({
       next: (response) => {
         const newItems = response.content.map(data => Post.fromBackend(data));
-        this.fetchHelper(newItems)
+        this.fetchHelper(newItems, replacementIsNeeded)
       },
       error: (err: any) => {
         console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
       }
     });
-
-    // if (newPosts.length) {
-    //   this.posts = [...this.posts, ...newPosts];
-    //   this.page++;
-    // } else {
-    //   this.allLoaded = true; // Больше постов нет
-    // }
-    // this.loading = false;
   }
 
 
   fetchHelper(newItems: Post[], replacementIsNeeded: boolean = false) {
     if (replacementIsNeeded) {
-      this.items = []
+      this.items = [];
     }
-    const uniqueNewItems = newItems.filter(
+
+    let uniqueNewItems = newItems.filter(
       (newItem) => !this.items.some((existingItem) => existingItem.id === newItem.id)
     );
-    if (newItems.length) {
+
+    if (uniqueNewItems.length) {
+      uniqueNewItems = this.setAuthors(uniqueNewItems)
       this.items = [...this.items, ...uniqueNewItems];
       this.page++;
     } else {
       this.allLoaded = true;
     }
     this.loading = false;
-    console.log(this.items)
+  }
+
+
+  setAuthors(uniqueNewItems: Post[]) {
+    uniqueNewItems.forEach((item) => {
+      const author = this.authorsMap.get(item.author);
+      if (author) {
+        item.smesharikAuthor = author;
+      } else {
+        this.authorService.getSmesharikByLogin(item.author).subscribe((fetchedAuthor) => {
+          item.smesharikAuthor = fetchedAuthor;
+          this.authorsMap.set(fetchedAuthor.login, fetchedAuthor);
+        });
+      }
+    });
+    return uniqueNewItems;
+  }
+
+  handleSearchChange(searchData: { query: string }) {
+    this.searchQuery = searchData.query
+    this.page = 0;
+    this.allLoaded = false
+    this.fetchPosts(true);
   }
 
 

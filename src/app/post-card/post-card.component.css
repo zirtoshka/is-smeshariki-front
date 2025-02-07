@@ -1,6 +1,6 @@
 .post-card {
-  margin: 2%;
-  padding: 2%;
+  margin: 10px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -14,4 +14,8 @@
   font-weight: 800;
   color: #8f69ff;
   margin-left: 0;
+}
+
+.post-carrots {
+  user-select: none;
 }

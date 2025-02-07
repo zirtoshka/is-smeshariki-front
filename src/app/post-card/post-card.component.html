@@ -1,24 +1,14 @@
-<app-back-button [isFeed]="isFeed" (goBackEvent)="handleGoBack()"> dddd</app-back-button>
+<app-back-button [isFeed]="isFeed" (goBackEvent)="handleGoBack()"> назад</app-back-button>
 
 <nz-card class="post-card" [nzBordered]="true" [nzHoverable]="true">
-  <div class="post-header">
-    <h3 class="post-title">
-      <nz-avatar
-        nzSize="large"
-        [style]="{ 'background-color': '#8228e6' }"
-        nzIcon="user"></nz-avatar>
-
-      <span class="post-author">post ID: {{ post.id }}</span>
-      <span class="post-author">автор ID: {{ post.author }}</span>
-    </h3>
-    <div class="post-tag">
-      <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
-    </div>
-    <p class="post-date">
-      <i nz-icon nzType="calendar" nzTheme="outline"></i>
-      опубликовано: {{ post.publicationDate }}
-    </p>
-
+  <nz-card-meta
+    [nzTitle]="title"
+    [nzDescription]="nzDescription"
+    [nzAvatar]="avatarTemplate">
+  </nz-card-meta>
+  <br>
+  <div class="post-tag" *ngIf="!isFeed">
+    <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
   </div>
 
 
@@ -44,11 +34,13 @@
     <app-carrot-count [postId]="post.id"></app-carrot-count>
   </div>
 
+
   <div class="comment-toggle" *ngIf="isCommentExisted">
     <i (click)="toggleComments()">
       {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}
     </i>
   </div>
+
   <div class="comment-toggle" *ngIf="!isCommentExisted">
     комментариев нема
   </div>
@@ -58,3 +50,25 @@
 
 </nz-card>
 
+<ng-template #avatarTemplate>
+  <nz-avatar
+    [style.background-color]="post.smesharikAuthor?.color"
+    nzSize="large"
+    nzIcon="user"
+  >
+  </nz-avatar>
+</ng-template>
+
+<ng-template #nzDescription>
+  <p class="item-date">
+    <i nz-icon nzType="calendar" nzTheme="outline"></i>
+    опубликовано: {{ this.dateFormatterService.formatDate(post.publicationDate) }} <br>
+  </p>
+</ng-template>
+
+
+<ng-template #title>
+  {{post.smesharikAuthor?.name}}
+  {{post.author}}
+  {{post.id}}
+</ng-template>

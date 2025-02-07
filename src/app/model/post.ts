@@ -1,4 +1,5 @@
 import {BaseModel} from './base-data';
+import {Smesharik} from '../auth-tools/smesharik';
 
 export enum PostTag {
   draft = 'черновик',
@@ -16,6 +17,7 @@ export class Post extends BaseModel<Post> {
   publicationDate: Date | null;
   creationDate: Date | null;
   countCarrots: number | null;
+  smesharikAuthor:Smesharik|null;
 
   constructor(data: any) {
     super();
@@ -28,6 +30,7 @@ export class Post extends BaseModel<Post> {
     this.publicationDate = data.publicationDate;
     this.creationDate = data.creationDate;
     this.countCarrots = data.counCarrots;
+    this.smesharikAuthor = data.smesharikAuthor;
   }
 
   toBackendJson(): Record<string, any> {
