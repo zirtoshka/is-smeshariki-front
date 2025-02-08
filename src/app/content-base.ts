@@ -11,11 +11,7 @@ export abstract class ContentBase<T> extends BaseCard<T> {
   //   new Post(8, 42, false, false, 'Текст поста 1', '', '2023-01-01T12:00:00Z', '2023-01-01T10:00:00Z'),
   //   new Post(2, 43, false, true, 'Текст поста 2', '', '2023-02-01T12:00:00Z', '2023-02-01T10:00:00Z'),
   // ];
-  comments: CommentS[] = [
-    new CommentS(1, "sdsdfs", 1, 2, null, '2023-02-01T12:00:00Z'),
-    new CommentS(6, "sdsdfs", 1, 2, 1, '2023-02-01T12:00:00Z'),
-
-  ]
+  comments: CommentS[] =[]
 
   showPost(postId: number|string): void {
     //todo

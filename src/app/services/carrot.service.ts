@@ -25,7 +25,7 @@ export class CarrotService {
   });
 
 
-  private baseService = inject(BaseService<Post>);
+  private baseService = inject(BaseService);
 
   getCarrotCountPost(postId: number | null) {
     if (postId == null) {

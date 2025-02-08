@@ -1,50 +1,83 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {CommentS} from '../model/comment';
+import {BehaviorSubject, map, Observable, tap} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {getAuthToken} from '../auth-tools/auth-utils';
+import {BaseService} from '../base/base.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
+  private commentsSubject = new BehaviorSubject<CommentS[]>([]);
+  private hasMoreSubject = new BehaviorSubject<boolean>(true);
+  private page = 0;
+  private readonly pageSize = 2;
+  private postId!: number;
 
-  comments: CommentS[];
+  private baseService = inject(BaseService<CommentS>);
 
-  constructor() {
-    const a = [
-      new CommentS(1, 'Это первый комментарий', 1, 1, null, '2025-01-12'),
-      new CommentS(2, 'Это вложенный комментарий', 1, 1, 1, '2025-01-12'),
-      new CommentS(3, 'Еще один комментарий', 1, 1, null, '2025-01-13'),
-      new CommentS(4, 'Еще один вложенный комментарий', 1, 1, 3, '2025-01-13'),
-      new CommentS(5, 'Это вложенный комментарий', 1, 1, 2, '2025-01-12'),
+  constructor(private http: HttpClient) {
+  }
 
-    ]
-    const b = Array.from({length: 10}, (_, i) => {
-      const id = i + 5;
-      const smesharikId = Math.floor(Math.random() * 50) + 1;
-      const postId = Math.floor(Math.random() * 10) + 1;
-      const commentNested = Math.random() < 0.8;
-      const commentId = commentNested ?
-        Math.floor(Math.random() * 100) + 1
-        : null;
-      const text = `Текст поста ${id}. ` +
-        'От твоего взгляда моё сердце дрожит, как пустой холодильник.'
-          .repeat(20).slice(0, 200);
-      const creationDate = new Date(Date.now() - id * 10000000).toISOString();
+  get comments$(): Observable<CommentS[]> {
+    return this.commentsSubject.asObservable();
+  }
 
-      return new CommentS(id, text, smesharikId, postId, commentId, creationDate,);
-    });
-    this.comments = [...b, ...a]
+  /**  observabl, можно ли загружать ещё */
+  get hasMore$(): Observable<boolean> {
+    return this.hasMoreSubject.asObservable();
+  }
+
+  /**первая страница */
+  loadComments(postId: number): void {
+    this.postId = postId;
+    this.page = 0;
+    this.commentsSubject.next([]);
+    this.hasMoreSubject.next(true);
+    this.fetchComments();
+  }
+
+  loadMore(): void {
+    if (!this.hasMoreSubject.value) return;
+    this.page++;
+    this.fetchComments();
+  }
+
+  private fetchComments(): void {
+    this.baseService.getItems("comment", {size: this.pageSize, page: this.page, post: this.postId}
+    ).pipe(
+      tap(response => {
+        if (response.content.length < this.pageSize) {
+          this.hasMoreSubject.next(false);
+        }
+      }),
+      map(response => {
+        const currentComments = this.commentsSubject.value ?? [];
+        return [...currentComments, ...response.content as CommentS[]];
+      })
+    )
+      .subscribe({
+        next: (updatedComments) => this.commentsSubject.next(updatedComments),
+        error: (err) => console.error('Ошибка загрузки комментариев:', err)
+      });
+
+    console.log(this.commentsSubject.value);
   }
 
 
   getCommentsByPostId(postId: number | null) {
+
     if (postId == null) {
       return [];
     }
-    return this.comments.filter((com) => com.postId === postId);
+    return this.commentsSubject.asObservable()
+    // return this.comments.filter((com) => com.postId === postId);
   }
+
   getCommentsById(id: number | null) {
     if (id != null) {
-      return this.comments.filter((comment) => comment.id != id)[0];
+      // return this.comments.filter((comment) => comment.id != id)[0];
     }
     return;
   }
@@ -52,7 +85,8 @@ export class CommentService {
   groupComments(comments: CommentS[]) {
     const map: { [key: string]: CommentS[] } = {};
     comments.forEach((comment: CommentS) => {
-      const parentId = comment.commentId !== null ? comment.commentId?.toString() : 'null';
+      const parentId = 0
+      // comment.commentId !== null ? comment.commentId?.toString() : 'null';
       if (!map[parentId]) {
         map[parentId] = [];
       }

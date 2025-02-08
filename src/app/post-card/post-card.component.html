@@ -35,18 +35,28 @@
   </div>
 
 
-  <div class="comment-toggle" *ngIf="isCommentExisted">
-    <i (click)="toggleComments()">
-      {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}
-    </i>
+<!--  <div class="comment-toggle" *ngIf="isCommentExisted">-->
+<!--    <i (click)="toggleComments()">-->
+<!--      {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}-->
+<!--    </i>-->
+<!--  </div>-->
+
+<!--  <div class="comment-toggle" *ngIf="!isCommentExisted">-->
+<!--    комментариев нема-->
+<!--  </div>-->
+
+
+
+<!--  <app-nested-comm *ngIf="isCommentsVisible"-->
+<!--                   [groupedComments]="commentService.groupComments(this.commentsList)"></app-nested-comm>-->
+
+
+  <div *ngFor="let comment of comments$ | async">
+    <p>{{ comment.text }}</p>
   </div>
 
-  <div class="comment-toggle" *ngIf="!isCommentExisted">
-    комментариев нема
-  </div>
+  <button (click)="onScroll()" *ngIf="hasMore$ | async">Загрузить ещё</button>
 
-  <app-nested-comm *ngIf="isCommentsVisible"
-                   [groupedComments]="commentService.groupComments(this.commentsList)"></app-nested-comm>
 
 </nz-card>
 
