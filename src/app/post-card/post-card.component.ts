@@ -20,6 +20,7 @@ import {DataFormaterService} from '../data-formater.service';
 import {NotificationCustomService} from '../notification-custom.service';
 import {CarrotService} from '../services/carrot.service';
 import {Observable, of} from 'rxjs';
+import {CommentCard2Component} from '../comment-card2/comment-card2.component';
 
 
 @Component({
@@ -38,9 +39,10 @@ import {Observable, of} from 'rxjs';
     NzButtonComponent,
     BackButtonComponent,
     NzCardMetaComponent,
-    AsyncPipe
+    AsyncPipe,
+    CommentCard2Component
   ],
-  providers: [PostService, DatePipe],
+  providers: [PostService, DatePipe, CommentService],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
@@ -58,9 +60,12 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
 
   @Input() post!: Post;
 
-  protected commentService = inject(CommentService); // ⬅️ Перенесено вверх
+  protected commentService = inject(CommentService);
   comments$ = this.commentService.comments$;
   hasMore$ = this.commentService.hasMore$;
+  // commentTree$!: Observable<Map<number, CommentS[]>>;
+  commentTree$ = this.commentService.commentTree$;
+
 
 
   iconCarrot = carrotIcon;
@@ -99,8 +104,8 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
       console.log(this.post)
     }
 
+    console.log(this.post.id)
     this.commentService.loadComments(this.post.id);
-
     this.carrotService.isLikePost(this.post.id).subscribe((result) => {
       this.isLiked = result;
       this.setCarrotIcon()
@@ -155,6 +160,9 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
 
   onScroll(): void {
     this.commentService.loadMore();
+  }
+  onLoadReplies(parentId: number): void {
+    this.commentService.loadReplies(parentId);
   }
 
 }

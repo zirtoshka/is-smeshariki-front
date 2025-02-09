@@ -1,27 +1,38 @@
 import {inject, Injectable} from '@angular/core';
 import {CommentS} from '../model/comment';
-import {BehaviorSubject, map, Observable, tap} from 'rxjs';
+import {BehaviorSubject, map, Observable, tap, withLatestFrom} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {getAuthToken} from '../auth-tools/auth-utils';
 import {BaseService} from '../base/base.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class CommentService {
   private commentsSubject = new BehaviorSubject<CommentS[]>([]);
   private hasMoreSubject = new BehaviorSubject<boolean>(true);
+  private commentTreeSubject = new BehaviorSubject<Map<number, CommentS[]>>(new Map());
+
   private page = 0;
   private readonly pageSize = 2;
   private postId!: number;
 
   private baseService = inject(BaseService<CommentS>);
 
+
+  private replyPages = new Map<number, number>(); // счетчик страниц для каждого комментария
+  private hasMoreRepliesMap = new Set<number>();
+
+
   constructor(private http: HttpClient) {
   }
 
   get comments$(): Observable<CommentS[]> {
     return this.commentsSubject.asObservable();
+  }
+
+  get commentTree$(): Observable<Map<number, CommentS[]>> {
+    return this.commentTreeSubject.asObservable();
   }
 
   /**  observabl, можно ли загружать ещё */
@@ -34,6 +45,7 @@ export class CommentService {
     this.postId = postId;
     this.page = 0;
     this.commentsSubject.next([]);
+    this.commentTreeSubject.next(new Map());
     this.hasMoreSubject.next(true);
     this.fetchComments();
   }
@@ -64,6 +76,35 @@ export class CommentService {
 
     console.log(this.commentsSubject.value);
   }
+
+  loadReplies(parentId: number): void {
+    console.log("loadreplie in service for "+ parentId)
+    const currentPage = this.replyPages.get(parentId) ?? 0;
+
+    if (this.hasMoreRepliesMap.has(parentId)) return; // Все ответы загружены
+
+    this.baseService.getItems("comment", {size: this.pageSize, page: currentPage, comment: parentId}
+    ).pipe(
+      map(response => response.content),
+      tap(replies => {
+        if (replies.length < this.pageSize) {
+          this.hasMoreRepliesMap.add(parentId);
+        }
+      }),
+      map(response => response)
+    ). subscribe({
+      next: (newReplies) => {
+      const currentTree = new Map(this.commentTreeSubject.value);
+      const existingReplies = currentTree.get(parentId) || [];
+      currentTree.set(parentId, [...existingReplies as CommentS[], ...newReplies as CommentS[]]);
+
+      this.commentTreeSubject.next(currentTree);
+      this.replyPages.set(parentId, currentPage + 1);
+    },
+      error: (err) => console.error(`Ошибка загрузки ответов для ${parentId}:`, err)
+  });
+  }
+
 
 
   getCommentsByPostId(postId: number | null) {

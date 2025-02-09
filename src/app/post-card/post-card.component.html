@@ -35,28 +35,35 @@
   </div>
 
 
-<!--  <div class="comment-toggle" *ngIf="isCommentExisted">-->
-<!--    <i (click)="toggleComments()">-->
-<!--      {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}-->
-<!--    </i>-->
-<!--  </div>-->
+  <!--  <div class="comment-toggle" *ngIf="isCommentExisted">-->
+  <!--    <i (click)="toggleComments()">-->
+  <!--      {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}-->
+  <!--    </i>-->
+  <!--  </div>-->
 
-<!--  <div class="comment-toggle" *ngIf="!isCommentExisted">-->
-<!--    комментариев нема-->
-<!--  </div>-->
+  <!--  <div class="comment-toggle" *ngIf="!isCommentExisted">-->
+  <!--    комментариев нема-->
+  <!--  </div>-->
 
 
+  <!--  <app-nested-comm *ngIf="isCommentsVisible"-->
+  <!--                   [groupedComments]="commentService.groupComments(this.commentsList)"></app-nested-comm>-->
 
-<!--  <app-nested-comm *ngIf="isCommentsVisible"-->
-<!--                   [groupedComments]="commentService.groupComments(this.commentsList)"></app-nested-comm>-->
 
+  <!--  <div *ngFor="let comment of comments$ | async">-->
+  <!--    <p>{{ comment.text }}</p>-->
+  <!--  </div>-->
+
+  <!--  <button (click)="onScroll()" *ngIf="hasMore$ | async">Загрузить ещё</button>-->
 
   <div *ngFor="let comment of comments$ | async">
-    <p>{{ comment.text }}</p>
+    <app-comment-card2
+      [comment]="comment"
+      (loadRepliesEvent)="onLoadReplies($event)">
+    </app-comment-card2>
   </div>
 
-  <button (click)="onScroll()" *ngIf="hasMore$ | async">Загрузить ещё</button>
-
+  <button (click)="onScroll()" *ngIf="hasMore$ | async">Загрузить еще</button>
 
 </nz-card>
 
