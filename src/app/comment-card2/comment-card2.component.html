@@ -45,7 +45,13 @@
 <!--  </div>-->
 <!--</nz-card>-->
 
-<nz-card class="comment-card" [nzBordered]="false">
+<nz-card class="comment-card" [nzBordered]="true">
+  <nz-card-meta
+    [nzTitle]="title"
+    [nzDescription]="nzDescription"
+    [nzAvatar]="avatarTemplate">
+  </nz-card-meta>
+
   <div class="comment-header">
     <strong>{{ comment.smesharik }}</strong>
   </div>
@@ -62,7 +68,7 @@
   </div>
 
   <button *ngIf="comment.hasChildren && !showReplies" nz-button nzType="link" (click)="loadReplies()">
-    Показать ответы
+    показать ответы
   </button>
 
   <!-- Вложенные комментарии, загруженные из commentTree$ -->
@@ -75,5 +81,29 @@
 
 
 
+
+
+<ng-template #avatarTemplate>
+  <nz-avatar
+    [style.background-color]="comment.smesharikAuthor?.color"
+    nzSize="large"
+    nzIcon="user"
+  >
+  </nz-avatar>
+</ng-template>
+
+<ng-template #nzDescription>
+  <p class="item-date">
+    <i nz-icon nzType="calendar" nzTheme="outline"></i>
+    опубликовано: {{ this.dateFormatterService.formatDate(comment.creationDate) }} <br>
+  </p>
+</ng-template>
+
+
+<ng-template #title>
+  {{ comment.smesharikAuthor?.name }}
+  {{ comment.smesharik }}
+  {{ comment.id }}
+</ng-template>
 
 

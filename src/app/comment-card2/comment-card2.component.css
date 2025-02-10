@@ -15,8 +15,8 @@
 
 .nested-comment {
   margin-left: 24px; /* Отступ для вложенных */
-  background: #cd96f1;
-  border-left: 2px solid #da2c2c; /* Линия связи */
+  /*background: #e8e0fb;*/
+  border-left: 4px solid #e8e0fb; /* Линия связи */
   padding-left: 12px;
 }
 

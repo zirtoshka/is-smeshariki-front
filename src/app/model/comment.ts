@@ -1,3 +1,5 @@
+import {Smesharik} from '../auth-tools/smesharik';
+
 export class CommentS {
   constructor(
     public id: number,
@@ -8,6 +10,8 @@ export class CommentS {
     public text: string,
     public hasChildren: boolean = false,
     public countCarrots: number = 0,
+    public isLiked: boolean = false,
+    public smesharikAuthor: Smesharik | null = null
   ) {
   }
 }

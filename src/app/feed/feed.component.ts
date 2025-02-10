@@ -9,6 +9,8 @@ import {SearchFilterComponent} from '../search-filter/search-filter.component';
 import {DataFormaterService} from '../data-formater.service';
 import {UserService} from '../services/user.service';
 import {Smesharik} from '../auth-tools/smesharik';
+import {AuthorService} from '../author.service';
+import {forkJoin, map, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feed',
@@ -26,7 +28,7 @@ import {Smesharik} from '../auth-tools/smesharik';
 })
 export class FeedComponent implements OnInit {
   items: any[] = [];
-  private authorsMap = new Map<string, Smesharik>();
+  // private authorsMap = new Map<string, Smesharik>();
 
   loading = true;
   error = false;
@@ -38,7 +40,9 @@ export class FeedComponent implements OnInit {
 
   protected notificationCustomService = inject(NotificationCustomService);
   protected postService = inject(PostService);
-  protected authorService = inject(UserService);
+  protected authorService = inject(AuthorService);
+
+  // protected authorService = inject(UserService);
 
 
   ngOnInit(): void {
@@ -68,13 +72,20 @@ export class FeedComponent implements OnInit {
     }
 
     let uniqueNewItems = newItems.filter(
-      (newItem) => !this.items.some((existingItem) => existingItem.id === newItem.id)
+      newItem => !this.items.some(existingItem => existingItem.id === newItem.id)
     );
 
     if (uniqueNewItems.length) {
-      uniqueNewItems = this.setAuthors(uniqueNewItems)
-      this.items = [...this.items, ...uniqueNewItems];
-      this.page++;
+      const authorRequests = uniqueNewItems.map(item =>
+        this.authorService.getSmesharikByLogin(item.author).pipe(
+          map(author => ({ ...item, smesharikAuthor: author }))
+        )
+      );
+
+      forkJoin(authorRequests).subscribe(updatedItems => {
+        this.items = [...this.items, ...updatedItems];
+        this.page++;
+      });
     } else {
       this.allLoaded = true;
     }
@@ -82,20 +93,6 @@ export class FeedComponent implements OnInit {
   }
 
 
-  setAuthors(uniqueNewItems: Post[]) {
-    uniqueNewItems.forEach((item) => {
-      const author = this.authorsMap.get(item.author);
-      if (author) {
-        item.smesharikAuthor = author;
-      } else {
-        this.authorService.getSmesharikByLogin(item.author).subscribe((fetchedAuthor) => {
-          item.smesharikAuthor = fetchedAuthor;
-          this.authorsMap.set(fetchedAuthor.login, fetchedAuthor);
-        });
-      }
-    });
-    return uniqueNewItems;
-  }
 
   handleSearchChange(searchData: { query: string }) {
     this.searchQuery = searchData.query

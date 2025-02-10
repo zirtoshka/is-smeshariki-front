@@ -41,21 +41,18 @@ export class CarrotService {
     return this.carrots.filter((carrot) => carrot.commentId === commentId).length;
   }
 
-  isLikeComment(id: number | null) {
-    const params = {comment: id};
-    this.baseService.getMessageByParams(`carrot/check`, params)
-      .subscribe({
-        next: (response) => {
-          return response.toString().includes("выставлен");
-        },
-        error: (err: any) => {
-          return false
-        }
-      });
-  }
 
   isLikePost(id: number): Observable<boolean> {
     const params = {post: id};
+    return this.isLiked(params)
+  }
+
+  isLikeComment(id: number): Observable<boolean> {
+    const params = {comment: id};
+    return this.isLiked(params);
+  }
+
+  isLiked(params: any): Observable<boolean> {
     return this.baseService.getMessageByParams(`carrot/check`, params).pipe(
       map((response) => response.message.includes("выставлен")),
       catchError((error: HttpErrorResponse) => {
@@ -67,7 +64,6 @@ export class CarrotService {
       })
     );
   }
-
 
   setCarrotOnPost(id: number) {
     const params = {post: id};
@@ -85,7 +81,6 @@ export class CarrotService {
     );
   }
 
-  //todo
   setCarrotOnComment(id: number) {
     const params = {comment: id};
     return this.baseService.postWithParams(`carrot`, params).pipe(
@@ -93,7 +88,7 @@ export class CarrotService {
       catchError(() => of(false))
     );
   }
-  //todo
+
   deleteCarrotOnComment(id: number) {
     const params = {comment: id};
     return this.baseService.deleteWithParams(`carrot`, params).pipe(

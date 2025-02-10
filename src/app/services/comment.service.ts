@@ -1,14 +1,17 @@
 import {inject, Injectable} from '@angular/core';
 import {CommentS} from '../model/comment';
-import {BehaviorSubject, map, Observable, tap, withLatestFrom} from 'rxjs';
+import {BehaviorSubject, forkJoin, map, mergeMap, Observable, tap, withLatestFrom} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {getAuthToken} from '../auth-tools/auth-utils';
 import {BaseService} from '../base/base.service';
+import {CarrotService} from './carrot.service';
+import {AuthorService} from '../author.service';
 
 @Injectable({
   providedIn: 'any'
 })
-export class  CommentService {
+export class CommentService {
+
   private commentsSubject = new BehaviorSubject<CommentS[]>([]);
   private hasMoreSubject = new BehaviorSubject<boolean>(true);
   private commentTreeSubject = new BehaviorSubject<Map<number, CommentS[]>>(new Map());
@@ -18,6 +21,8 @@ export class  CommentService {
   private postId!: number;
 
   private baseService = inject(BaseService<CommentS>);
+  protected carrotService = inject(CarrotService);
+  protected authorService = inject(AuthorService);
 
 
   private replyPages = new Map<number, number>(); // счетчик страниц для каждого комментария
@@ -64,21 +69,35 @@ export class  CommentService {
           this.hasMoreSubject.next(false);
         }
       }),
-      map(response => {
+      mergeMap(response => {
+        const comments = response.content as CommentS[];
+        const likedRequest = comments.map(comment =>
+          this.carrotService.isLikeComment(comment.id).pipe(
+            map(isLiked => ({...comment, isLiked}))
+          ));
+        return forkJoin(likedRequest);
+      }),
+      mergeMap(updatedComments => {
+        const authorRequest = updatedComments.map(comment =>
+        this.authorService.getSmesharikByLogin(comment.smesharik).pipe(
+          map(author => ({...comment,smesharikAuthor: author}))
+        ));
+
+        return forkJoin(authorRequest);
+      }),
+      map(updatedCommentsWithAuthors => {
         const currentComments = this.commentsSubject.value ?? [];
-        return [...currentComments, ...response.content as CommentS[]];
+        return [...currentComments, ...updatedCommentsWithAuthors];
       })
     )
       .subscribe({
         next: (updatedComments) => this.commentsSubject.next(updatedComments),
         error: (err) => console.error('Ошибка загрузки комментариев:', err)
       });
-
-    console.log(this.commentsSubject.value);
   }
 
   loadReplies(parentId: number): void {
-    console.log("loadreplie in service for "+ parentId)
+    console.log("loadreplie in service for " + parentId)
     const currentPage = this.replyPages.get(parentId) ?? 0;
 
     if (this.hasMoreRepliesMap.has(parentId)) return; // Все ответы загружены
@@ -91,20 +110,31 @@ export class  CommentService {
           this.hasMoreRepliesMap.add(parentId);
         }
       }),
-      map(response => response)
-    ). subscribe({
-      next: (newReplies) => {
-      const currentTree = new Map(this.commentTreeSubject.value);
-      const existingReplies = currentTree.get(parentId) || [];
-      currentTree.set(parentId, [...existingReplies as CommentS[], ...newReplies as CommentS[]]);
+      mergeMap(response => {
+        const replies = response as CommentS[];
+        const likedRequest = replies.map(reply =>
+          this.carrotService.isLikeComment(reply.id).pipe(
+            map(isLiked => ({...reply, isLiked}))
+          ));
+        return forkJoin(likedRequest);
+      }),
+      mergeMap(updatedReplies=>{
+        const authorRequest = updatedReplies.map(comment =>
+          this.authorService.getSmesharikByLogin(comment.smesharik).pipe(
+            map(author=>({...comment, smesharikAuthor: author}))
+          ));
+        return forkJoin(authorRequest);
 
-      this.commentTreeSubject.next(currentTree);
-      this.replyPages.set(parentId, currentPage + 1);
-    },
+      }),
+      map(updatedRepliesWithAuthors => {
+        const currentTree = new Map(this.commentTreeSubject.value);
+        const existingReplies = currentTree.get(parentId) || [];
+        return currentTree.set(parentId, [...existingReplies, ...updatedRepliesWithAuthors]);
+      })).subscribe({
+      next: (updatedTree) => this.commentTreeSubject.next(updatedTree),
       error: (err) => console.error(`Ошибка загрузки ответов для ${parentId}:`, err)
-  });
+    });
   }
-
 
 
   getCommentsByPostId(postId: number | null) {

@@ -2,16 +2,18 @@ import {Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulatio
 import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
 import {map, Observable} from 'rxjs';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import {NzListComponent, NzListItemComponent} from 'ng-zorro-antd/list';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzCommentComponent, NzCommentContentDirective} from 'ng-zorro-antd/comment';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
-import {NzCardComponent} from 'ng-zorro-antd/card';
+import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {carrotIcon, carrotTouchedIcon} from '../services/icon.service';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {CarrotService} from '../services/carrot.service';
+import {HttpClient} from '@angular/common/http';
+import {DataFormaterService} from '../data-formater.service';
 
 @Component({
   selector: 'app-comment-card2',
@@ -28,8 +30,10 @@ import {CarrotService} from '../services/carrot.service';
     NzCardComponent,
     AsyncPipe,
     CarrotCountComponent,
-    NzIconDirective
+    NzIconDirective,
+    NzCardMetaComponent
   ],
+  providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './comment-card2.component.html',
   styleUrl: './comment-card2.component.css'
@@ -42,11 +46,17 @@ export class CommentCard2Component implements OnInit {
   showReplies = false;
 
   iconCarrot = carrotIcon;
-  isLiked: boolean = false;
+  @Input() isLiked!: boolean; //todo
   protected carrotService = inject(CarrotService);
 
 
   protected commentService = inject(CommentService);
+
+
+  constructor(
+    protected dateFormatterService: DataFormaterService
+  ) {
+  }
 
   ngOnInit() {
     this.commentService.commentTree$.pipe(
@@ -56,6 +66,10 @@ export class CommentCard2Component implements OnInit {
         this.showReplies = true; // ответы уже загружены — сразу показать
       }
     });
+
+
+    this.isLiked = this.comment.isLiked;
+    this.setCarrotIcon();
   }
 
 
