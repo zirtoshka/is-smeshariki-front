@@ -18,7 +18,7 @@ export class Smesharik {
     public email: string,
     public role: Roles,
     public isOnline: boolean,
-    public lastActive: string | null = null,
+    public lastActive: Date | null ,
     public color: string
   ) {
   }

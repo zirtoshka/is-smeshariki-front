@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulatio
 import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
 import {map, Observable} from 'rxjs';
-import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzListComponent, NzListItemComponent} from 'ng-zorro-antd/list';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzCommentComponent, NzCommentContentDirective} from 'ng-zorro-antd/comment';
@@ -14,6 +14,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {CarrotService} from '../services/carrot.service';
 import {HttpClient} from '@angular/common/http';
 import {DataFormaterService} from '../data-formater.service';
+import {NzBadgeComponent} from 'ng-zorro-antd/badge';
 
 @Component({
   selector: 'app-comment-card2',
@@ -31,7 +32,9 @@ import {DataFormaterService} from '../data-formater.service';
     AsyncPipe,
     CarrotCountComponent,
     NzIconDirective,
-    NzCardMetaComponent
+    NzCardMetaComponent,
+    NgClass,
+    NzBadgeComponent
   ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,

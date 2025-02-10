@@ -11,7 +11,7 @@ export class CommentS {
     public hasChildren: boolean = false,
     public countCarrots: number = 0,
     public isLiked: boolean = false,
-    public smesharikAuthor: Smesharik | null = null
+    public smesharikAuthor: Smesharik | null
   ) {
   }
 }

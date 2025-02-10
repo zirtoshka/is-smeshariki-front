@@ -8,7 +8,7 @@ export class DataFormaterService {
 
   constructor(private datePipe: DatePipe) {}
 
-  formatDate(date: Date | null, format: string = 'dd MMMM yyyy HH:mm:ss', locale: string = 'ru-RU'): string {
+  formatDate(date: Date | null|undefined, format: string = 'dd MMMM yyyy HH:mm:ss', locale: string = 'ru-RU'): string {
     if (!date) return '';
     return this.datePipe.transform(date, format, undefined, locale) || '';
   }}

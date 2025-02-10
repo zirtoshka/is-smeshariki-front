@@ -52,9 +52,7 @@
     [nzAvatar]="avatarTemplate">
   </nz-card-meta>
 
-  <div class="comment-header">
-    <strong>{{ comment.smesharik }}</strong>
-  </div>
+
   <p>{{ comment.text }}</p>
   <div class="carrots">
     <i
@@ -80,20 +78,29 @@
 </nz-card>
 
 
-
-
-
 <ng-template #avatarTemplate>
-  <nz-avatar
-    [style.background-color]="comment.smesharikAuthor?.color"
-    nzSize="large"
-    nzIcon="user"
-  >
-  </nz-avatar>
+  <div class="avatar-container">
+    <nz-avatar
+      [style.background-color]="comment.smesharikAuthor?.color"
+      nzSize="large"
+      nzIcon="user">
+    </nz-avatar>
+    <span class="status-indicator"
+          [ngClass]="{ 'online': comment.smesharikAuthor?.isOnline, 'offline': !comment.smesharikAuthor?.isOnline }">
+  </span>
+  </div>
+
 </ng-template>
 
 <ng-template #nzDescription>
   <p class="item-date">
+
+     <span *ngIf="!comment.smesharikAuthor?.isOnline">
+      <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+      был в сети: {{
+         dateFormatterService.formatDate(comment.smesharikAuthor?.lastActive)
+       }}
+    </span>
     <i nz-icon nzType="calendar" nzTheme="outline"></i>
     опубликовано: {{ this.dateFormatterService.formatDate(comment.creationDate) }} <br>
   </p>
@@ -101,9 +108,23 @@
 
 
 <ng-template #title>
-  {{ comment.smesharikAuthor?.name }}
-  {{ comment.smesharik }}
-  {{ comment.id }}
+  <span>
+    {{ comment.smesharikAuthor?.name }}
+    {{ comment.smesharik }}
+    {{ comment.id }}
+
+    <!--    2-->
+    <!-- <span-->
+    <!--   class="online-status"-->
+    <!--   [ngClass]="{-->
+    <!--        'online': comment.smesharikAuthor?.isOnline,-->
+    <!--        'idle': comment.smesharikAuthor?.lastActive && !comment.smesharikAuthor?.isOnline-->
+    <!--      }"-->
+    <!--   [title]="comment.smesharikAuthor?.isOnline ? 'Онлайн' : (comment.smesharikAuthor?.lastActive ? 'Был в сети: ' + comment.smesharikAuthor?.lastActive : 'Оффлайн')">-->
+    <!--    </span>-->
+    <!--    3-->
+
+  </span>
 </ng-template>
 
 
