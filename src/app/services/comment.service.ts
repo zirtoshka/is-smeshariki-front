@@ -8,7 +8,7 @@ import {BaseService} from '../base/base.service';
 @Injectable({
   providedIn: 'any'
 })
-export class CommentService {
+export class  CommentService {
   private commentsSubject = new BehaviorSubject<CommentS[]>([]);
   private hasMoreSubject = new BehaviorSubject<boolean>(true);
   private commentTreeSubject = new BehaviorSubject<Map<number, CommentS[]>>(new Map());

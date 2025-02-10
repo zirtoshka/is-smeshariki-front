@@ -50,6 +50,16 @@
     <strong>{{ comment.smesharik }}</strong>
   </div>
   <p>{{ comment.text }}</p>
+  <div class="carrots">
+    <i
+      nz-icon
+      [nzType]="iconCarrot.name"
+      class="large-icon"
+      [class.liked]="isLiked"
+      (click)="toggleLike()"
+    ></i>
+    <app-carrot-count [count]="comment.countCarrots ? comment.countCarrots :0"></app-carrot-count>
+  </div>
 
   <button *ngIf="comment.hasChildren && !showReplies" nz-button nzType="link" (click)="loadReplies()">
     Показать ответы

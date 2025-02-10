@@ -3,9 +3,21 @@
   border-radius: 15px;
 }
 
+
+.large-icon {
+  font-size: 33px;
+}
+
+.carrots {
+  user-select: none;
+}
+
+
 .nested-comment {
   margin-left: 24px; /* Отступ для вложенных */
   background: #cd96f1;
   border-left: 2px solid #da2c2c; /* Линия связи */
   padding-left: 12px;
 }
+
+

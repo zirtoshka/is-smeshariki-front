@@ -84,4 +84,21 @@ export class CarrotService {
       catchError(() => of(false))
     );
   }
+
+  //todo
+  setCarrotOnComment(id: number) {
+    const params = {comment: id};
+    return this.baseService.postWithParams(`carrot`, params).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+  //todo
+  deleteCarrotOnComment(id: number) {
+    const params = {comment: id};
+    return this.baseService.deleteWithParams(`carrot`, params).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 }

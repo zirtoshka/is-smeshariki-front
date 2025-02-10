@@ -8,6 +8,10 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzCommentComponent, NzCommentContentDirective} from 'ng-zorro-antd/comment';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzCardComponent} from 'ng-zorro-antd/card';
+import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
+import {carrotIcon, carrotTouchedIcon} from '../services/icon.service';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {CarrotService} from '../services/carrot.service';
 
 @Component({
   selector: 'app-comment-card2',
@@ -22,7 +26,9 @@ import {NzCardComponent} from 'ng-zorro-antd/card';
     NzAvatarComponent,
     NzCommentComponent,
     NzCardComponent,
-    AsyncPipe
+    AsyncPipe,
+    CarrotCountComponent,
+    NzIconDirective
   ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './comment-card2.component.html',
@@ -35,8 +41,12 @@ export class CommentCard2Component implements OnInit {
 
   showReplies = false;
 
-  // constructor(private commentService: CommentService) {
-  // }
+  iconCarrot = carrotIcon;
+  isLiked: boolean = false;
+  protected carrotService = inject(CarrotService);
+
+
+  protected commentService = inject(CommentService);
 
   ngOnInit() {
     this.commentService.commentTree$.pipe(
@@ -48,7 +58,6 @@ export class CommentCard2Component implements OnInit {
     });
   }
 
-  protected commentService = inject(CommentService);
 
   replies$: Observable<CommentS[]> = this.commentService.commentTree$.pipe(
     map(tree => tree.get(this.comment.id) || [])
@@ -56,9 +65,34 @@ export class CommentCard2Component implements OnInit {
 
   loadReplies(): void {
     console.log("loadReplies for " + this.comment.id);
-    this.showReplies=false
+    this.showReplies = false
     this.loadRepliesEvent.emit(this.comment.id);
   }
 
+  setCarrotIcon() {
+    this.iconCarrot = this.isLiked ? carrotTouchedIcon : carrotIcon;
+  }
+
+  toggleLike() {
+    if (!this.isLiked) {
+      this.carrotService.setCarrotOnComment(this.comment.id)
+        .subscribe((success) => {
+          if (success) {
+            this.isLiked = true
+            this.comment.countCarrots++;
+            this.setCarrotIcon()
+          }
+        });
+    } else {
+      this.carrotService.deleteCarrotOnComment(this.comment.id)
+        .subscribe((success) => {
+          if (success) {
+            this.isLiked = false
+            this.comment.countCarrots--;
+            this.setCarrotIcon()
+          }
+        });
+    }
+  }
 
 }
