@@ -26,7 +26,7 @@ export class CommentService {
 
 
   private replyPages = new Map<number, number>(); // счетчик страниц для каждого комментария
-  private hasMoreRepliesMap = new Set<number>();
+  hasMoreRepliesMap = new Map<number, boolean>(); // для проверки, есть ли еще ответы для каждого комментария
 
 
   constructor(private http: HttpClient) {
@@ -44,6 +44,10 @@ export class CommentService {
   get hasMore$(): Observable<boolean> {
     return this.hasMoreSubject.asObservable();
   }
+
+  // getHasMoreReplies(id:number): boolean {
+  //   return this.hasMoreRepliesMap.has(id);
+  // }
 
   /**первая страница */
   loadComments(postId: number): void {
@@ -70,18 +74,26 @@ export class CommentService {
         }
       }),
       mergeMap(response => {
-        const comments = response.content as CommentS[];
+        const comments = response.content.map(data => new CommentS(data));
         const likedRequest = comments.map(comment =>
           this.carrotService.isLikeComment(comment.id).pipe(
-            map(isLiked => ({...comment, isLiked}))
+            map(isLiked => {
+                comment.isLiked = isLiked;
+                return comment;
+              }
+            )
           ));
         return forkJoin(likedRequest);
       }),
       mergeMap(updatedComments => {
         const authorRequest = updatedComments.map(comment =>
-        this.authorService.getSmesharikByLogin(comment.smesharik).pipe(
-          map(author => ({...comment,smesharikAuthor: author}))
-        ));
+          this.authorService.getSmesharikByLogin(comment.smesharik).pipe(
+            map(author => {
+                comment.smesharikAuthor = author;
+                return comment;
+              }
+            )
+          ));
 
         return forkJoin(authorRequest);
       }),
@@ -96,32 +108,55 @@ export class CommentService {
       });
   }
 
+  loadMoreReplies(parentId: number): void {
+    let currentPage: number  = 0;
+    if (this.replyPages.get(parentId) !== undefined) {
+      currentPage = this.replyPages.get(parentId) ?? 0;
+      currentPage ++;
+    }
+    console.log(currentPage, parentId);
+    this.replyPages.set(parentId, currentPage);
+    this.loadReplies(parentId);
+  }
+
   loadReplies(parentId: number): void {
     console.log("loadreplie in service for " + parentId)
-    const currentPage = this.replyPages.get(parentId) ?? 0;
 
-    if (this.hasMoreRepliesMap.has(parentId)) return; // Все ответы загружены
+    if (this.hasMoreRepliesMap.has(parentId)) {
+      return
+    }
+    console.log("skdlskdsldk " + parentId)
 
-    this.baseService.getItems("comment", {size: this.pageSize, page: currentPage, comment: parentId}
+    const currPage = this.replyPages.get(parentId) ?? 0;
+
+    this.baseService.getItems("comment", {size: this.pageSize, page: currPage, comment: parentId}
     ).pipe(
       map(response => response.content),
       tap(replies => {
         if (replies.length < this.pageSize) {
-          this.hasMoreRepliesMap.add(parentId);
+          this.hasMoreRepliesMap.set(parentId, false);
         }
       }),
       mergeMap(response => {
-        const replies = response as CommentS[];
+        const replies = response.map(data => new CommentS(data));
         const likedRequest = replies.map(reply =>
           this.carrotService.isLikeComment(reply.id).pipe(
-            map(isLiked => ({...reply, isLiked}))
+            map(isLiked => {
+                reply.isLiked = isLiked;
+                return reply;
+              }
+            )
           ));
         return forkJoin(likedRequest);
       }),
-      mergeMap(updatedReplies=>{
+      mergeMap(updatedReplies => {
         const authorRequest = updatedReplies.map(comment =>
           this.authorService.getSmesharikByLogin(comment.smesharik).pipe(
-            map(author=>({...comment, smesharikAuthor: author}))
+            map(author => {
+                comment.smesharikAuthor = author;
+                return comment;
+              }
+            )
           ));
         return forkJoin(authorRequest);
 
@@ -136,6 +171,11 @@ export class CommentService {
     });
   }
 
+
+  createComment(comment: CommentS) {
+    const data = comment.toBackendJson()
+    this.baseService.createItem("comment", data);
+  }
 
   getCommentsByPostId(postId: number | null) {
 

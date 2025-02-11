@@ -65,6 +65,16 @@
     <app-carrot-count [count]="comment.countCarrots ? comment.countCarrots :0"></app-carrot-count>
   </div>
 
+
+  <button nz-button nzType="link" (click)="toggleReply()">ответить</button>
+
+  <!-- Поле для ввода ответа -->
+  <div *ngIf="showReplyInput" class="reply-box">
+    <textarea [(ngModel)]="replyText" placeholder="введите ваш ответ..."></textarea>
+    <button nz-button nzType="primary" (click)="submitReply()">отправить</button>
+  </div>
+
+
   <button *ngIf="comment.hasChildren && !showReplies" nz-button nzType="link" (click)="loadReplies()">
     показать ответы
   </button>
@@ -75,6 +85,9 @@
       <app-comment-card2 [comment]="reply" (loadRepliesEvent)="loadRepliesEvent.emit($event)"></app-comment-card2>
     </div>
   </div>
+
+  <button nz-button (click)="onScroll()"  *ngIf="hasMore && showReplies" >загрузить еще</button>
+
 </nz-card>
 
 
@@ -112,18 +125,6 @@
     {{ comment.smesharikAuthor?.name }}
     {{ comment.smesharik }}
     {{ comment.id }}
-
-    <!--    2-->
-    <!-- <span-->
-    <!--   class="online-status"-->
-    <!--   [ngClass]="{-->
-    <!--        'online': comment.smesharikAuthor?.isOnline,-->
-    <!--        'idle': comment.smesharikAuthor?.lastActive && !comment.smesharikAuthor?.isOnline-->
-    <!--      }"-->
-    <!--   [title]="comment.smesharikAuthor?.isOnline ? 'Онлайн' : (comment.smesharikAuthor?.lastActive ? 'Был в сети: ' + comment.smesharikAuthor?.lastActive : 'Оффлайн')">-->
-    <!--    </span>-->
-    <!--    3-->
-
   </span>
 </ng-template>
 

@@ -12,9 +12,9 @@ import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {carrotIcon, carrotTouchedIcon} from '../services/icon.service';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {CarrotService} from '../services/carrot.service';
-import {HttpClient} from '@angular/common/http';
 import {DataFormaterService} from '../data-formater.service';
 import {NzBadgeComponent} from 'ng-zorro-antd/badge';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-comment-card2',
@@ -34,7 +34,8 @@ import {NzBadgeComponent} from 'ng-zorro-antd/badge';
     NzIconDirective,
     NzCardMetaComponent,
     NgClass,
-    NzBadgeComponent
+    NzBadgeComponent,
+    FormsModule
   ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
@@ -52,8 +53,35 @@ export class CommentCard2Component implements OnInit {
   @Input() isLiked!: boolean; //todo
   protected carrotService = inject(CarrotService);
 
+  @Output() replyAdded = new EventEmitter<CommentS>();
+  showReplyInput = false;
+  replyText = '';
+
+  hasMore: boolean | undefined = true;
+
+
+  toggleReply() {
+    this.showReplyInput = !this.showReplyInput;
+  }
+
+  submitReply() {
+    if (!this.replyText.trim()) return;
+
+    const newReply: CommentS = new CommentS({
+      text: this.replyText,
+      // post: this.comment.post,
+      parentComment: this.comment.id
+    })
+
+    this.replyAdded.emit(newReply);
+    this.commentService.createComment(newReply);
+    this.showReplyInput = false;
+    this.replyText = '';
+  }
+
 
   protected commentService = inject(CommentService);
+
 
 
   constructor(
@@ -70,7 +98,7 @@ export class CommentCard2Component implements OnInit {
       }
     });
 
-
+    this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
     this.isLiked = this.comment.isLiked;
     this.setCarrotIcon();
   }
@@ -83,7 +111,8 @@ export class CommentCard2Component implements OnInit {
   loadReplies(): void {
     console.log("loadReplies for " + this.comment.id);
     this.showReplies = false
-    this.loadRepliesEvent.emit(this.comment.id);
+    this.commentService.loadMoreReplies(this.comment.id);
+    // this.loadRepliesEvent.emit(this.comment.id);
   }
 
   setCarrotIcon() {
@@ -110,6 +139,14 @@ export class CommentCard2Component implements OnInit {
           }
         });
     }
+  }
+
+  onScroll(): void {
+    console.log("scroll");
+    console.log(this.commentService.hasMoreRepliesMap.get(this.comment.id));
+
+    this.commentService.loadMoreReplies(this.comment.id);
+    this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
   }
 
 }
