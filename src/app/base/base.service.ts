@@ -14,18 +14,22 @@ export class BaseService<T> {
   constructor(protected httpClient: HttpClient) {
   }
 
-  protected getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${getAuthToken()}`,
-      'Content-Type': 'application/json',
-    });
+  getAuthHeaders(setContentType: boolean = true): HttpHeaders {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${getAuthToken()}`);
+    if (setContentType) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+    return headers;
   }
+
 
   async createItem<T>(action: string, body: any): Promise<T> {
     try {
+      let headers = this.getAuthHeaders(!(body instanceof FormData));
       return await lastValueFrom(
         this.httpClient.post<T>(`${this.baseUrl}/${action}`, body, {
-          headers: this.getAuthHeaders(),
+          headers: headers
         })
       );
     } catch (err: any) {
@@ -87,6 +91,23 @@ export class BaseService<T> {
       {
         headers: this.getAuthHeaders(),
         params: httpParams
+      }
+    );
+  }
+
+  getByParams(endpoint: string, params: { [key: string]: any }) {
+    let httpParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        httpParams = httpParams.set(key, params[key]);
+      }
+    });
+    return this.httpClient.get(
+      `${this.baseUrl}/${endpoint}`,
+      {
+        headers: this.getAuthHeaders(),
+        params: httpParams,
+        responseType: 'blob' as 'json'
       }
     );
   }

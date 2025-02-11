@@ -14,13 +14,7 @@
   </div>
 
   <div class="post-content">
-    <p class="post-text">{{ post.text.slice(0, 300) }}</p>
-    <img
-      *ngIf="post.pathToImage"
-      [src]="post.pathToImage"
-      alt="Изображение поста"
-      class="post-image"
-    />
+    <p class="post-text">{{ post.text.slice(0, 10) }}....</p>
   </div>
 
 

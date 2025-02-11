@@ -15,8 +15,9 @@
   <div class="post-content">
     <p class="post-text">{{ post.text }}</p>
     <img
-      *ngIf="post.pathToImage"
-      [src]="post.pathToImage"
+      *ngIf="imageUrl"
+      [src]="imageUrl"
+      style="width: 10%"
       alt="Изображение поста"
       class="post-image"
     />

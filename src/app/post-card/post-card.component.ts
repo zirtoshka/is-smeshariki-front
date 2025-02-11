@@ -19,8 +19,9 @@ import {BackButtonComponent} from '../back-button/back-button.component';
 import {DataFormaterService} from '../data-formater.service';
 import {NotificationCustomService} from '../notification-custom.service';
 import {CarrotService} from '../services/carrot.service';
-import {Observable, of} from 'rxjs';
 import {CommentCard2Component} from '../comment-card2/comment-card2.component';
+import {HttpClient} from '@angular/common/http';
+import {BaseService} from '../base/base.service';
 
 
 @Component({
@@ -66,7 +67,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   // commentTree$!: Observable<Map<number, CommentS[]>>;
   commentTree$ = this.commentService.commentTree$;
 
-
+  imageUrl!:any;
 
   iconCarrot = carrotIcon;
 
@@ -74,7 +75,9 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     private route: ActivatedRoute,
     private postService: PostService,
     private iconService: IconService,
+    private baseService: BaseService<Post>,
     // protected commentService: CommentService,
+    private http: HttpClient,
     private location: Location,
     protected dateFormatterService: DataFormaterService
   ) {
@@ -94,12 +97,20 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
           this.post = Post.fromBackend(response);
           // this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
           this.isCommentExisted = this.commentsList.length > 0;
+
+          this.commentService.loadComments(this.post.id);
+          this.carrotService.isLikePost(this.post.id).subscribe((result) => {
+            this.isLiked = result;
+            this.setCarrotIcon()
+          });
+          this.loadImage();
         },
         error: (err: any) => {
           console.error('Ошибка при загрузке:', err);
           this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
+
     } else {
       console.log(this.post)
     }
@@ -110,6 +121,8 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
       this.isLiked = result;
       this.setCarrotIcon()
     });
+    this.loadImage();
+
 
   }
 
@@ -161,8 +174,18 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   onScroll(): void {
     this.commentService.loadMore();
   }
+
   onLoadReplies(parentId: number): void {
     this.commentService.loadReplies(parentId);
   }
+
+
+  loadImage(): void {
+    this.postService.downloadImage(this.post.pathToImage).subscribe((imageBlob: Blob) => {
+        // Создаем URL для blob
+      this.imageUrl = URL.createObjectURL(imageBlob);
+    });
+  }
+
 
 }

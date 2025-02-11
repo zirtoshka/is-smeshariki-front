@@ -1,13 +1,15 @@
 import {Post} from '../model/post';
-import {Observable} from 'rxjs';
+import {lastValueFrom, Observable} from 'rxjs';
 import {PaginatedResponse} from '../paginated-response';
 import {Complaint} from '../model/complaint';
 import {inject} from '@angular/core';
 import {BaseService} from '../base/base.service';
+import {HttpClient} from '@angular/common/http';
 
 export class PostService {
 
   private baseService = inject(BaseService<Post>);
+  private http: HttpClient = inject(HttpClient);
 
   getPosts(options: Partial<{
     filter: string;
@@ -53,4 +55,17 @@ export class PostService {
     return this.baseService.getItemById("post", id);
     // return this.posts.filter(i=> i.id==id)[0];
   }
+
+  downloadImage(filename: string) {
+    const params = {
+      fileName: filename
+    }
+    return this.baseService.getByParams("post/download", params) as Observable<Blob>;
+  }
+
+  createPost(post: FormData) {
+    return this.baseService.createItem<Post>("post", post);
+  }
+
+
 }

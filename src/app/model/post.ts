@@ -13,7 +13,7 @@ export class Post extends BaseModel<Post> {
   isDraft: boolean;
   isPrivate: boolean;
   text: string;
-  pathToImage: string | null;
+  pathToImage: string ;
   publicationDate: Date | null;
   creationDate: Date | null;
   countCarrots: number = 0;
