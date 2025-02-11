@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {CommentS} from '../model/comment';
-import {BehaviorSubject, forkJoin, map, mergeMap, Observable, tap, withLatestFrom} from 'rxjs';
+import {BehaviorSubject, forkJoin, map, mergeMap, Observable, switchMap, tap, withLatestFrom} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {getAuthToken} from '../auth-tools/auth-utils';
 import {BaseService} from '../base/base.service';
@@ -69,9 +69,12 @@ export class CommentService {
     this.baseService.getItems("comment", {size: this.pageSize, page: this.page, post: this.postId}
     ).pipe(
       tap(response => {
-        if (response.content.length < this.pageSize) {
+        if (response.content.length < this.pageSize ||
+          response.totalPages === (response.currentPage + 1)) {
           this.hasMoreSubject.next(false);
         }
+
+
       }),
       mergeMap(response => {
         const comments = response.content.map(data => new CommentS(data));
@@ -99,7 +102,10 @@ export class CommentService {
       }),
       map(updatedCommentsWithAuthors => {
         const currentComments = this.commentsSubject.value ?? [];
-        return [...currentComments, ...updatedCommentsWithAuthors];
+        const newComments = updatedCommentsWithAuthors.filter(
+          newReply => !currentComments.some(existing => existing.id === newReply.id)
+        ); //todo
+        return [...currentComments, ...newComments];
       })
     )
       .subscribe({
@@ -109,36 +115,35 @@ export class CommentService {
   }
 
   loadMoreReplies(parentId: number): void {
-    let currentPage: number  = 0;
+    let currentPage: number = 0;
     if (this.replyPages.get(parentId) !== undefined) {
       currentPage = this.replyPages.get(parentId) ?? 0;
-      currentPage ++;
+      currentPage++;
     }
-    console.log(currentPage, parentId);
     this.replyPages.set(parentId, currentPage);
     this.loadReplies(parentId);
   }
 
   loadReplies(parentId: number): void {
-    console.log("loadreplie in service for " + parentId)
-
     if (this.hasMoreRepliesMap.has(parentId)) {
       return
     }
-    console.log("skdlskdsldk " + parentId)
 
     const currPage = this.replyPages.get(parentId) ?? 0;
 
     this.baseService.getItems("comment", {size: this.pageSize, page: currPage, comment: parentId}
     ).pipe(
-      map(response => response.content),
+      map(response => response),
       tap(replies => {
-        if (replies.length < this.pageSize) {
+        if (replies.content.length < this.pageSize) {
+          this.hasMoreRepliesMap.set(parentId, false);
+        }
+        if (replies.totalPages === (replies.currentPage + 1)) {
           this.hasMoreRepliesMap.set(parentId, false);
         }
       }),
       mergeMap(response => {
-        const replies = response.map(data => new CommentS(data));
+        const replies = response.content.map(data => new CommentS(data));
         const likedRequest = replies.map(reply =>
           this.carrotService.isLikeComment(reply.id).pipe(
             map(isLiked => {
@@ -164,7 +169,10 @@ export class CommentService {
       map(updatedRepliesWithAuthors => {
         const currentTree = new Map(this.commentTreeSubject.value);
         const existingReplies = currentTree.get(parentId) || [];
-        return currentTree.set(parentId, [...existingReplies, ...updatedRepliesWithAuthors]);
+        const newReplies = updatedRepliesWithAuthors.filter(
+          newReply => !existingReplies.some(existing => existing.id === newReply.id)
+        );
+        return currentTree.set(parentId, [...existingReplies, ...newReplies]);
       })).subscribe({
       next: (updatedTree) => this.commentTreeSubject.next(updatedTree),
       error: (err) => console.error(`Ошибка загрузки ответов для ${parentId}:`, err)
@@ -172,10 +180,54 @@ export class CommentService {
   }
 
 
-  createComment(comment: CommentS) {
+  createComment(comment: CommentS, parentId: number | null = null) {
     const data = comment.toBackendJson()
-    this.baseService.createItem("comment", data);
+    this.baseService.createItem<CommentS>("comment", data).then(r => {
+        if (parentId !== null) {
+          // Добавляем новый комментарий в дерево под родительский комментарий
+          this.addReplyToTree(parentId, r);
+        } else {
+          // Если это новый комментарий, добавляем его в общий список
+          this.addCommentToTree(r);
+        }
+      }
+    );
+
   }
+
+  private addCommentToTree(newComment: CommentS): void {
+    const currentTree = new Map(this.commentTreeSubject.value);
+    currentTree.set(newComment.id, [newComment]);
+
+    this.commentTreeSubject.next(currentTree);
+  }
+
+  private addReplyToTree(parentId: number, newComment: CommentS): void {
+    const currentTree = new Map(this.commentTreeSubject.value);
+    const existingReplies = currentTree.get(parentId) || [];
+
+    this.carrotService.isLikeComment(newComment.id).pipe(
+      switchMap(isLiked => {
+        newComment.isLiked = isLiked;
+        return this.authorService.getSmesharikByLogin(newComment.smesharik);
+      })
+    ).subscribe({
+      next: author => {
+        newComment.smesharikAuthor = author;
+        existingReplies.push(newComment);
+        currentTree.set(parentId, existingReplies);
+        this.commentTreeSubject.next(currentTree);
+      },
+      error: err => console.error(`Ошибка загрузки данных для комментария ${newComment.id}:`, err)
+    });
+  }
+
+
+
+
+
+
+
 
   getCommentsByPostId(postId: number | null) {
 

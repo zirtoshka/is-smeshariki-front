@@ -80,7 +80,6 @@ export class PostFormComponent {
       .then(r => {
         this.resetForm()
         this.navigateToPost(r.id)
-        console.log(r);
       })
       .catch(error => {
         this.notificationCustomService.handleErrorAsync(error, 'Держите меня, я падаю…');

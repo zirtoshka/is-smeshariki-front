@@ -74,7 +74,8 @@ export class CommentCard2Component implements OnInit {
     })
 
     this.replyAdded.emit(newReply);
-    this.commentService.createComment(newReply);
+    this.commentService.createComment(newReply ,  this.comment.id );
+
     this.showReplyInput = false;
     this.replyText = '';
   }
@@ -96,6 +97,8 @@ export class CommentCard2Component implements OnInit {
       if (hasReplies) {
         this.showReplies = true; // ответы уже загружены — сразу показать
       }
+      this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
+
     });
 
     this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
@@ -142,11 +145,8 @@ export class CommentCard2Component implements OnInit {
   }
 
   onScroll(): void {
-    console.log("scroll");
-    console.log(this.commentService.hasMoreRepliesMap.get(this.comment.id));
-
-    this.commentService.loadMoreReplies(this.comment.id);
     this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
+    this.commentService.loadMoreReplies(this.comment.id);
   }
 
 }

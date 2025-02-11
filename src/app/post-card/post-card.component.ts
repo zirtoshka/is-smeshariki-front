@@ -181,6 +181,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
 
 
   loadImage(): void {
+    if (!this.post.pathToImage) return
     this.postService.downloadImage(this.post.pathToImage).subscribe((imageBlob: Blob) => {
         // Создаем URL для blob
       this.imageUrl = URL.createObjectURL(imageBlob);
