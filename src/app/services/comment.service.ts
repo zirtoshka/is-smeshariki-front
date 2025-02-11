@@ -6,6 +6,7 @@ import {getAuthToken} from '../auth-tools/auth-utils';
 import {BaseService} from '../base/base.service';
 import {CarrotService} from './carrot.service';
 import {AuthorService} from '../author.service';
+import {Post} from '../model/post';
 
 @Injectable({
   providedIn: 'any'
@@ -196,11 +197,24 @@ export class CommentService {
   }
 
   private addCommentToTree(newComment: CommentS): void {
-    const currentTree = new Map(this.commentTreeSubject.value);
-    currentTree.set(newComment.id, [newComment]);
+    const currentComments = this.commentsSubject.value ?? [];
 
-    this.commentTreeSubject.next(currentTree);
+    this.carrotService.isLikeComment(newComment.id).pipe(
+      switchMap(isLiked => {
+        newComment.isLiked = isLiked;
+        return this.authorService.getSmesharikByLogin(newComment.smesharik);
+      })
+    ).subscribe({
+      next: author => {
+        newComment.smesharikAuthor = author;
+        if (!currentComments.some(comment => comment.id === newComment.id)) {
+          this.commentsSubject.next([newComment,...currentComments]);
+        }
+      },
+      error: err => console.error(`Ошибка загрузки данных для комментария ${newComment.id}:`, err)
+    });
   }
+
 
   private addReplyToTree(parentId: number, newComment: CommentS): void {
     const currentTree = new Map(this.commentTreeSubject.value);
@@ -223,12 +237,6 @@ export class CommentService {
   }
 
 
-
-
-
-
-
-
   getCommentsByPostId(postId: number | null) {
 
     if (postId == null) {
@@ -238,11 +246,9 @@ export class CommentService {
     // return this.comments.filter((com) => com.postId === postId);
   }
 
-  getCommentsById(id: number | null) {
-    if (id != null) {
-      // return this.comments.filter((comment) => comment.id != id)[0];
-    }
-    return;
+  getCommentsById(id: number):Observable<CommentS> {
+      return this.baseService.getItemById("comment", id);
+      // return this.posts.filter(i=> i.id==id)[0];
   }
 
   groupComments(comments: CommentS[]) {

@@ -1,6 +1,5 @@
 import {inject, Injectable} from '@angular/core';
 import {Smesharik} from './auth-tools/smesharik';
-import {HttpClient} from '@angular/common/http';
 import {Observable, of, tap} from 'rxjs';
 import {UserService} from './services/user.service';
 

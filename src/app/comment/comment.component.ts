@@ -58,7 +58,7 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     if (!this.comment) {
       const id = Number(this.route.snapshot.paramMap.get('id'));
-      this.comment = this.commentService.getCommentsById(id)!;
+      // this.comment = this.commentService.getCommentsById(id)!;
     }
   }
 }

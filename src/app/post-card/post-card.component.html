@@ -56,6 +56,12 @@
   <!--  </div>-->
 
   <!--  <button (click)="onScroll()" *ngIf="hasMore$ | async">Загрузить ещё</button>-->
+  <div>
+    <div class="reply-box">
+      <textarea [(ngModel)]="replyText" placeholder="введите ваш ответ..."></textarea>
+      <button nz-button nzType="primary" (click)="createComment()">отправить</button>
+    </div>
+  </div>
 
   <div *ngFor="let comment of comments$ | async">
     <app-comment-card2
@@ -63,6 +69,8 @@
       (loadRepliesEvent)="onLoadReplies($event)">
     </app-comment-card2>
   </div>
+
+
 
   <button nz-button (click)="onScroll()" *ngIf="hasMore$ | async">загрузить еще</button>
 

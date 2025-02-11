@@ -81,7 +81,7 @@ export const routes: Routes = [
 
   {
     path: 'comment/:id',
-    loadComponent: () => import('./comment/comment.component').then(m => m.CommentComponent),
+    loadComponent: () => import('./comment-card2/comment-card2.component').then(m => m.CommentCard2Component),
   },
 
   {

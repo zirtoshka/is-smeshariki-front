@@ -15,6 +15,10 @@ import {CarrotService} from '../services/carrot.service';
 import {DataFormaterService} from '../data-formater.service';
 import {NzBadgeComponent} from 'ng-zorro-antd/badge';
 import {FormsModule} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {Post} from '../model/post';
+import {AuthorService} from '../author.service';
+import {NotificationCustomService} from '../notification-custom.service';
 
 @Component({
   selector: 'app-comment-card2',
@@ -56,6 +60,9 @@ export class CommentCard2Component implements OnInit {
   @Output() replyAdded = new EventEmitter<CommentS>();
   showReplyInput = false;
   replyText = '';
+  protected authorService = inject(AuthorService);
+  protected notificationCustomService = inject(NotificationCustomService);
+
 
   hasMore: boolean | undefined = true;
 
@@ -86,24 +93,46 @@ export class CommentCard2Component implements OnInit {
 
 
   constructor(
-    protected dateFormatterService: DataFormaterService
+    protected dateFormatterService: DataFormaterService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit() {
-    this.commentService.commentTree$.pipe(
-      map(tree => tree.has(this.comment.id)) //есть ли ответы
-    ).subscribe(hasReplies => {
-      if (hasReplies) {
-        this.showReplies = true; // ответы уже загружены — сразу показать
-      }
+    if(!this.comment){
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+      this.commentService.getCommentsById(id).subscribe({
+        next: (response) => {
+
+          this.comment = CommentS.fromBackend(response);
+          this.carrotService.isLikeComment(this.comment.id).subscribe((result) => {
+            this.isLiked = result;
+            this.setCarrotIcon()
+          });
+          this.authorService.getSmesharikByLogin(this.comment.smesharik).subscribe((result) => {
+            this.comment.smesharikAuthor = result;
+          });
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        }
+      });
+    }else {
+      this.commentService.commentTree$.pipe(
+        map(tree => tree.has(this.comment.id)) //есть ли ответы
+      ).subscribe(hasReplies => {
+        if (hasReplies) {
+          this.showReplies = true; // ответы уже загружены — сразу показать
+        }
+        this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
+
+      });
+
       this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
-
-    });
-
-    this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
-    this.isLiked = this.comment.isLiked;
-    this.setCarrotIcon();
+      this.isLiked = this.comment.isLiked;
+      this.setCarrotIcon();
+    }
   }
 
 

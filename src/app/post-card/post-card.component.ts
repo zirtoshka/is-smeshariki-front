@@ -22,6 +22,8 @@ import {CarrotService} from '../services/carrot.service';
 import {CommentCard2Component} from '../comment-card2/comment-card2.component';
 import {HttpClient} from '@angular/common/http';
 import {BaseService} from '../base/base.service';
+import {AuthorService} from '../author.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @Component({
@@ -41,7 +43,9 @@ import {BaseService} from '../base/base.service';
     BackButtonComponent,
     NzCardMetaComponent,
     AsyncPipe,
-    CommentCard2Component
+    CommentCard2Component,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [PostService, DatePipe, CommentService],
   templateUrl: './post-card.component.html',
@@ -53,10 +57,12 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   isCommentExisted: boolean = false;
   isLiked: boolean = false;
 
+  replyText = '';
 
   @Input() isFeed = false
   protected notificationCustomService = inject(NotificationCustomService);
   protected carrotService = inject(CarrotService);
+  protected authorService = inject(AuthorService);
 
 
   @Input() post!: Post;
@@ -103,6 +109,9 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
             this.isLiked = result;
             this.setCarrotIcon()
           });
+          this.authorService.getSmesharikByLogin(this.post.author).subscribe((result) => {
+            this.post.smesharikAuthor = result;
+          });
           this.loadImage();
         },
         error: (err: any) => {
@@ -120,6 +129,9 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     this.carrotService.isLikePost(this.post.id).subscribe((result) => {
       this.isLiked = result;
       this.setCarrotIcon()
+    });
+    this.authorService.getSmesharikByLogin(this.post.author).subscribe((result) => {
+      this.post.smesharikAuthor = result;
     });
     this.loadImage();
 
@@ -188,5 +200,16 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     });
   }
 
+  createComment(){
+    if (!this.replyText.trim()) return;
 
+    const newReply: CommentS = new CommentS({
+      text: this.replyText,
+      post: this.post.id,
+    })
+
+    this.commentService.createComment(newReply  );
+
+    this.replyText = '';
+  }
 }
