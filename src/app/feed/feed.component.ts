@@ -57,6 +57,9 @@ export class FeedComponent implements OnInit {
       next: (response) => {
         const newItems = response.content.map(data => Post.fromBackend(data));
         this.fetchHelper(newItems, replacementIsNeeded)
+        if (response.totalPages - response.currentPage === 1) {
+          this.allLoaded = true;
+        }
       },
       error: (err: any) => {
         console.error('Ошибка при загрузке:', err);
@@ -78,7 +81,7 @@ export class FeedComponent implements OnInit {
     if (uniqueNewItems.length) {
       const authorRequests = uniqueNewItems.map(item =>
         this.authorService.getSmesharikByLogin(item.author).pipe(
-          map(author => ({ ...item, smesharikAuthor: author }))
+          map(author => ({...item, smesharikAuthor: author}))
         )
       );
 
@@ -90,8 +93,9 @@ export class FeedComponent implements OnInit {
       this.allLoaded = true;
     }
     this.loading = false;
-  }
 
+
+  }
 
 
   handleSearchChange(searchData: { query: string }) {

@@ -41,6 +41,9 @@ export class DiaryComponent implements OnInit{
       next: (response) => {
         const newItems = response.content.map(data => Post.fromBackend(data));
         this.fetchHelper(newItems, replacementIsNeeded)
+        if (response.totalPages - response.currentPage === 1) {
+          this.allLoaded = true;
+        }
       },
       error: (err: any) => {
         console.error('Ошибка при загрузке:', err);
