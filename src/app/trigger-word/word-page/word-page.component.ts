@@ -4,7 +4,7 @@ import {Word} from '../../model/triggerword';
 import {WordService} from '../../services/word.service';
 import {BanCardComponent} from '../../ban/ban-card/ban-card.component';
 import {BanFormComponent} from '../../ban/ban-form/ban-form.component';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {WordFormComponent} from '../word-form/word-form.component';
@@ -21,7 +21,8 @@ import {NzModalService} from 'ng-zorro-antd/modal';
     NzButtonComponent,
     SearchFilterComponent,
     WordFormComponent,
-    WordCardComponent
+    WordCardComponent,
+    NgIf
   ],
   providers:[NzModalService],
   templateUrl: './word-page.component.html',

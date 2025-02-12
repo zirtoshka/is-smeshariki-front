@@ -1,5 +1,14 @@
-<div class="friend-container" *ngFor="let friend of friendList">
+<!--<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>-->
+
+<div class="friend-container" *ngFor="let friend of items">
   <app-friend-card [friend]="friend" [context]="Context.requests"
                    (addFriend)="handleAddFriend($event)"></app-friend-card>
-
 </div>
+
+
+
+  <div *ngIf="items.length==0" class="bubble-text">
+    у вас нет заявок в друзья
+  </div>
+
+

@@ -1,8 +1,8 @@
 <app-search-filter [isStatusesNeeded]="false" (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
-
+<div>
 <button nz-button nzType="primary" (click)="openAddForm()">добавить триггерное слово</button>
-
+</div>
 <app-word-form
   [isVisible] = "isVisible"
   [isEditMode]="isEditMode"
@@ -13,6 +13,12 @@
 </app-word-form>
 
 
+
+
+
+<div *ngIf="items.length==0" class="bubble-text">
+  нет триггерных слов
+</div>
 
 
 <div class="word-container">

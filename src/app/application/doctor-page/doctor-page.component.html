@@ -12,6 +12,7 @@
 </app-application-form>
 
 
+
 <div class="toggle-container">
   <nz-switch
     id="applications-toggle"
@@ -23,6 +24,12 @@
     <span *ngIf="isMyApplications" class="my-applications">я работаю над этим</span>
     <span *ngIf="!isMyApplications" class="all-applications">все заявки</span>
   </div>
+</div>
+
+
+
+<div *ngIf="items.length==0" class="bubble-text">
+  нет заявок на лечение
 </div>
 
 <div class="applications-container">

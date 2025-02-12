@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForOf} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {NgForOf, NgIf} from '@angular/common';
 import {Context, FriendCardComponent} from '../friend-card/friend-card.component';
 import {Friend} from '../../model/friend';
-import {Roles} from '../../auth-tools/smesharik';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {BasePage} from '../../base/base-page';
+import {SmesharikService} from '../../services/smesharik.service';
 
 @Component({
   selector: 'app-friend-card-page',
@@ -12,31 +12,44 @@ import {BasePage} from '../../base/base-page';
   imports: [
     NgForOf,
     FriendCardComponent,
-    SearchFilterComponent
+    SearchFilterComponent,
+    NgIf
   ],
   templateUrl: './friend-page.component.html',
   styleUrl: './friend-page.component.css'
 })
 export class FriendPageComponent extends BasePage<Friend> implements OnInit {
-  friendList: Friend[] = []
-  //   new Friend(
-  //     {'Крош',
-  //     'krosh123',
-  //     'https://i.pravatar.cc/100?img=3',
-  //     true,
-  //     '2023-01-01T12:00:00Z',
-  //     Roles.USER}),
-  //   new Friend(
-  //     'Ежик',
-  //     'ezhik456',
-  //     'https://i.pravatar.cc/100?img=4',
-  //     false,
-  //     '2023-01-02T14:00:00Z',
-  //     Roles.ADMIN)];
+
+  override action = "friend"
+
+  friendService: SmesharikService = inject(SmesharikService);
+
+
+  override preparing(item: any): any {
+    return new Friend(item).toBackendJson();
+  }
 
   ngOnInit(): void {
     this.fetchDataFromServer()
   }
+
+  override fetchDataFromServer(replacementIsNeeded: boolean = false) {
+    this.friendService.getFriends(
+      {
+        page: this.page,
+      })
+      .subscribe({
+        next: (response) => {
+          const newItems = response.content.map(data => Friend.fromBackend(data));
+          this.fetchHelper(newItems, replacementIsNeeded)
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+        }
+      });
+  }
+
 
   handleRemoveFriend(friend: Friend): void {
     console.log('Удалить друга:', friend);

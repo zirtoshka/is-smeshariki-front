@@ -1,7 +1,8 @@
 <app-search-filter [isStatusesNeeded]="false" (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
+<div>
 <button nz-button nzType="primary" (click)="openAddForm()">добавить наклонность</button>
-
+</div>
 <app-propensity-form
   [isVisible] = "isVisible"
   [isEditMode]="isEditMode"
@@ -24,5 +25,8 @@
   ></app-propensity-card>
 </div>
 
+<div *ngIf="items.length==0" class="bubble-text">
+  нет наклонностей
+</div>
 
 

@@ -1,6 +1,12 @@
-<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
+<!--<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>-->
 
 
-<div class="friend-container" *ngFor="let friend of friendList">
+<div class="friend-container" *ngFor="let friend of items">
   <app-friend-card [friend]="friend" [context]="Context.friends"  (removeFriend)="handleRemoveFriend($event)" ></app-friend-card>
+</div>
+
+
+
+<div *ngIf="items.length==0" class="bubble-text">
+  а как-то дружиться будем???
 </div>

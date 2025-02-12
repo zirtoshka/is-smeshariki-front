@@ -25,6 +25,10 @@
   </div>
 </div>
 
+<div *ngIf="items.length==0" class="bubble-text">
+  нет доступных жалоб
+</div>
+
 
 <div *ngIf="items.length > 0">
   <div class="complaint-container">
@@ -38,9 +42,7 @@
     ></app-complaint-card>
   </div>
 </div>
-<div *ngIf="items.length === 0">
-  <p>нет доступных жалоб</p>
-</div>
+
 
 
 
