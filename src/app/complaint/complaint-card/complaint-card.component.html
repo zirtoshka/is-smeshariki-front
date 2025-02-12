@@ -1,3 +1,4 @@
+
 <nz-card class="complaint-card"
          [nzBordered]="true" [nzHoverable]="true">
 
@@ -27,11 +28,9 @@
 
     <div>
       <p *ngIf="item.comment">
-        <strong>комментарий ID:</strong>
-        <a (click)="showComment(item.comment)" class="comment-link">{{ item.comment }}</a>
+        <strong>комментарий ID: </strong>
+        <a (click)="navigateToComment(item.comment)" class="comment-link">{{ item.comment }}</a>
       </p>
-      <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">закрыть коммент</button>
-      <app-comment *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
     </div>
 
     <p><strong>ответственный

@@ -106,9 +106,6 @@ body {
 
 .bubble-text {
   font-family: 'Rubik Bubbles', cursive;
-}
-
-.bubble-text {
   font-size: 80px;
   font-weight: bold;
   background: linear-gradient(180deg, #ca99ff, #d466ff);
@@ -118,5 +115,16 @@ body {
   8px 8px 10px rgba(64, 58, 80, 0.3);
   position: relative;
   display: inline-block;
+
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out 0.5s forwards;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

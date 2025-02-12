@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommentComponent} from '../../comment/comment.component';
 import {NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzCardComponent} from 'ng-zorro-antd/card';
@@ -13,7 +12,6 @@ import {Word} from '../../model/triggerword';
   selector: 'app-word-card',
   standalone: true,
   imports: [
-    CommentComponent,
     NgIf,
     NzButtonComponent,
     NzCardComponent,

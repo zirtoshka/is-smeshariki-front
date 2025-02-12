@@ -4,16 +4,12 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzCardComponent, NzCardMetaComponent} from "ng-zorro-antd/card";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {ApplicationForTreatment} from '../../model/application-for-treatment';
-import {Propensity} from '../../model/propensity';
 import {FormsModule} from '@angular/forms';
 import {GeneralStatus} from '../../model/enums';
-import {CommentComponent} from '../../comment/comment.component';
 import {PostCardComponent} from '../../post-card/post-card.component';
 import {ContentBase} from '../../content-base';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {Router} from '@angular/router';
-import {Complaint} from '../../model/complaint';
-import {getLogin} from '../../auth-tools/auth-utils';
 
 @Component({
   selector: 'app-application-card',
@@ -27,7 +23,6 @@ import {getLogin} from '../../auth-tools/auth-utils';
     NzOptionComponent,
     NzSelectComponent,
     FormsModule,
-    CommentComponent,
     PostCardComponent,
     NzIconDirective
   ],
@@ -45,13 +40,13 @@ export class ApplicationCardComponent extends ContentBase<ApplicationForTreatmen
   @Output() statusConfirmed = new EventEmitter<{ item: ApplicationForTreatment; status: GeneralStatus }>();
 
 
+  constructor(router: Router) {
+    super(router);
+  }
 
   generalStatuses = Object.values(GeneralStatus);
   selectedStatus!: GeneralStatus;
 
-  constructor(private router: Router) {
-    super();
-  }
 
   ngOnInit() {
     this.selectedStatus = this.item.status;
@@ -70,13 +65,13 @@ export class ApplicationCardComponent extends ContentBase<ApplicationForTreatmen
 
 
 
-  //todo
-  navigateToPost(postId: number): void {
-    this.router.navigate(['/post-card', postId]);
-  }
-  //todo
-  navigateToComment(commentId: number): void {
-    this.router.navigate(['/comment', commentId]);
-  }
+  // //todo
+  // navigateToPost(postId: number): void {
+  //   this.router.navigate(['/post-card', postId]);
+  // }
+  // //todo
+  // navigateToComment(commentId: number): void {
+  //   this.router.navigate(['/comment', commentId]);
+  // }
 
 }

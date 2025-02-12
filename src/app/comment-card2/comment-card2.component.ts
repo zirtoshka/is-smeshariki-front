@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulatio
 import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
 import {map, Observable} from 'rxjs';
-import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe, Location, NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzListComponent, NzListItemComponent} from 'ng-zorro-antd/list';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzCommentComponent, NzCommentContentDirective} from 'ng-zorro-antd/comment';
@@ -19,6 +19,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Post} from '../model/post';
 import {AuthorService} from '../author.service';
 import {NotificationCustomService} from '../notification-custom.service';
+import {BackButtonComponent} from '../back-button/back-button.component';
 
 @Component({
   selector: 'app-comment-card2',
@@ -39,7 +40,8 @@ import {NotificationCustomService} from '../notification-custom.service';
     NzCardMetaComponent,
     NgClass,
     NzBadgeComponent,
-    FormsModule
+    FormsModule,
+    BackButtonComponent
   ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
@@ -52,6 +54,8 @@ export class CommentCard2Component implements OnInit {
   @Output() loadRepliesEvent = new EventEmitter<number>();
 
   showReplies = false;
+  @Input() isFeed = false
+
 
   iconCarrot = carrotIcon;
   @Input() isLiked!: boolean; //todo
@@ -95,8 +99,11 @@ export class CommentCard2Component implements OnInit {
   constructor(
     protected dateFormatterService: DataFormaterService,
     private route: ActivatedRoute,
+    private location: Location,
+
   ) {
   }
+
 
   ngOnInit() {
     if(!this.comment){
@@ -178,4 +185,8 @@ export class CommentCard2Component implements OnInit {
     this.commentService.loadMoreReplies(this.comment.id);
   }
 
+  handleGoBack(): void {
+    console.log('Go back clicked');
+    this.location.back();
+  }
 }

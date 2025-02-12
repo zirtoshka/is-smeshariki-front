@@ -36,10 +36,8 @@
     <div>
       <p *ngIf="item.comment">
         <strong>комментарий ID: </strong>
-        <a (click)="showComment(item.comment)" class="comment-link">{{ item.comment }}</a>
+        <a (click)="navigateToComment(item.comment)" class="comment-link">{{ item.comment }}</a>
       </p>
-      <button *ngIf="selectedComment" nz-button nzType="default" (click)="closeComment()">закрыть коммент</button>
-      <app-comment [isFeed]="true" *ngIf="selectedComment" [comment]="selectedComment"></app-comment>
     </div>
   </div>
 

@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {ApplicationForTreatment} from '../../model/application-for-treatment';
 import {enumListToString, GeneralStatus} from '../../model/enums';
@@ -42,7 +42,8 @@ import {ComplaintFormComponent} from '../../complaint/complaint-form/complaint-f
     PropensityFormComponent,
     ApplicationFormComponent,
     ComplaintCardComponent,
-    ComplaintFormComponent
+    ComplaintFormComponent,
+    NgClass
   ],
   providers: [NzModalService],
   templateUrl: './doctor-page.component.html',

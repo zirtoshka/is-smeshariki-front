@@ -2,6 +2,7 @@ import {Post} from './model/post';
 import {CommentS} from './model/comment';
 import {BaseCard} from './base/base-card';
 import {Smesharik} from './auth-tools/smesharik';
+import {Router} from '@angular/router';
 
 export abstract class ContentBase<T> extends BaseCard<T> {
   selectedPost: Post | null = null;
@@ -12,6 +13,12 @@ export abstract class ContentBase<T> extends BaseCard<T> {
   //   new Post(2, 43, false, true, 'Текст поста 2', '', '2023-02-01T12:00:00Z', '2023-02-01T10:00:00Z'),
   // ];
   comments: CommentS[] =[]
+  protected router: Router;
+
+  constructor( router: Router) {
+    super();
+    this.router = router;
+  }
 
   showPost(postId: number|string): void {
     //todo
@@ -37,5 +44,13 @@ export abstract class ContentBase<T> extends BaseCard<T> {
 
   closeSmesharik(): void {
     this.selectedSmesharik = null;
+  }
+
+  navigateToPost(postId: number): void {
+    this.router.navigate(['/post-card', postId]);
+  }
+  //todo
+  navigateToComment(commentId: number): void {
+    this.router.navigate(['/comment', commentId]);
   }
 }

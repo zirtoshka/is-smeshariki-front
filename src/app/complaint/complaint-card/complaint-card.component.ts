@@ -8,10 +8,11 @@ import {PostCardComponent} from "../../post-card/post-card.component";
 import {Complaint} from '../../model/complaint';
 import {FormsModule} from '@angular/forms';
 import {GeneralStatus} from '../../model/enums';
-import {CommentComponent} from '../../comment/comment.component';
 import {ContentBase} from '../../content-base';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {DataFormaterService} from '../../data-formater.service';
+import {Router} from '@angular/router';
+import {BackButtonComponent} from '../../back-button/back-button.component';
 
 @Component({
   selector: 'app-complaint-card',
@@ -27,8 +28,8 @@ import {DataFormaterService} from '../../data-formater.service';
     NzSwitchComponent,
     PostCardComponent,
     FormsModule,
-    CommentComponent,
-    NzIconDirective
+    NzIconDirective,
+    BackButtonComponent
   ],
   templateUrl: './complaint-card.component.html',
   styleUrl: './complaint-card.component.css'
@@ -41,12 +42,14 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
 
   @Output() statusConfirmed = new EventEmitter<{ item: Complaint; status: GeneralStatus }>();
 
-  constructor(protected dateFormatterService: DataFormaterService) {
-    super();
+  constructor(protected dateFormatterService: DataFormaterService,
+               router: Router) {
+    super(router);
   }
 
   generalStatuses = Object.values(GeneralStatus);
   selectedStatus!: GeneralStatus;
+
 
   ngOnInit() {
     this.selectedStatus = this.item.status;
@@ -61,6 +64,8 @@ export class ComplaintCardComponent extends ContentBase<Complaint> implements On
   assignAdminToComplaint(): void {
     this.takeIt.emit(this.item);
   }
+
+
 
   protected readonly GeneralStatus = GeneralStatus;
 }

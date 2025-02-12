@@ -65,6 +65,7 @@
 
   <div *ngFor="let comment of comments$ | async">
     <app-comment-card2
+      [isFeed]="true"
       [comment]="comment"
       (loadRepliesEvent)="onLoadReplies($event)">
     </app-comment-card2>

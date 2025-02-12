@@ -7,9 +7,9 @@ import {Ban} from '../../model/ban';
 import {ContentBase} from '../../content-base';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {PostCardComponent} from '../../post-card/post-card.component';
-import {CommentComponent} from '../../comment/comment.component';
 import {Context, FriendCardComponent} from '../../friend/friend-card/friend-card.component';
 import {DataFormaterService} from '../../data-formater.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-ban-card',
@@ -21,7 +21,6 @@ import {DataFormaterService} from '../../data-formater.service';
     NgIf,
     NzButtonComponent,
     PostCardComponent,
-    CommentComponent,
     FriendCardComponent
   ],
   providers: [DatePipe],
@@ -34,7 +33,10 @@ export class BanCardComponent extends ContentBase<Ban> {
   @Output() override edit = new EventEmitter<Ban>();
   @Output() override delete = new EventEmitter<Ban>();
 
-  constructor(protected dateFormatterService: DataFormaterService) {
-    super();
+  constructor(protected dateFormatterService: DataFormaterService,
+            router: Router) {
+    super(router);
   }
+
+
 }

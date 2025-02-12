@@ -10,7 +10,6 @@ import {ActivatedRoute} from '@angular/router';
 import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.service';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {CommentS} from '../model/comment';
-import {NestedCommComponent} from '../nested-comm/nested-comm.component';
 import {CommentService} from '../services/comment.service';
 import {Likeable} from '../base/likeable';
 import {PostTagComponent} from '../post-tag/post-tag.component';
@@ -37,7 +36,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     NzTagComponent,
     CarrotCountComponent,
     NgForOf,
-    NestedCommComponent,
     PostTagComponent,
     NzButtonComponent,
     BackButtonComponent,
@@ -80,10 +78,6 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private iconService: IconService,
-    private baseService: BaseService<Post>,
-    // protected commentService: CommentService,
-    private http: HttpClient,
     private location: Location,
     protected dateFormatterService: DataFormaterService
   ) {

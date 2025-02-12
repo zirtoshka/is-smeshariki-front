@@ -44,6 +44,7 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</nz-card>-->
+<app-back-button [isFeed]="isFeed" (goBackEvent)="handleGoBack()"> назад</app-back-button>
 
 <nz-card class="comment-card" [nzBordered]="true">
   <nz-card-meta
@@ -82,7 +83,7 @@
   <!-- Вложенные комментарии, загруженные из commentTree$ -->
   <div *ngIf="(replies$ | async) as replies">
     <div *ngFor="let reply of replies" class="nested-comment">
-      <app-comment-card2 [comment]="reply" (loadRepliesEvent)="loadRepliesEvent.emit($event)"></app-comment-card2>
+      <app-comment-card2 [isFeed]="true" [comment]="reply" (loadRepliesEvent)="loadRepliesEvent.emit($event)"></app-comment-card2>
     </div>
   </div>
 
