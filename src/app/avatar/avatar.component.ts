@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NzAvatarComponent} from "ng-zorro-antd/avatar";
-import {Roles, Smesharik} from '../auth-tools/smesharik';
 import {NgClass} from '@angular/common';
 import {Friend} from '../model/friend';
 

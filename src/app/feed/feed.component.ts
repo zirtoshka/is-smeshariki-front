@@ -51,17 +51,13 @@ export class FeedComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       if (this.scrollTrigger) {
-        console.log("яфдгзф"); // Сообщение появляется, когда элемент готов
         this.observer = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting && !this.loading && !this.allLoaded) {
-            console.log("jopa");
             this.fetchPosts();
           }
         }, { threshold: 1.0 });
 
         this.observer.observe(this.scrollTrigger.nativeElement);
-      } else {
-        console.log('scrollTrigger не найден');
       }
     }, 0);
 
@@ -97,11 +93,6 @@ export class FeedComponent implements OnInit, AfterViewInit {
       this.items = [];
       this.page = 0;
     }
-
-    // ✅ Запоминаем текущий скролл перед загрузкой
-    const feedContainer = document.querySelector('.post-feed');
-    const previousScrollHeight = feedContainer?.scrollHeight || 0;
-    const previousScrollTop = window.scrollY;
 
     let uniqueNewItems = newItems.filter(
       newItem => !this.items.some(existingItem => existingItem.id === newItem.id)

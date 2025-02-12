@@ -1,8 +1,10 @@
 <div *ngIf="loading && items.length === 0" class="loading">загрузка записей...</div>
 <div *ngIf="error" class="error">ошибка при загрузке записей</div>
 
-<div *ngIf="!loading && !error" class="post-feed">
-  <app-post-meta *ngFor="let item of items" [post]="item"></app-post-meta>
+<div class="post-feed">
+  <app-post-meta *ngFor="let item of items; trackBy: trackById" [post]="item"></app-post-meta>
+  <div #scrollTrigger class="scroll-trigger"></div> <!-- Триггер в конце списка -->
+
 </div>
 
 <div *ngIf="loading && items.length > 0" class="loading-more">загрузка...</div>
