@@ -20,7 +20,9 @@ export class AvatarComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.data);
     if (this.data) {
+      console.log(this.data);
       this.smesharik = new Friend(this.data);
     }
   }

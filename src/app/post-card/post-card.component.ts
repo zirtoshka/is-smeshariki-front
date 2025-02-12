@@ -118,19 +118,23 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
       });
 
     } else {
+      console.log("jopa")
       console.log(this.post)
-    }
+      this.commentService.loadComments(this.post.id);
+      this.carrotService.isLikePost(this.post.id).subscribe((result) => {
+        this.isLiked = result;
+        this.setCarrotIcon()
+      });
+      if (!this.post.smesharikAuthor ) {
+        this.authorService.getSmesharikByLogin(this.post.author).subscribe((result) => {
+          this.post.smesharikAuthor = result;
+        });
+      }
 
-    console.log(this.post.id)
-    this.commentService.loadComments(this.post.id);
-    this.carrotService.isLikePost(this.post.id).subscribe((result) => {
-      this.isLiked = result;
-      this.setCarrotIcon()
-    });
-    this.authorService.getSmesharikByLogin(this.post.author).subscribe((result) => {
-      this.post.smesharikAuthor = result;
-    });
-    this.loadImage();
+      this.loadImage();
+
+    }
+    console.log("zalupa")
 
 
   }

@@ -1,4 +1,4 @@
-import {Component, HostListener, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostService} from '../services/post.service';
 import {PostCardComponent} from '../post-card/post-card.component';
@@ -6,11 +6,8 @@ import {BanCardComponent} from '../ban/ban-card/ban-card.component';
 import {NotificationCustomService} from '../notification-custom.service';
 import {Post} from '../model/post';
 import {SearchFilterComponent} from '../search-filter/search-filter.component';
-import {DataFormaterService} from '../data-formater.service';
-import {UserService} from '../services/user.service';
-import {Smesharik} from '../auth-tools/smesharik';
 import {AuthorService} from '../author.service';
-import {forkJoin, map, Observable} from 'rxjs';
+import {forkJoin, map} from 'rxjs';
 
 @Component({
   selector: 'app-feed',
@@ -26,11 +23,10 @@ import {forkJoin, map, Observable} from 'rxjs';
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
-export class FeedComponent implements OnInit {
+export class FeedComponent implements OnInit, AfterViewInit {
   items: any[] = [];
-  // private authorsMap = new Map<string, Smesharik>();
 
-  loading = true;
+  loading = false;
   error = false;
 
   searchQuery: string = '';
@@ -38,25 +34,52 @@ export class FeedComponent implements OnInit {
   page = 0; // Текущая страница
   allLoaded = false; // Флаг окончания подгрузки
 
+
+  @ViewChild('scrollTrigger', {static: false}) scrollTrigger!: ElementRef;
+  private observer!: IntersectionObserver;
+
   protected notificationCustomService = inject(NotificationCustomService);
   protected postService = inject(PostService);
   protected authorService = inject(AuthorService);
-
-  // protected authorService = inject(UserService);
 
 
   ngOnInit(): void {
     this.fetchPosts();
   }
 
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (this.scrollTrigger) {
+        console.log("яфдгзф"); // Сообщение появляется, когда элемент готов
+        this.observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting && !this.loading && !this.allLoaded) {
+            console.log("jopa");
+            this.fetchPosts();
+          }
+        }, { threshold: 1.0 });
+
+        this.observer.observe(this.scrollTrigger.nativeElement);
+      } else {
+        console.log('scrollTrigger не найден');
+      }
+    }, 0);
+
+  }
+
   fetchPosts(replacementIsNeeded: boolean = false): void {
-    const newPosts = this.postService.getFeed({
+    if (this.loading) return;
+
+    this.loading = true;
+
+    this.postService.getFeed({
       page: this.page,
       filter: this.searchQuery,
     }).subscribe({
       next: (response) => {
         const newItems = response.content.map(data => Post.fromBackend(data));
-        this.fetchHelper(newItems, replacementIsNeeded)
+        this.fetchHelper(newItems, replacementIsNeeded);
+
         if (response.totalPages - response.currentPage === 1) {
           this.allLoaded = true;
         }
@@ -64,37 +87,51 @@ export class FeedComponent implements OnInit {
       error: (err: any) => {
         console.error('Ошибка при загрузке:', err);
         this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.loading = false;
       }
     });
   }
 
-
-  fetchHelper(newItems: Post[], replacementIsNeeded: boolean = false) {
+  fetchHelper(newItems: Post[], replacementIsNeeded: boolean = false): void {
     if (replacementIsNeeded) {
       this.items = [];
+      this.page = 0;
     }
+
+    // ✅ Запоминаем текущий скролл перед загрузкой
+    const feedContainer = document.querySelector('.post-feed');
+    const previousScrollHeight = feedContainer?.scrollHeight || 0;
+    const previousScrollTop = window.scrollY;
 
     let uniqueNewItems = newItems.filter(
       newItem => !this.items.some(existingItem => existingItem.id === newItem.id)
     );
 
     if (uniqueNewItems.length) {
+
       const authorRequests = uniqueNewItems.map(item =>
+
         this.authorService.getSmesharikByLogin(item.author).pipe(
-          map(author => ({...item, smesharikAuthor: author}))
+          map(author => ({...item, smesharikAuthor: null})
+          )
         )
+
       );
 
       forkJoin(authorRequests).subscribe(updatedItems => {
-        this.items = [...this.items, ...updatedItems];
+        this.items.push(...updatedItems);
         this.page++;
+        this.loading = false;
       });
     } else {
       this.allLoaded = true;
+      this.loading = false;
     }
-    this.loading = false;
+  }
 
 
+  trackById(index: number, item: Post): number {
+    return item.id;
   }
 
 
@@ -105,17 +142,19 @@ export class FeedComponent implements OnInit {
     this.fetchPosts(true);
   }
 
+  //
+  // @HostListener('window:scroll', [])
+  // onScroll(): void {
+  //   if (this.loading || this.allLoaded) return;
+  //
+  //   const scrollPosition = window.innerHeight + window.scrollY;
+  //   const threshold = document.documentElement.scrollHeight - 200;
+  //
+  //   if (scrollPosition >= threshold) {
+  //     this.loading = true;
+  //     this.fetchPosts();
+  //   }
+  // }
 
-  @HostListener('window:scroll', [])
-  onScroll(): void {
-    if (this.loading || this.allLoaded) return;
 
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.documentElement.scrollHeight - 200;
-
-    if (scrollPosition >= threshold) {
-      this.loading = true;
-      this.fetchPosts();
-    }
-  }
 }

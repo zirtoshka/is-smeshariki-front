@@ -1,0 +1,7 @@
+.scroll-trigger {
+  height: 1px;
+  width: 100%;
+}
+.post-feed {
+  padding-bottom: 100px; /* ✅ Добавляем место для подгрузки */
+}

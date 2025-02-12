@@ -6,6 +6,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {PostCardComponent} from '../../post-card/post-card.component';
 import {ContentBase} from '../../content-base';
 import {Word} from '../../model/triggerword';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -26,4 +27,7 @@ export class WordCardComponent extends ContentBase<Word> {
   @Output() override edit = new EventEmitter<Word>();
   @Output() override delete = new EventEmitter<Word>();
 
+  constructor(router: Router) {
+    super(router);
+  }
 }

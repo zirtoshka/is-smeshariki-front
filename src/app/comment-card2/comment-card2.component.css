@@ -1,6 +1,7 @@
 .comment {
   background: #cd96f1;
   border-radius: 15px;
+  min-width: 500px;
 }
 
 
@@ -14,10 +15,9 @@
 
 
 .nested-comment {
-  margin-left: 24px; /* Отступ для вложенных */
-  /*background: #e8e0fb;*/
-  border-left: 4px solid #e8e0fb; /* Линия связи */
+  border-left: 4px solid #e8e0fb;
   padding-left: 12px;
+  margin-left: 24px;
 }
 
 

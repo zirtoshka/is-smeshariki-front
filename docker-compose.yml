@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: is-smesharik-front
+    ports:
+      - "80:80"
+    networks:
+      - web-network
+
+networks:
+  web-network:
+    external: true
