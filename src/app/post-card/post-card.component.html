@@ -77,13 +77,9 @@
 
 </nz-card>
 
+
 <ng-template #avatarTemplate>
-  <nz-avatar
-    [style.background-color]="post.smesharikAuthor?.color"
-    nzSize="large"
-    nzIcon="user"
-  >
-  </nz-avatar>
+  <app-avatar [data]="post.smesharikAuthor"></app-avatar>
 </ng-template>
 
 <ng-template #nzDescription>

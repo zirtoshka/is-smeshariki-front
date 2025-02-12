@@ -107,7 +107,7 @@ export class SmesharikPageComponent implements OnInit {
   loadSmesharik(login: string): void {
     this.userService.getSmesharikByLogin(login).subscribe({
       next: (data) => {
-        this.smesharik = Smesharik.fromJson(data);
+        this.smesharik = Smesharik.fromBackend(data);
         this.initForm();
       },
       error: (err) => {
@@ -177,7 +177,7 @@ export class SmesharikPageComponent implements OnInit {
         const body = {name, login, email, color};
         this.userService.editSmesharik(this.smesharik.login, body).subscribe({
           next: (data) => {
-            this.smesharik = Smesharik.fromJson(data);
+            this.smesharik = Smesharik.fromBackend(data);
             this.notificationCustomService.handleSuccess(
               "Оба-на!",
               "обновление успешно"

@@ -1,0 +1,10 @@
+<div class="avatar-container">
+  <nz-avatar
+    [style.background-color]="smesharik.color"
+    nzSize="large"
+    nzIcon="user">
+  </nz-avatar>
+  <span class="status-indicator"
+        [ngClass]="{ 'online': smesharik.isOnline, 'offline': !smesharik.isOnline }">
+  </span>
+</div>

@@ -2,7 +2,7 @@ import {Roles} from '../auth-tools/smesharik';
 import {BaseModel} from './base-data';
 
 export class Friend extends BaseModel<Friend> {
-  id: number;
+  id: number | null;
   name: string;
   login: string;
   color: string;
@@ -10,9 +10,10 @@ export class Friend extends BaseModel<Friend> {
   lastActive: Date | null; //string is data when was online
   role: Roles;
 
+
   constructor(data: any) {
     super();
-    this.id = data.id;
+    this.id = data.id ?? null;
     this.name = data.name;
     this.login = data.login;
     this.color = data.color;

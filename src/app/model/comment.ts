@@ -11,7 +11,7 @@ export class CommentS extends BaseModel<CommentS> {
   hasChildren: boolean = false;
   countCarrots: number = 0;
   isLiked: boolean = false;
-  smesharikAuthor: Smesharik | null;
+  smesharikAuthor: Smesharik ;
   level: number;
 
 

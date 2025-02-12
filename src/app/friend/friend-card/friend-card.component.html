@@ -1,10 +1,6 @@
 <nz-card class="friend-card" [nzBordered]="true" [nzHoverable]="true">
   <div class="friend-info">
-<!--    <nz-avatar [nzSrc]="friend.avatar" nzSize="large"></nz-avatar>-->
-    <nz-avatar
-      nzSize="large"
-      [style]="{ 'background-color': '#8228e6' }"
-      nzIcon="user"></nz-avatar>
+    <app-avatar [data]="friend " ></app-avatar>
     <div class="friend-details">
       <h3 class="friend-name">{{ friend.name }}</h3>
       <p class="friend-status">
@@ -12,7 +8,8 @@
           <i nz-icon nzType="check-circle" nzTheme="outline"></i> онлайн
         </nz-tag>
         <nz-tag *ngIf="!friend.isOnline" nzColor="default">
-          <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{ friend.lastActive }}
+          <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{
+            this.dateFormatterService.formatDate(friend.lastActive) }}
         </nz-tag>
       </p>
     </div>

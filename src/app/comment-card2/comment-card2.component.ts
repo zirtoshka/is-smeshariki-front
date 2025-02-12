@@ -20,6 +20,7 @@ import {Post} from '../model/post';
 import {AuthorService} from '../author.service';
 import {NotificationCustomService} from '../notification-custom.service';
 import {BackButtonComponent} from '../back-button/back-button.component';
+import {AvatarComponent} from '../avatar/avatar.component';
 
 @Component({
   selector: 'app-comment-card2',
@@ -41,7 +42,8 @@ import {BackButtonComponent} from '../back-button/back-button.component';
     NgClass,
     NzBadgeComponent,
     FormsModule,
-    BackButtonComponent
+    BackButtonComponent,
+    AvatarComponent
   ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,

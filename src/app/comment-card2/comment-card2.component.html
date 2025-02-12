@@ -83,27 +83,18 @@
   <!-- Вложенные комментарии, загруженные из commentTree$ -->
   <div *ngIf="(replies$ | async) as replies">
     <div *ngFor="let reply of replies" class="nested-comment">
-      <app-comment-card2 [isFeed]="true" [comment]="reply" (loadRepliesEvent)="loadRepliesEvent.emit($event)"></app-comment-card2>
+      <app-comment-card2 [isFeed]="true" [comment]="reply"
+                         (loadRepliesEvent)="loadRepliesEvent.emit($event)"></app-comment-card2>
     </div>
   </div>
 
-  <button nz-button (click)="onScroll()"  *ngIf="hasMore && showReplies" >загрузить еще</button>
+  <button nz-button (click)="onScroll()" *ngIf="hasMore && showReplies">загрузить еще</button>
 
 </nz-card>
 
 
 <ng-template #avatarTemplate>
-  <div class="avatar-container">
-    <nz-avatar
-      [style.background-color]="comment.smesharikAuthor?.color"
-      nzSize="large"
-      nzIcon="user">
-    </nz-avatar>
-    <span class="status-indicator"
-          [ngClass]="{ 'online': comment.smesharikAuthor?.isOnline, 'offline': !comment.smesharikAuthor?.isOnline }">
-  </span>
-  </div>
-
+  <app-avatar [data]="comment.smesharikAuthor"></app-avatar>
 </ng-template>
 
 <ng-template #nzDescription>
@@ -112,7 +103,7 @@
      <span *ngIf="!comment.smesharikAuthor?.isOnline">
       <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
       был в сети: {{
-         dateFormatterService.formatDate(comment.smesharikAuthor?.lastActive)
+         dateFormatterService.formatDate(comment.smesharikAuthor.lastActive)
        }}
     </span>
     <i nz-icon nzType="calendar" nzTheme="outline"></i>
@@ -123,7 +114,7 @@
 
 <ng-template #title>
   <span>
-    {{ comment.smesharikAuthor?.name }}
+    {{ comment.smesharikAuthor.name }}
     {{ comment.smesharik }}
     {{ comment.id }}
   </span>

@@ -23,6 +23,7 @@ import {HttpClient} from '@angular/common/http';
 import {BaseService} from '../base/base.service';
 import {AuthorService} from '../author.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AvatarComponent} from '../avatar/avatar.component';
 
 
 @Component({
@@ -43,7 +44,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     AsyncPipe,
     CommentCard2Component,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AvatarComponent
   ],
   providers: [PostService, DatePipe, CommentService],
   templateUrl: './post-card.component.html',
@@ -79,6 +81,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
     private route: ActivatedRoute,
     private postService: PostService,
     private location: Location,
+    private iconService: IconService,
     protected dateFormatterService: DataFormaterService
   ) {
   }
