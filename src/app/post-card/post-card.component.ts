@@ -24,6 +24,8 @@ import {BaseService} from '../base/base.service';
 import {AuthorService} from '../author.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AvatarComponent} from '../avatar/avatar.component';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Smesharik} from '../auth-tools/smesharik';
 
 
 @Component({
@@ -51,12 +53,11 @@ import {AvatarComponent} from '../avatar/avatar.component';
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
-export class PostCardComponent implements OnInit, OnChanges, Likeable {
+export class PostCardComponent implements OnInit, OnChanges {
   commentsList: CommentS[] = [];
   isCommentsVisible: boolean = false;
   isCommentExisted: boolean = false;
-  isLiked: boolean = false;
-
+  isLiked$ = new BehaviorSubject<boolean>(false);
   replyText = '';
 
   @Input() isFeed = false
@@ -66,6 +67,8 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
 
 
   @Input() post!: Post;
+  postAuthor$!: Observable<Smesharik>;
+
 
   protected commentService = inject(CommentService);
   comments$ = this.commentService.comments$;
@@ -102,13 +105,17 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
           this.isCommentExisted = this.commentsList.length > 0;
 
           this.commentService.loadComments(this.post.id);
-          this.carrotService.isLikePost(this.post.id).subscribe((result) => {
-            this.isLiked = result;
-            this.setCarrotIcon()
+          this.carrotService.isLikeComment(this.post.id).subscribe({
+            next: (result: boolean) => {
+              this.isLiked$.next(result);
+              this.setCarrotIcon();
+            },
+            error: (err) => {
+              console.error('Ошибка при получении лайков:', err);
+            }
           });
-          this.authorService.getSmesharikByLogin(this.post.author).subscribe((result) => {
-            this.post.smesharikAuthor = result;
-          });
+          this.postAuthor$ = this.authorService.getSmesharikByLogin(this.post.author);
+
           this.loadImage();
         },
         error: (err: any) => {
@@ -121,14 +128,18 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
       console.log("jopa")
       console.log(this.post)
       this.commentService.loadComments(this.post.id);
-      this.carrotService.isLikePost(this.post.id).subscribe((result) => {
-        this.isLiked = result;
-        this.setCarrotIcon()
+      this.carrotService.isLikeComment(this.post.id).subscribe({
+        next: (result: boolean) => {
+          this.isLiked$.next(result);
+          this.setCarrotIcon();
+        },
+        error: (err) => {
+          console.error('Ошибка при получении лайков:', err);
+        }
       });
       if (!this.post.smesharikAuthor ) {
-        this.authorService.getSmesharikByLogin(this.post.author).subscribe((result) => {
-          this.post.smesharikAuthor = result;
-        });
+        this.postAuthor$ = this.authorService.getSmesharikByLogin(this.post.author);
+
       }
 
       this.loadImage();
@@ -149,20 +160,20 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
 
 
   toggleLike() {
-    if (!this.isLiked) {
-      this.carrotService.setCarrotOnPost(this.post.id)
+    if (!this.isLiked$.value) {
+      this.carrotService.setCarrotOnComment(this.post.id)
         .subscribe((success) => {
           if (success) {
-            this.isLiked = true
+            this.isLiked$.next(true);
             this.post.countCarrots++;
             this.setCarrotIcon()
           }
         });
     } else {
-      this.carrotService.deleteCarrotOnPost(this.post.id)
+      this.carrotService.deleteCarrotOnComment(this.post.id)
         .subscribe((success) => {
           if (success) {
-            this.isLiked = false
+            this.isLiked$.next(false);
             this.post.countCarrots--;
             this.setCarrotIcon()
           }
@@ -171,7 +182,7 @@ export class PostCardComponent implements OnInit, OnChanges, Likeable {
   }
 
   setCarrotIcon() {
-    this.iconCarrot = this.isLiked ? carrotTouchedIcon : carrotIcon;
+    this.iconCarrot = this.isLiked$.value ? carrotTouchedIcon : carrotIcon;
   }
 
   toggleComments() {

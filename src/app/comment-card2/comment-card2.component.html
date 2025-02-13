@@ -53,6 +53,9 @@
     [nzAvatar]="avatarTemplate">
   </nz-card-meta>
 
+  <p class="item-date">
+    <i nz-icon nzType="calendar" nzTheme="outline"></i>
+    опубликовано: {{ this.dateFormatterService.formatDate(comment.creationDate) }} </p>
 
   <p>{{ comment.text }}</p>
   <div class="carrots">
@@ -60,7 +63,7 @@
       nz-icon
       [nzType]="iconCarrot.name"
       class="large-icon"
-      [class.liked]="isLiked"
+      [class.liked]="(isLiked$ | async)"
       (click)="toggleLike()"
     ></i>
     <app-carrot-count [count]="comment.countCarrots"></app-carrot-count>
@@ -94,29 +97,25 @@
 
 
 <ng-template #avatarTemplate>
-  <app-avatar [data]="comment.smesharikAuthor"></app-avatar>
+  <app-avatar *ngIf="commentAuthor$ | async as author" [data]="author"></app-avatar>
 </ng-template>
 
 <ng-template #nzDescription>
-  <p class="item-date">
+  <p class="item-date" *ngIf="commentAuthor$ | async as author">
+    <nz-tag *ngIf="!author.isOnline" nzColor="default">
+      <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{
+        this.dateFormatterService.formatDate(author.lastActive)
+      }}
+    </nz-tag>
 
-     <span *ngIf="!comment.smesharikAuthor?.isOnline">
-      <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
-      был в сети: {{
-         dateFormatterService.formatDate(comment.smesharikAuthor.lastActive)
-       }}
-    </span>
-    <i nz-icon nzType="calendar" nzTheme="outline"></i>
-    опубликовано: {{ this.dateFormatterService.formatDate(comment.creationDate) }} <br>
+    <br>
   </p>
 </ng-template>
 
 
 <ng-template #title>
-  <span>
-    {{ comment.smesharikAuthor.name }}
-    {{ comment.smesharik }}
-    {{ comment.id }}
+  <span *ngIf="commentAuthor$ | async as author">
+    {{ author.name }} ({{ comment.smesharik }}) {{ comment.id }}
   </span>
 </ng-template>
 

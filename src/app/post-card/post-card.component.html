@@ -29,7 +29,7 @@
       nz-icon
       [nzType]="iconCarrot.name"
       class="large-icon"
-      [class.liked]="isLiked"
+      [class.liked]="(isLiked$ | async)"
       (click)="toggleLike()"
     ></i>
     <app-carrot-count [count]="post.countCarrots ? post.countCarrots :0"></app-carrot-count>
@@ -79,7 +79,7 @@
 
 
 <ng-template #avatarTemplate>
-  <app-avatar [data]="post.smesharikAuthor"></app-avatar>
+  <app-avatar *ngIf="postAuthor$ | async as author" [data]="author"></app-avatar>
 </ng-template>
 
 <ng-template #nzDescription>
@@ -91,7 +91,7 @@
 
 
 <ng-template #title>
-  {{ post.smesharikAuthor?.name }}
-  {{ post.author }}
-  {{ post.id }}
+  <span *ngIf="postAuthor$ | async as author">
+    {{ author.name }} ({{ post.author }}) {{ post.id }}
+  </span>
 </ng-template>

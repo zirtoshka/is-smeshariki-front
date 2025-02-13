@@ -28,7 +28,7 @@ export abstract class BasePage<T extends HasId> {
   protected notificationCustomService = inject(NotificationCustomService);
 
 
-  selectedStatuses:any = [];
+  selectedStatuses: any = [];
   searchQuery: string = '';
 
 
@@ -113,7 +113,7 @@ export abstract class BasePage<T extends HasId> {
     this.isVisible = false
   }
 
-  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] |Roles[] }) {
+  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] | Roles[] }) {
     this.searchQuery = searchData.query
     this.selectedStatuses = searchData.statuses
     this.page = 0;
@@ -134,7 +134,8 @@ export abstract class BasePage<T extends HasId> {
     if (uniqueNewItems.length) {
       this.items = [...this.items, ...uniqueNewItems];
       this.page++;
-    } else if (newItems.length) {
+    }
+    if (newItems.length==0) {
       this.allLoaded = true;
     }
     this.loading = false;

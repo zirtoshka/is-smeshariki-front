@@ -1,7 +1,16 @@
-import {Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
-import {map, Observable} from 'rxjs';
+import {BehaviorSubject, map, Observable, tap} from 'rxjs';
 import {AsyncPipe, DatePipe, Location, NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzListComponent, NzListItemComponent} from 'ng-zorro-antd/list';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
@@ -9,18 +18,19 @@ import {NzCommentComponent, NzCommentContentDirective} from 'ng-zorro-antd/comme
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
-import {carrotIcon, carrotTouchedIcon} from '../services/icon.service';
+import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.service';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {CarrotService} from '../services/carrot.service';
 import {DataFormaterService} from '../data-formater.service';
 import {NzBadgeComponent} from 'ng-zorro-antd/badge';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {Post} from '../model/post';
 import {AuthorService} from '../author.service';
 import {NotificationCustomService} from '../notification-custom.service';
 import {BackButtonComponent} from '../back-button/back-button.component';
 import {AvatarComponent} from '../avatar/avatar.component';
+import {Smesharik} from '../auth-tools/smesharik';
+import {NzTagComponent} from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'app-comment-card2',
@@ -43,7 +53,8 @@ import {AvatarComponent} from '../avatar/avatar.component';
     NzBadgeComponent,
     FormsModule,
     BackButtonComponent,
-    AvatarComponent
+    AvatarComponent,
+    NzTagComponent
   ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
@@ -52,6 +63,8 @@ import {AvatarComponent} from '../avatar/avatar.component';
 })
 export class CommentCard2Component implements OnInit {
   @Input() comment!: CommentS;
+  commentAuthor$!: Observable<Smesharik>;
+
 
   @Output() loadRepliesEvent = new EventEmitter<number>();
 
@@ -60,7 +73,10 @@ export class CommentCard2Component implements OnInit {
 
 
   iconCarrot = carrotIcon;
-  @Input() isLiked!: boolean; //todo
+  // @Input() isLiked$!: Observable<boolean>; //todo
+
+  @Input() isLiked$ = new BehaviorSubject<boolean>(false);
+
   protected carrotService = inject(CarrotService);
 
   @Output() replyAdded = new EventEmitter<CommentS>();
@@ -102,25 +118,43 @@ export class CommentCard2Component implements OnInit {
     protected dateFormatterService: DataFormaterService,
     private route: ActivatedRoute,
     private location: Location,
-
+    private iconService: IconService,
   ) {
   }
 
 
   ngOnInit() {
-    if(!this.comment){
-      const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    console.log(id)
+    if(!this.comment || id!=0){
+      // const id = Number(this.route.snapshot.paramMap.get('id'));
       this.commentService.getCommentsById(id).subscribe({
         next: (response) => {
 
           this.comment = CommentS.fromBackend(response);
-          this.carrotService.isLikeComment(this.comment.id).subscribe((result) => {
-            this.isLiked = result;
-            this.setCarrotIcon()
+          // this.carrotService.isLikeComment(this.comment.id).subscribe((result) => {
+          //   this.isLiked = result;
+          //   this.setCarrotIcon()
+          // });
+
+          this.carrotService.isLikeComment(this.comment.id).subscribe({
+            next: (result: boolean) => {
+              this.isLiked$.next(result);
+              this.setCarrotIcon();
+            },
+            error: (err) => {
+              console.error('Ошибка при получении лайков:', err);
+            }
           });
-          this.authorService.getSmesharikByLogin(this.comment.smesharik).subscribe((result) => {
-            this.comment.smesharikAuthor = result;
-          });
+
+
+
+          this.commentAuthor$ = this.authorService.getSmesharikByLogin(this.comment.smesharik);
+
+          // this.authorService.getSmesharikByLogin(this.comment.smesharik).subscribe((result) => {
+          //   console.log(result)
+          //   this.comment.smesharikAuthor = result;
+          // });
         },
         error: (err: any) => {
           console.error('Ошибка при загрузке:', err);
@@ -139,9 +173,20 @@ export class CommentCard2Component implements OnInit {
       });
 
       this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
-      this.isLiked = this.comment.isLiked;
-      this.setCarrotIcon();
+      this.carrotService.isLikeComment(this.comment.id).subscribe({
+        next: (result: boolean) => {
+          this.isLiked$.next(result);
+          this.setCarrotIcon();
+        },
+        error: (err) => {
+          console.error('Ошибка при получении лайков:', err);
+        }
+      });
+
     }
+    this.commentAuthor$ = this.authorService.getSmesharikByLogin(this.comment.smesharik);
+
+
   }
 
 
@@ -157,15 +202,16 @@ export class CommentCard2Component implements OnInit {
   }
 
   setCarrotIcon() {
-    this.iconCarrot = this.isLiked ? carrotTouchedIcon : carrotIcon;
+    this.iconCarrot = this.isLiked$.value ? carrotTouchedIcon : carrotIcon;
   }
 
+
   toggleLike() {
-    if (!this.isLiked) {
+    if (!this.isLiked$.value) {
       this.carrotService.setCarrotOnComment(this.comment.id)
         .subscribe((success) => {
           if (success) {
-            this.isLiked = true
+            this.isLiked$.next(true);
             this.comment.countCarrots++;
             this.setCarrotIcon()
           }
@@ -174,7 +220,7 @@ export class CommentCard2Component implements OnInit {
       this.carrotService.deleteCarrotOnComment(this.comment.id)
         .subscribe((success) => {
           if (success) {
-            this.isLiked = false
+            this.isLiked$.next(false);
             this.comment.countCarrots--;
             this.setCarrotIcon()
           }
