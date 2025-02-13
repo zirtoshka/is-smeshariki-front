@@ -26,6 +26,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AvatarComponent} from '../avatar/avatar.component';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Smesharik} from '../auth-tools/smesharik';
+import {NzImageDirective, NzImageService} from 'ng-zorro-antd/image';
+import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 
 
 @Component({
@@ -47,9 +49,11 @@ import {Smesharik} from '../auth-tools/smesharik';
     CommentCard2Component,
     ReactiveFormsModule,
     FormsModule,
-    AvatarComponent
+    AvatarComponent,
+    NzImageDirective,
+    NzModalComponent
   ],
-  providers: [PostService, DatePipe, CommentService],
+  providers: [PostService, DatePipe, CommentService, NzModalService],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
@@ -125,8 +129,6 @@ export class PostCardComponent implements OnInit, OnChanges {
       });
 
     } else {
-      console.log("jopa")
-      console.log(this.post)
       this.commentService.loadComments(this.post.id);
       this.carrotService.isLikeComment(this.post.id).subscribe({
         next: (result: boolean) => {
@@ -145,7 +147,6 @@ export class PostCardComponent implements OnInit, OnChanges {
       this.loadImage();
 
     }
-    console.log("zalupa")
 
 
   }
@@ -223,5 +224,15 @@ export class PostCardComponent implements OnInit, OnChanges {
     this.commentService.createComment(newReply  );
 
     this.replyText = '';
+  }
+
+  isModalVisible = false;
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
   }
 }

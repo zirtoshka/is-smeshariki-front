@@ -14,12 +14,15 @@
 
   <div class="post-content">
     <p class="post-text">{{ post.text }}</p>
+
+
     <img
       *ngIf="imageUrl"
       [src]="imageUrl"
-      style="width: 10%"
+      style="width: 200px; cursor: pointer"
       alt="Изображение поста"
       class="post-image"
+      (click)="openModal()"
     />
   </div>
 
@@ -95,3 +98,19 @@
     {{ author.name }} ({{ post.author }}) {{ post.id }}
   </span>
 </ng-template>
+
+
+<nz-modal [(nzVisible)]="isModalVisible"
+          (nzOnCancel)="closeModal()"
+          [nzContent]="image"
+          [nzFooter]="null">
+  <ng-template #image>
+  <img
+    *ngIf="imageUrl"
+    [src]="imageUrl"
+    style="width: 100%; height: auto"
+    alt="Изображение поста"
+    class="post-image"
+  />
+  </ng-template>
+</nz-modal>
