@@ -1,4 +1,6 @@
-<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>
+<app-search-filter
+  [enumType]="GeneralStatus"
+  (searchChanged)="handleSearchChange($event)"></app-search-filter>
 
 <button nz-button nzType="primary" (click)="openAddForm()">добавить жалобу</button>
 

@@ -4,7 +4,6 @@ import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {ApplicationForTreatment} from '../../model/application-for-treatment';
 import {enumListToString, GeneralStatus} from '../../model/enums';
-import {Propensity} from '../../model/propensity';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {FormsModule} from '@angular/forms';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
@@ -17,7 +16,6 @@ import {PropensityFormComponent} from '../../propensity/propensity-form/propensi
 import {ApplicationFormComponent} from '../application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ApplicationService} from '../../services/application.service';
-import {Complaint} from '../../model/complaint';
 import {getLogin} from '../../auth-tools/auth-utils';
 import {ComplaintCardComponent} from '../../complaint/complaint-card/complaint-card.component';
 import {ComplaintFormComponent} from '../../complaint/complaint-form/complaint-form.component';
@@ -43,7 +41,7 @@ import {ComplaintFormComponent} from '../../complaint/complaint-form/complaint-f
     ApplicationFormComponent,
     ComplaintCardComponent,
     ComplaintFormComponent,
-    NgClass
+    NgClass,
   ],
   providers: [NzModalService],
   templateUrl: './doctor-page.component.html',
@@ -101,7 +99,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
     this.applicationService.getApplications(
       {
         page: this.page,
-        statuses: enumListToString(this.selectedStatuses),
+        statuses: enumListToString(GeneralStatus, this.selectedStatuses),
         isMine: this.isMyApplications ? this.isMyApplications : undefined
       })
       .subscribe({
@@ -120,4 +118,5 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
     return ApplicationForTreatment.fromBackend(data);
   }
 
+  protected readonly GeneralStatus = GeneralStatus;
 }

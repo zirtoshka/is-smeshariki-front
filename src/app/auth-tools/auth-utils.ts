@@ -1,4 +1,5 @@
 import {deleteCookie, getCookie, setCookie} from './cookie-utils';
+import {Roles} from './smesharik';
 
 export const TOKEN_PATH = 'token';
 export const  LOGIN = 'login';
@@ -28,3 +29,14 @@ export function setAuthToken(value: string | null | undefined) {
     setCookie(TOKEN_PATH, value);
   }
 }
+
+export function getRoleFromToken(token: string): string | null {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1])); // Декодируем payload
+    return payload.role || null; // Возвращаем роль, если есть
+  } catch (error) {
+    console.error("Ошибка при разборе токена:", error);
+    return null;
+  }
+}
+

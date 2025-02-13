@@ -59,4 +59,9 @@ export class WordPageComponent  extends BasePage<Word> implements OnInit{
         }
       });
   }
+
+  trackById(index: number, item: Word) {
+    return item.id;
+
+  }
 }

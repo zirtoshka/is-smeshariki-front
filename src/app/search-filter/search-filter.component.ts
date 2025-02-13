@@ -19,20 +19,27 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
   templateUrl: './search-filter.component.html',
   styleUrl: './search-filter.component.css'
 })
-export class SearchFilterComponent {
-
+export class SearchFilterComponent<T extends Record<string, string | number>> {
   @Input() isStatusesNeeded = true;
   @Input() isSearchNeeded = true;
+  @Input() enumType!: T;
 
-  statuses = Object.entries(GeneralStatus);
+  statuses: [string, T[keyof T]][] = [];
 
-  selectedStatuses: GeneralStatus[] = [];
+  selectedStatuses: T[keyof T][] = [];
   searchQuery: string = '';
 
   @Output() searchChanged = new EventEmitter<{
     query: string;
-    statuses: GeneralStatus[];
+    statuses: T[keyof T][];
   }>();
+
+  ngOnInit() {
+    if (this.enumType) {
+      this.statuses = Object.entries(this.enumType) as [string, T[keyof T]][];
+    }
+  }
+
 
   onFilterChange() {
     this.searchChanged.emit({
@@ -47,7 +54,7 @@ export class SearchFilterComponent {
     this.onFilterChange();
   }
 
-  toggleStatus(status: GeneralStatus) {
+  toggleStatus(status: T[keyof T]) {
     const index = this.selectedStatuses.indexOf(status);
     if (index === -1) {
       this.selectedStatuses.push(status);
@@ -57,8 +64,7 @@ export class SearchFilterComponent {
     this.onFilterChange();
   }
 
-  getStatus(s: string) {
-    return GeneralStatus[s as keyof typeof GeneralStatus];
+  getStatus(s: string): T[keyof T] {
+    return this.enumType[s as keyof T];
   }
-
 }

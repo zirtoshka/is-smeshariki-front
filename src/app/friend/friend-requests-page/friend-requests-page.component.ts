@@ -5,6 +5,7 @@ import {Friend} from '../../model/friend';
 import {BasePage} from '../../base/base-page';
 import {SmesharikService} from '../../services/smesharik.service';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
+import {GeneralStatus} from '../../model/enums';
 
 @Component({
   selector: 'app-friend-card-requests-page',
@@ -13,7 +14,7 @@ import {SearchFilterComponent} from '../../search-filter/search-filter.component
     FriendCardComponent,
     NgForOf,
     SearchFilterComponent,
-    NgIf
+    NgIf,
   ],
   templateUrl: './friend-requests-page.component.html',
   styleUrl: './friend-requests-page.component.css'
@@ -32,6 +33,7 @@ export class FriendRequestsPageComponent extends BasePage<Friend> implements OnI
     this.friendService.getFollowers(
       {
         page: this.page,
+        size: 2
       })
       .subscribe({
         next: (response) => {
@@ -52,7 +54,24 @@ export class FriendRequestsPageComponent extends BasePage<Friend> implements OnI
 
   handleAddFriend(friend: Friend): void {
     console.log('Добавить друга:', friend);
+    this.friendService.acceptFriend({follower: friend.login})
+      .subscribe({
+        next: (response:any) => {
+          this.items = this.items.filter(item => item.login !== friend.login);
+          this.notificationCustomService.handleSuccess(
+            "Мамма мия! Это же... Дружище!", response.message
+          )
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        }
+      });
   }
 
+
+
+
   protected readonly Context = Context;
+  protected readonly GeneralStatus = GeneralStatus;
 }

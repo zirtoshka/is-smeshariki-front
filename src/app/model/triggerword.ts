@@ -1,7 +1,7 @@
 import {BaseModel} from './base-data';
 
 export class Word extends BaseModel<Word> {
-  id: number | null;
+  id: number ;
   word: string;
   propensity: string;
 

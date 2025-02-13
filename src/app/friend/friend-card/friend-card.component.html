@@ -1,6 +1,6 @@
 <nz-card class="friend-card" [nzBordered]="true" [nzHoverable]="true">
   <div class="friend-info">
-    <app-avatar [data]="friend " ></app-avatar>
+    <app-avatar [data]="friend "></app-avatar>
     <div class="friend-details">
       <h3 class="friend-name">{{ friend.name }}</h3>
       <p class="friend-status">
@@ -9,7 +9,8 @@
         </nz-tag>
         <nz-tag *ngIf="!friend.isOnline" nzColor="default">
           <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{
-            this.dateFormatterService.formatDate(friend.lastActive) }}
+            this.dateFormatterService.formatDate(friend.lastActive)
+          }}
         </nz-tag>
       </p>
     </div>
@@ -27,15 +28,25 @@
     <button *ngIf="context === Context.requests" nz-button nzType="primary" (click)="onAddFriend(friend)">
       <i nz-icon nzType="user-add"></i> добавить в друзья
     </button>
-    <button *ngIf="context === Context.friends" nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend)">
+    <button *ngIf="context === Context.friends " nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend)">
       <i nz-icon nzType="user-delete"></i> удалить из друзей
     </button>
-    <button  *ngIf="context === Context.admin" nz-button nzType="dashed" (click)="onMakeAdmin(friend)">
+
+    <button *ngIf="context ===  Context.search " nz-button nzType="default" nzDanger (click)="onMakeFriend(friend)">
+      <i nz-icon nzType="user-delete"></i> подать зявку в друзья
+    </button>
+    <button *ngIf="context === Context.search && isAdmin()" nz-button nzType="dashed" (click)="onMakeAdmin(friend)">
       <i nz-icon nzType="user-add"></i> сделать администратором
     </button>
 
-    <button *ngIf="context === Context.doctor"  nz-button nzType="dashed" (click)="onMakeDoctor(friend)">
+    <button *ngIf="context === Context.search && isAdmin()" nz-button nzType="dashed" (click)="onMakeDoctor(friend)">
       <i nz-icon nzType="user-add"></i> сделать доктором
+    </button>
+
+    <button *ngIf="context === Context.search
+    && isAdmin()
+     && friend.role!=Roles.USER" nz-button nzType="dashed" (click)="onMakeUser(friend)">
+      <i nz-icon nzType="user-add"></i> разжаловать
     </button>
 
   </div>

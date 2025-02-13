@@ -5,7 +5,9 @@ import {deleteCookie, getCookie, setCookie} from './cookie-utils';
 import {catchError, lastValueFrom, throwError} from 'rxjs';
 import {Token} from './token';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {getAuthToken, getLogin, setAuthToken, setLogin} from './auth-utils';
+import {getAuthToken, getLogin, getRoleFromToken, setAuthToken, setLogin} from './auth-utils';
+import {Roles} from './smesharik';
+import {getEnumKeyByValue} from '../model/enums';
 
 
 const LOGIN_PATH = "login"
@@ -28,6 +30,12 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     return getAuthToken() != null;
+  }
+
+  get isDoctor():boolean{
+    const role =getRoleFromToken(getAuthToken()??"");
+    return role === getEnumKeyByValue(Roles, Roles.ADMIN) ||
+      role === getEnumKeyByValue(Roles, Roles.DOCTOR)  ;
   }
 
   private auth(login: string, token: string) {

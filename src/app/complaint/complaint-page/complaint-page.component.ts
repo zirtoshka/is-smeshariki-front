@@ -19,7 +19,6 @@ import {ComplaintFormComponent} from '../complaint-form/complaint-form.component
 import {ComplaintService} from '../../services/complaint.service';
 import {enumListToString, GeneralStatus} from '../../model/enums';
 import {getLogin} from '../../auth-tools/auth-utils';
-import {ApplicationForTreatment} from '../../model/application-for-treatment';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -41,7 +40,7 @@ import {ApplicationForTreatment} from '../../model/application-for-treatment';
     ApplicationCardComponent,
     SearchFilterComponent,
     ApplicationFormComponent,
-    ComplaintFormComponent
+    ComplaintFormComponent,
   ],
   providers: [NzModalService],
   templateUrl: './complaint-page.component.html',
@@ -55,6 +54,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   complaintService: ComplaintService = inject(ComplaintService);
 
+  override selectedStatuses: GeneralStatus[]=[];
 
   override preparing(item: any): any {
     return new Complaint(item).toBackendJson();
@@ -98,7 +98,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
       {
         page: this.page,
         description: this.searchQuery,
-        statuses: enumListToString(this.selectedStatuses),
+        statuses: enumListToString(GeneralStatus, this.selectedStatuses),
         isMine: this.isMyComplaints ? this.isMyComplaints : undefined
       })
       .subscribe({
@@ -117,4 +117,5 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
     return Complaint.fromBackend(data);
   }
 
+  protected readonly GeneralStatus = GeneralStatus;
 }

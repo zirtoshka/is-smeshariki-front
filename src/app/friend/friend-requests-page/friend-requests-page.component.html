@@ -1,4 +1,5 @@
-<!--<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>-->
+<!--<app-search-filter
+ (searchChanged)="handleSearchChange($event)"></app-search-filter>-->
 
 <div class="friend-container" *ngFor="let friend of items">
   <app-friend-card [friend]="friend" [context]="Context.requests"

@@ -1,7 +1,10 @@
-<!--<app-search-filter (searchChanged)="handleSearchChange($event)"></app-search-filter>-->
+<!--<app-search-filter
+  [enumType]="GeneralStatus"
+
+ (searchChanged)="handleSearchChange($event)"></app-search-filter>-->
 
 
-<div class="friend-container" *ngFor="let friend of items">
+<div class="friend-container" *ngFor="let friend of items; trackBy: trackByLogin">
   <app-friend-card [friend]="friend" [context]="Context.friends"  (removeFriend)="handleRemoveFriend($event)" ></app-friend-card>
 </div>
 

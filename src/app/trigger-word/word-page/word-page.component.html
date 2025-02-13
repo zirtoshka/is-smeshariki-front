@@ -23,7 +23,7 @@
 
 <div class="word-container">
   <app-word-card
-    *ngFor="let item of items"
+    *ngFor="let item of items; trackBy: trackById"
     [item]="item"
     (edit)="handleEdit($event)"
     (delete)="handleDelete($event)"

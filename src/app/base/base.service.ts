@@ -61,52 +61,43 @@ export class BaseService<T> {
     }
   }
 
-
-  getItems<T>(endpoint: string,
-              params: { [key: string]: any }): Observable<PaginatedResponse<T>> {
+  getHeadersFromParams( params: { [key: string]: any }){
     let httpParams = new HttpParams();
     Object.keys(params).forEach(key => {
       if (params[key] !== undefined && params[key] !== null) {
         httpParams = httpParams.set(key, params[key]);
       }
     });
+    return httpParams;
+  }
+
+  getItems<T>(endpoint: string,
+              params: { [key: string]: any }): Observable<PaginatedResponse<T>> {
     return this.httpClient.get<PaginatedResponse<T>>(
       `${this.baseUrl}/${endpoint}`,
       {
         headers: this.getAuthHeaders(),
-        params: httpParams
+        params: this.getHeadersFromParams(params)
       }
     );
   }
 
   getMessageByParams(endpoint: string, params: { [key: string]: any }) {
-    let httpParams = new HttpParams();
-    Object.keys(params).forEach(key => {
-      if (params[key] !== undefined && params[key] !== null) {
-        httpParams = httpParams.set(key, params[key]);
-      }
-    });
     return this.httpClient.get<{ message: string }>(
       `${this.baseUrl}/${endpoint}`,
       {
         headers: this.getAuthHeaders(),
-        params: httpParams
+        params: this.getHeadersFromParams(params)
       }
     );
   }
 
   getByParams(endpoint: string, params: { [key: string]: any }) {
-    let httpParams = new HttpParams();
-    Object.keys(params).forEach(key => {
-      if (params[key] !== undefined && params[key] !== null) {
-        httpParams = httpParams.set(key, params[key]);
-      }
-    });
     return this.httpClient.get(
       `${this.baseUrl}/${endpoint}`,
       {
         headers: this.getAuthHeaders(),
-        params: httpParams,
+        params: this.getHeadersFromParams(params),
         responseType: 'blob' as 'json'
       }
     );
@@ -123,35 +114,23 @@ export class BaseService<T> {
   }
 
 
-  postWithParams(endpoint: string, params: { [key: string]: any }) {
-    let httpParams = new HttpParams();
-    Object.keys(params).forEach(key => {
-      if (params[key] !== undefined && params[key] !== null) {
-        httpParams = httpParams.set(key, params[key]);
-      }
-    });
-    return this.httpClient.post(
-      `${this.baseUrl}/${endpoint}`,
-      null,
-      {
-        headers: this.getAuthHeaders(),
-        params: httpParams
-      }
-    );
-  }
+    postWithParams(endpoint: string, params: { [key: string]: any }) {
+      return this.httpClient.post(
+        `${this.baseUrl}/${endpoint}`,
+        null,
+        {
+          headers: this.getAuthHeaders(),
+          params: this.getHeadersFromParams(params)
+        }
+      );
+    }
 
   deleteWithParams(endpoint: string, params: { [key: string]: any }) {
-    let httpParams = new HttpParams();
-    Object.keys(params).forEach(key => {
-      if (params[key] !== undefined && params[key] !== null) {
-        httpParams = httpParams.set(key, params[key]);
-      }
-    });
     return this.httpClient.delete<{ message: string }>(
       `${this.baseUrl}/${endpoint}`,
       {
         headers: this.getAuthHeaders(),
-        params: httpParams
+        params: this.getHeadersFromParams(params)
       }
     );
   }

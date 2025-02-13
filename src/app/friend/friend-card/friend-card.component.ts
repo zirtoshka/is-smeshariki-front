@@ -9,14 +9,17 @@ import {RoleTagComponent} from '../../role-tag/role-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {BasePage} from '../../base/base-page';
 import {AvatarComponent} from '../../avatar/avatar.component';
-import {Smesharik} from '../../auth-tools/smesharik';
+import {Roles, Smesharik} from '../../auth-tools/smesharik';
 import {DataFormaterService} from '../../data-formater.service';
+import {getAuthToken, getRoleFromToken} from '../../auth-tools/auth-utils';
+import {GeneralStatus, getEnumKeyByValue} from '../../model/enums';
 
 export enum Context {
   friends,
   requests,
   admin,
-  doctor
+  doctor,
+  search
 
 }
 
@@ -45,6 +48,10 @@ export class FriendCardComponent {
   @Output() addFriend = new EventEmitter<Friend>();
   @Output() removeFriend = new EventEmitter<Friend>();
   @Output() makeAdmin = new EventEmitter<Friend>();
+  @Output() makeDoctor = new EventEmitter<Friend>();
+  @Output() makeFriend = new EventEmitter<Friend>();
+  @Output() makeUser = new EventEmitter<Friend>();
+
 
   constructor(protected dateFormatterService: DataFormaterService) {
   }
@@ -62,8 +69,22 @@ export class FriendCardComponent {
   }
 
   onMakeDoctor(friend: Friend): void {
-    this.makeAdmin.emit(friend);
+    this.makeDoctor.emit(friend);
+  }
+
+  onMakeFriend(friend: Friend): void {
+    this.makeFriend.emit(friend);
+  }
+
+  onMakeUser(friend: Friend): void {
+    this.makeUser.emit(friend);
+  }
+
+  isAdmin() {
+    const role =getRoleFromToken(getAuthToken()??"");
+    return role === getEnumKeyByValue(Roles, Roles.ADMIN) ;
   }
 
   protected readonly Context = Context;
+  protected readonly Roles = Roles;
 }

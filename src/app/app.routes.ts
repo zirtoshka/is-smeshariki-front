@@ -10,8 +10,8 @@ const authGuard: CanActivateFn = (route, state) => {
   return true;
 }
 const isDoctor: CanActivateFn = (route, state) => {
-  if (inject(AuthService).isLoggedIn) return true;
-  inject(Router).navigate(['login']);
+  if (inject(AuthService).isDoctor) return true;
+  inject(Router).navigate(['profile']);
   return true;
 }
 export const routes: Routes = [
@@ -89,6 +89,10 @@ export const routes: Routes = [
     loadComponent: () => import('./post-form/post-form.component').then(m => m.PostFormComponent),
   },
 
+  {
+    path: 'smeshsearch',
+    loadComponent: () => import('./friend/smeshariki-search-page/smeshariki-search-page.component').then(m => m.SmesharikiSearchPageComponent),
+  },
   // {path: 'registration', component: RegistrationComponent},
   // {path: 'profile', component: SmesharikPageComponent},
   // {path: 'notification', component: NotificationPageComponent},

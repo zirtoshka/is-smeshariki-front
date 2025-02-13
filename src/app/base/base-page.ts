@@ -28,7 +28,7 @@ export abstract class BasePage<T extends HasId> {
   protected notificationCustomService = inject(NotificationCustomService);
 
 
-  selectedStatuses: GeneralStatus[] = [];
+  selectedStatuses:any = [];
   searchQuery: string = '';
 
 
@@ -94,13 +94,12 @@ export abstract class BasePage<T extends HasId> {
 
   async handleDelete(item: T) {
     console.log('Удалить:', item);
-    const complaintId = item.id
-    // const complaintId = item.id ?? this.itemForEdit?.id;
+    const itemId = item.id
     try {
-      const response = await this.baseService.deleteItem<any>(this.action, complaintId);
-      this.items = this.items.filter(i => i !== item);
+      const response = await this.baseService.deleteItem<any>(this.action, itemId);
+      this.items = this.items.filter(i => i.id !== item.id);
       if (!this.allLoaded) {
-        this.fetchDataFromServer(true)
+        this.fetchDataFromServer()
       }
       this.notificationCustomService.handleSuccess(
         "Хо-хо!",
@@ -114,7 +113,7 @@ export abstract class BasePage<T extends HasId> {
     this.isVisible = false
   }
 
-  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] }) {
+  handleSearchChange(searchData: { query: string; statuses: GeneralStatus[] |Roles[] }) {
     this.searchQuery = searchData.query
     this.selectedStatuses = searchData.statuses
     this.page = 0;
@@ -128,13 +127,14 @@ export abstract class BasePage<T extends HasId> {
     if (replacementIsNeeded) {
       this.items = []
     }
+
     const uniqueNewItems = newItems.filter(
-      (newItem) => !this.items.some((existingItem) => existingItem.id === newItem.id)
+      (newItem) => !this.items.some((existingItem) => existingItem === newItem)
     );
-    if (newItems.length) {
+    if (uniqueNewItems.length) {
       this.items = [...this.items, ...uniqueNewItems];
       this.page++;
-    } else {
+    } else if (newItems.length) {
       this.allLoaded = true;
     }
     this.loading = false;

@@ -5,6 +5,7 @@ import {Friend} from '../../model/friend';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {BasePage} from '../../base/base-page';
 import {SmesharikService} from '../../services/smesharik.service';
+import {GeneralStatus} from '../../model/enums';
 
 @Component({
   selector: 'app-friend-card-page',
@@ -13,7 +14,7 @@ import {SmesharikService} from '../../services/smesharik.service';
     NgForOf,
     FriendCardComponent,
     SearchFilterComponent,
-    NgIf
+    NgIf,
   ],
   templateUrl: './friend-page.component.html',
   styleUrl: './friend-page.component.css'
@@ -37,6 +38,7 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
     this.friendService.getFriends(
       {
         page: this.page,
+        size:4
       })
       .subscribe({
         next: (response) => {
@@ -45,7 +47,7 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
         },
         error: (err: any) => {
           console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
   }
@@ -53,7 +55,26 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
 
   handleRemoveFriend(friend: Friend): void {
     console.log('Удалить друга:', friend);
+    this.friendService.deleteFriend({follower: friend.login})
+      .subscribe({
+        next: (response) => {
+          this.items = this.items.filter(item => item.login !== friend.login);
+          this.notificationCustomService.handleSuccess(
+            "Радикально!", response.message
+          )
+        },
+        error: (err: any) => {
+          console.error('Ошибка при загрузке:', err);
+          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        }
+      });
+
+  }
+
+  trackByLogin(index: number, friend: Friend) {
+    return friend.login;
   }
 
   protected readonly Context = Context;
+  protected readonly GeneralStatus = GeneralStatus;
 }
