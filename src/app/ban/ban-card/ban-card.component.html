@@ -24,13 +24,12 @@
       <button *ngIf="selectedSmesharik" nz-button nzType="default" (click)="closeSmesharik()">закрыть</button>
       <!--      <app-friend-card *ngIf="selectedSmesharik" [friend]="selectedSmesharik" [context]="Context.friends"></app-friend-card>-->
     </div>
+
     <div>
       <p *ngIf="item.post">
         <strong>пост ID: </strong>
-        <a (click)="showPost(item.post)" class="post-link">{{ item.post }}</a>
+        <a (click)="navigateToPost(item.post)" class="post-link">{{ item.post }}</a>
       </p>
-      <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">закрыть пост</button>
-      <app-post-card [isFeed]="true" *ngIf="selectedPost" [post]="selectedPost"></app-post-card>
     </div>
 
     <div>

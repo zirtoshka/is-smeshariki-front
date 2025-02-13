@@ -4,7 +4,7 @@ export class Ban extends BaseModel<Ban> {
   id: number | null;
   reason: string;
   smesharik: any;
-  post: string | null;
+  post: number | null;
   comment: number | null;
   creationDate: Date | null;
   endDate: Date | null;
