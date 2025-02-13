@@ -32,10 +32,15 @@ export class AuthService {
     return getAuthToken() != null;
   }
 
-  get isDoctor():boolean{
-    const role =getRoleFromToken(getAuthToken()??"");
+  get isDoctor(): boolean {
+    const role = getRoleFromToken(getAuthToken() ?? "");
     return role === getEnumKeyByValue(Roles, Roles.ADMIN) ||
-      role === getEnumKeyByValue(Roles, Roles.DOCTOR)  ;
+      role === getEnumKeyByValue(Roles, Roles.DOCTOR);
+  }
+
+  get isAdmin(): boolean {
+    const role = getRoleFromToken(getAuthToken() ?? "");
+    return role === getEnumKeyByValue(Roles, Roles.ADMIN);
   }
 
   private auth(login: string, token: string) {
