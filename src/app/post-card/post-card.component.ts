@@ -77,7 +77,6 @@ export class PostCardComponent implements OnInit, OnChanges {
   protected commentService = inject(CommentService);
   comments$ = this.commentService.comments$;
   hasMore$ = this.commentService.hasMore$;
-  // commentTree$!: Observable<Map<number, CommentS[]>>;
   commentTree$ = this.commentService.commentTree$;
 
   imageUrl!:any;
@@ -108,7 +107,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           this.isCommentExisted = this.commentsList.length > 0;
 
           this.commentService.loadComments(this.post.id);
-          this.carrotService.isLikeComment(this.post.id).subscribe({
+          this.carrotService.isLikePost(this.post.id).subscribe({
             next: (result: boolean) => {
               this.isLiked$.next(result);
               this.setCarrotIcon();
@@ -129,7 +128,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
     } else {
       this.commentService.loadComments(this.post.id);
-      this.carrotService.isLikeComment(this.post.id).subscribe({
+      this.carrotService.isLikePost(this.post.id).subscribe({
         next: (result: boolean) => {
           this.isLiked$.next(result);
           this.setCarrotIcon();
@@ -161,7 +160,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   toggleLike() {
     if (!this.isLiked$.value) {
-      this.carrotService.setCarrotOnComment(this.post.id)
+      this.carrotService.setCarrotOnPost(this.post.id)
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(true);
@@ -170,7 +169,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           }
         });
     } else {
-      this.carrotService.deleteCarrotOnComment(this.post.id)
+      this.carrotService.deleteCarrotOnPost(this.post.id)
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(false);

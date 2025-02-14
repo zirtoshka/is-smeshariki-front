@@ -1,62 +1,12 @@
-<!--<div class="comment">-->
-<!--  <div class="comment-header">-->
-<!--    <strong>{{ comment.smesharik }}</strong>-->
-<!--  </div>-->
-<!--  <p>{{ comment.text }}</p>-->
-
-<!--  <button *ngIf="comment.hasChildren && !showReplies" (click)="loadReplies()">-->
-<!--    Показать ответы-->
-<!--  </button>-->
-
-<!--</div>-->
-
-<!--<nz-comment [nzAuthor]="comment.smesharik">-->
-<!--  <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>-->
-<!--  <nz-comment-content>-->
-<!--    <p>{{ comment.text }}</p>-->
-
-<!--    &lt;!&ndash; Кнопка "Показать ответы" &ndash;&gt;-->
-<!--    <button-->
-<!--      *ngIf="comment.hasChildren && !showReplies"-->
-<!--      nz-button-->
-<!--      nzType="link"-->
-<!--      (click)="loadReplies()"-->
-<!--    >Показать ответы</button>-->
-
-<!--  </nz-comment-content>-->
-<!--</nz-comment>-->
-
-
-<!--<nz-card class="comment-card" [nzBordered]="false">-->
-<!--  <div class="comment-header">-->
-<!--    <strong>{{ comment.smesharik }}</strong>-->
-<!--  </div>-->
-<!--  <p>{{ comment.text }}</p>-->
-
-<!--  <button *ngIf="comment.hasChildren" nz-button nzType="link" (click)="loadReplies()">-->
-<!--    Показать ответы-->
-<!--  </button>-->
-
-<!--  &lt;!&ndash; Вложенные комментарии, загруженные из commentTree$ &ndash;&gt;-->
-<!--  <div *ngIf="(replies$ | async) as replies">-->
-<!--    <div *ngFor="let reply of replies" class="nested-comment">-->
-<!--      <app-comment-card2 [comment]="reply" (loadRepliesEvent)="loadRepliesEvent.emit($event)"></app-comment-card2>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</nz-card>-->
 <app-back-button [isFeed]="isFeed" (goBackEvent)="handleGoBack()"> назад</app-back-button>
 
-<nz-card class="comment-card" [nzBordered]="true">
+<nz-card class="item-card" [nzBordered]="true">
   <nz-card-meta
     [nzTitle]="title"
     [nzDescription]="nzDescription"
     [nzAvatar]="avatarTemplate">
   </nz-card-meta>
-
-  <p class="item-date">
-    <i nz-icon nzType="calendar" nzTheme="outline"></i>
-    опубликовано: {{ this.dateFormatterService.formatDate(comment.creationDate) }} </p>
-
+  <br>
   <p>{{ comment.text }}</p>
   <div class="carrots">
     <i
@@ -101,21 +51,16 @@
 </ng-template>
 
 <ng-template #nzDescription>
-  <p class="item-date" *ngIf="commentAuthor$ | async as author">
-    <nz-tag *ngIf="!author.isOnline" nzColor="default">
-      <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{
-        this.dateFormatterService.formatDate(author.lastActive)
-      }}
-    </nz-tag>
-
-    <br>
+  <p class="item-date">
+    <i nz-icon nzType="calendar" nzTheme="outline"></i>
+    опубликовано: {{ this.dateFormatterService.formatDate(comment.creationDate) }} <br>
   </p>
 </ng-template>
 
 
 <ng-template #title>
   <span *ngIf="commentAuthor$ | async as author">
-    {{ author.name }} ({{ comment.smesharik }}) {{ comment.id }}
+    {{ author.name }} ({{ comment.smesharik }})
   </span>
 </ng-template>
 

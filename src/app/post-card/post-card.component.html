@@ -1,6 +1,6 @@
 <app-back-button [isFeed]="isFeed" (goBackEvent)="handleGoBack()"> назад</app-back-button>
 
-<nz-card class="post-card" [nzBordered]="true" [nzHoverable]="true">
+<nz-card class="item-card" [nzBordered]="true" [nzHoverable]="true">
   <nz-card-meta
     [nzTitle]="title"
     [nzDescription]="nzDescription"
@@ -10,7 +10,6 @@
   <div class="post-tag" *ngIf="!isFeed">
     <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
   </div>
-
 
   <div class="post-content">
     <p class="post-text">{{ post.text }}</p>
@@ -39,26 +38,6 @@
   </div>
 
 
-  <!--  <div class="comment-toggle" *ngIf="isCommentExisted">-->
-  <!--    <i (click)="toggleComments()">-->
-  <!--      {{ isCommentsVisible ? 'скрыть комментарии' : 'показать комментарии' }}-->
-  <!--    </i>-->
-  <!--  </div>-->
-
-  <!--  <div class="comment-toggle" *ngIf="!isCommentExisted">-->
-  <!--    комментариев нема-->
-  <!--  </div>-->
-
-
-  <!--  <app-nested-comm *ngIf="isCommentsVisible"-->
-  <!--                   [groupedComments]="commentService.groupComments(this.commentsList)"></app-nested-comm>-->
-
-
-  <!--  <div *ngFor="let comment of comments$ | async">-->
-  <!--    <p>{{ comment.text }}</p>-->
-  <!--  </div>-->
-
-  <!--  <button (click)="onScroll()" *ngIf="hasMore$ | async">Загрузить ещё</button>-->
   <div>
     <div class="reply-box">
       <textarea [(ngModel)]="replyText" placeholder="введите ваш ответ..."></textarea>
@@ -95,7 +74,7 @@
 
 <ng-template #title>
   <span *ngIf="postAuthor$ | async as author">
-    {{ author.name }} ({{ post.author }}) {{ post.id }}
+    {{ author.name }} ({{ post.author }})
   </span>
 </ng-template>
 
