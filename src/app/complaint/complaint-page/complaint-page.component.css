@@ -1,31 +1,4 @@
-.status-selector {
-  min-width: 200px;
-}
 
-.status-dropdown {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.toggle-container {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.toggle-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-family: 'Arial', sans-serif;
-}
-
-.toggle-container label {
-  font-weight: bold;
-  color: #333;
-  font-size: 16px;
-}
 
 .toggle-label {
   font-size: 18px;

@@ -28,6 +28,9 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Smesharik} from '../auth-tools/smesharik';
 import {NzImageDirective, NzImageService} from 'ng-zorro-antd/image';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
+import {NzContextMenuService, NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
+import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from 'ng-zorro-antd/menu';
+import {DopMenuComponent} from '../dop-menu/dop-menu.component';
 
 
 @Component({
@@ -51,9 +54,15 @@ import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
     FormsModule,
     AvatarComponent,
     NzImageDirective,
-    NzModalComponent
+    NzModalComponent,
+    NzDropdownMenuComponent,
+    NzMenuItemComponent,
+    NzMenuDirective,
+    NzSubMenuComponent,
+    NzDropDownDirective,
+    DopMenuComponent
   ],
-  providers: [PostService, DatePipe, CommentService, NzModalService],
+  providers: [PostService, DatePipe, CommentService, NzModalService, NzContextMenuService],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
@@ -88,7 +97,8 @@ export class PostCardComponent implements OnInit, OnChanges {
     private postService: PostService,
     private location: Location,
     private iconService: IconService,
-    protected dateFormatterService: DataFormaterService
+    protected dateFormatterService: DataFormaterService,
+    private nzContextMenuService: NzContextMenuService
   ) {
   }
 
@@ -232,5 +242,9 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   closeModal() {
     this.isModalVisible = false;
+  }
+
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+    this.nzContextMenuService.create($event, menu);
   }
 }

@@ -31,31 +31,33 @@ import {BackButtonComponent} from '../back-button/back-button.component';
 import {AvatarComponent} from '../avatar/avatar.component';
 import {Smesharik} from '../auth-tools/smesharik';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
+import {DopMenuComponent} from "../dop-menu/dop-menu.component";
 
 @Component({
   selector: 'app-comment-card2',
   standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    NzListItemComponent,
-    NzListComponent,
-    NzButtonComponent,
-    NzCommentContentDirective,
-    NzAvatarComponent,
-    NzCommentComponent,
-    NzCardComponent,
-    AsyncPipe,
-    CarrotCountComponent,
-    NzIconDirective,
-    NzCardMetaComponent,
-    NgClass,
-    NzBadgeComponent,
-    FormsModule,
-    BackButtonComponent,
-    AvatarComponent,
-    NzTagComponent
-  ],
+    imports: [
+        NgForOf,
+        NgIf,
+        NzListItemComponent,
+        NzListComponent,
+        NzButtonComponent,
+        NzCommentContentDirective,
+        NzAvatarComponent,
+        NzCommentComponent,
+        NzCardComponent,
+        AsyncPipe,
+        CarrotCountComponent,
+        NzIconDirective,
+        NzCardMetaComponent,
+        NgClass,
+        NzBadgeComponent,
+        FormsModule,
+        BackButtonComponent,
+        AvatarComponent,
+        NzTagComponent,
+        DopMenuComponent
+    ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './comment-card2.component.html',

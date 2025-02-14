@@ -6,6 +6,8 @@
     [nzDescription]="nzDescription"
     [nzAvatar]="avatarTemplate">
   </nz-card-meta>
+  <app-dop-menu [commentId]="comment.id"></app-dop-menu>
+
   <br>
   <p>{{ comment.text }}</p>
   <div class="carrots">

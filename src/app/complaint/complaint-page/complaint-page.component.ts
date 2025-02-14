@@ -54,6 +54,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   complaintService: ComplaintService = inject(ComplaintService);
 
+
   override selectedStatuses: GeneralStatus[]=[];
 
   override preparing(item: any): any {

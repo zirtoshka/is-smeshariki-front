@@ -63,6 +63,10 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
   @Input() override isEditMode: boolean = false;
   @Input() override isVisible: boolean = false;
 
+  @Input()  dopMenu: boolean = false;
+  @Input()  postId!: number ;
+  @Input()  commentId!: number;
+
   override validateForm: FormGroup;
 
   statusiki = Object.values(GeneralStatus);
@@ -105,6 +109,14 @@ export class ComplaintFormComponent extends BaseForm<Complaint> implements OnCha
         creationDate: null,
         closingDate: null,
       });
+    }
+
+    if ( this.postId) {
+      this.validateForm.patchValue({ post: this.postId });
+    }
+
+    if ( this.commentId) {
+      this.validateForm.patchValue({ comment: this.commentId });
     }
   }
 

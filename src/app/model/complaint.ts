@@ -15,7 +15,7 @@ export class Complaint extends BaseModel<Complaint> {
   constructor(data: any) {
     super();
     this.id = data.id;
-    this.violationType = ViolationType [data.violationType as keyof typeof ViolationType];
+    this.violationType = ViolationType [data.violationType as keyof typeof ViolationType] ?? data.violationType;
     this.description = data.description;
     this.adminLogin = data.admin ? data.admin: data.adminLogin;
     this.post = data.post ?? null;

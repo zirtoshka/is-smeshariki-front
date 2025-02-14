@@ -23,10 +23,8 @@
   <div class="item-links">
     <div>
       <p>
-        <strong>наклонность ID: </strong>
-        <a (click)="showPost(item.propensity)">{{ item.propensity }}</a>
+        <strong>наклонность ID: </strong> {{ item.propensity }}
       </p>
-      <button *ngIf="selectedPost" nz-button nzType="default" (click)="closePost()">закрыть</button>
     </div>
   </div>
 

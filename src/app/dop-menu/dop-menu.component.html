@@ -1,0 +1,21 @@
+<i nz-icon class="dop-menu" nzType="more" nzTheme="outline" nz-dropdown
+   [nzDropdownMenu]="menu"></i>
+
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="openComplaintForm()">пожаловаться</li>
+  </ul>
+</nz-dropdown-menu>
+
+
+<app-complaint-form
+  [isVisible]="isComplaintVisible"
+  [isEditMode]="false"
+  [item]="null"
+  [dopMenu]="true"
+  [postId]="postId"
+  [commentId]="commentId"
+  (onSave)="onSave($event)"
+  (onCancel)="onCancel()">
+</app-complaint-form>

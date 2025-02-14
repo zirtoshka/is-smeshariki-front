@@ -6,6 +6,7 @@
     [nzDescription]="nzDescription"
     [nzAvatar]="avatarTemplate">
   </nz-card-meta>
+  <app-dop-menu [postId]="post.id"></app-dop-menu>
   <br>
   <div class="post-tag" *ngIf="!isFeed">
     <app-post-tag [isDraft]="post.isDraft" [isPrivate]="post.isPrivate"></app-post-tag>
@@ -54,7 +55,6 @@
   </div>
 
 
-
   <button nz-button (click)="onScroll()" *ngIf="hasMore$ | async">загрузить еще</button>
 
 </nz-card>
@@ -84,12 +84,14 @@
           [nzContent]="image"
           [nzFooter]="null">
   <ng-template #image>
-  <img
-    *ngIf="imageUrl"
-    [src]="imageUrl"
-    style="width: 100%; height: auto"
-    alt="Изображение поста"
-    class="post-image"
-  />
+    <img
+      *ngIf="imageUrl"
+      [src]="imageUrl"
+      style="width: 100%; height: auto"
+      alt="Изображение поста"
+      class="post-image"
+    />
   </ng-template>
 </nz-modal>
+
+

@@ -1,23 +1,23 @@
 <header class="logo">
-    <a nz-dropdown [nzDropdownMenu]="menu">дневник смешарика</a>
+  <a nz-dropdown [nzDropdownMenu]="menu">дневник смешарика</a>
 
-    <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="book" nzTheme="outline" nz-dropdown
-       [nzDropdownMenu]="menuDiary"></i>
+  <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="book" nzTheme="outline" nz-dropdown
+     [nzDropdownMenu]="menuDiary"></i>
 
-    <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="team" nzTheme="outline" nz-dropdown
-       [nzDropdownMenu]="menuSmeshariks"></i>
-
-
-    <i nz-icon *ngIf="isDoctor() &&isLoggedIn()" routerLink="/doctor" class="button" nzType="medicine-box"
-       nzTheme="outline"></i>
-
-    <i *ngIf="isAdmin()&&isLoggedIn()" nz-icon class="button" nzType="crown" nzTheme="outline" nz-dropdown
-       [nzDropdownMenu]="menuAdmin"></i>
+  <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="team" nzTheme="outline" nz-dropdown
+     [nzDropdownMenu]="menuSmeshariks"></i>
 
 
-    <div *ngIf="isLoggedIn()" class="button" (click)="logOut()">
+  <i nz-icon *ngIf="isDoctor() &&isLoggedIn()" routerLink="/doctor" class="button" nzType="medicine-box"
+     nzTheme="outline"></i>
 
-      <i nz-icon nzType="logout" nzTheme="outline"></i>
+  <i *ngIf="isAdmin()&&isLoggedIn()" nz-icon class="button" nzType="crown" nzTheme="outline" nz-dropdown
+     [nzDropdownMenu]="menuAdmin"></i>
+
+
+  <div *ngIf="isLoggedIn()" class="button" (click)="logOut()">
+
+    <i nz-icon nzType="logout" nzTheme="outline"></i>
   </div>
 
 </header>
@@ -43,7 +43,7 @@
 
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu>
+  <ul nz-menu  *ngIf="isLoggedIn()">
     <li nz-menu-item (click)="navigateToProfile()">профиль</li>
     <li nz-menu-item routerLink="/profile">настройки</li>
     <li nz-menu-item routerLink="/diary">дневник</li>
