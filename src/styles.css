@@ -1,32 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
 
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.sorted-asc {
-  color: green;
-}
-
-.sorted-desc {
-  color: red;
-}
-
-
-.hoverable-row {
-  transition: background-color 0.3s ease;
-}
-
-.hoverable-row:hover {
-  background-color: rgba(240, 255, 105, 0.16);
-  cursor: pointer;
-}
-
 
 .item-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

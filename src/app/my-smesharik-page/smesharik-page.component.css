@@ -4,24 +4,9 @@
   margin-top: 10px;
 }
 
-.role-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #fff;
-}
-
-.admin-badge {
-  background-color: #f5222d; /* Красный для админа */
-}
-
-.doctor-badge {
-  background-color: #52c41a; /* Зеленый для доктора */
-}
-
-.role-badge i {
-  margin-right: 5px;
+.buttons{
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  gap: 10px;
 }

@@ -9,6 +9,11 @@ const authGuard: CanActivateFn = (route, state) => {
   inject(Router).navigate(['login']);
   return true;
 }
+const notAuth: CanActivateFn = (route, state) => {
+  if (!inject(AuthService).isLoggedIn) return true;
+  inject(Router).navigate(['profile']);
+  return true;
+}
 const isDoctor: CanActivateFn = (route, state) => {
   if (inject(AuthService).isDoctor) return true;
   inject(Router).navigate(['profile']);
@@ -20,12 +25,18 @@ const isAdmin: CanActivateFn = (route, state) => {
   return true;
 }
 export const routes: Routes = [
-  {path: '', component: SmesharikPageComponent, pathMatch: 'full'},
-  // {path: '', redirectTo: '/profile', pathMatch: 'full'},
-  {path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)},
+  {path: '', component: SmesharikPageComponent, pathMatch: 'full',
+    canActivate: [authGuard]
+
+  },
+  {
+    path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent),
+    canActivate: [notAuth]
+  },
   {
     path: 'registration',
-    loadComponent: () => import('./registration/registration.component').then(m => m.RegistrationComponent)
+    loadComponent: () => import('./registration/registration.component').then(m => m.RegistrationComponent),
+    canActivate: [notAuth]
   },
   {
     path: 'profile',

@@ -1,12 +1,13 @@
-/*nz-header {*/
-/*  margin: 10px;*/
-/*  height: 100%;*/
-/*  padding: 5px 30px;*/
-/*  display: flex;*/
-/*  justify-content: space-between;*/
-/*  align-items: center;*/
-/*}*/
-
+.logo{
+  width: 100%;
+  background: #6d18ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  transition: all 0.3s ease;
+}
 .logo a {
   color: #fff;
   font-size: 28px;
@@ -16,32 +17,30 @@
   transition: color 0.3s ease;
 }
 
+
 .logo a:hover {
   color: #f4ccfb;
 }
 
-.menu {
+.logo {
   display: flex;
-  gap: 10px;
   justify-content: space-between;
-  margin: 0;
-}
+  flex-wrap: wrap;
 
-.menu a {
-  color: #855cfd;
-  font-size: 16px ;
-  padding: 10px 15px ;
-  transition: color 0.3s ease, background-color 0.3s ease ;
-}
 
-.menu a:hover {
-  color: #aa18ff;
-  background-color: rgba(178, 24, 255, 0.1) ;
 }
 
 
-.menu .active {
-  color: #7214ff;  /* Цвет для активного элемента */
-  font-weight: bold;
+
+
+.button {
+  cursor: pointer;
+  font-size: 24px;
+  color: #ffffff;
+  padding: 0 20px;
+}
+
+.button:hover {
+  color: #aa77f6;
 }
 

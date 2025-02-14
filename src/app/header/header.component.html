@@ -1,24 +1,62 @@
-<nz-header>
-  <div class="logo">
-    <a routerLink="/">дневник смешарика</a>
+<header class="logo">
+    <a nz-dropdown [nzDropdownMenu]="menu">дневник смешарика</a>
+
+    <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="book" nzTheme="outline" nz-dropdown
+       [nzDropdownMenu]="menuDiary"></i>
+
+    <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="team" nzTheme="outline" nz-dropdown
+       [nzDropdownMenu]="menuSmeshariks"></i>
+
+
+    <i nz-icon *ngIf="isDoctor() &&isLoggedIn()" routerLink="/doctor" class="button" nzType="medicine-box"
+       nzTheme="outline"></i>
+
+    <i *ngIf="isAdmin()&&isLoggedIn()" nz-icon class="button" nzType="crown" nzTheme="outline" nz-dropdown
+       [nzDropdownMenu]="menuAdmin"></i>
+
+
+    <div *ngIf="isLoggedIn()" class="button" (click)="logOut()">
+
+      <i nz-icon nzType="logout" nzTheme="outline"></i>
   </div>
-  <nz-menu nzMode="horizontal" class="menu">
-    <nz-menu-item routerLink="/profile" routerLinkActive="active"><a>профиль</a></nz-menu-item>
-<!--    <nz-menu-item routerLink="/notification" routerLinkActive="active"><a>уведомления</a></nz-menu-item>-->
-    <nz-menu-item routerLink="/doctor" routerLinkActive="active"><a>доктор</a></nz-menu-item>
-    <nz-menu-item routerLink="/complaint" routerLinkActive="active"><a>жалобы</a></nz-menu-item>
-    <nz-menu-item routerLink="/ban" routerLinkActive="active"><a>баны</a></nz-menu-item>
-    <nz-menu-item routerLink="/word" routerLinkActive="active"><a>слова</a></nz-menu-item>
-    <nz-menu-item routerLink="/friends" routerLinkActive="active"><a>друзья</a></nz-menu-item>
-    <nz-menu-item routerLink="/friendrequests" routerLinkActive="active"><a>заявки</a></nz-menu-item>
-    <nz-menu-item routerLink="/propensity" routerLinkActive="active"><a>наклонности</a></nz-menu-item>
-    <nz-menu-item routerLink="/diary" routerLinkActive="active"><a>дневник</a></nz-menu-item>
-    <nz-menu-item routerLink="/feed" routerLinkActive="active"><a>лента</a></nz-menu-item>
-    <nz-menu-item routerLink="/post-form" routerLinkActive="active"><a>создать</a></nz-menu-item>
-    <nz-menu-item routerLink="/smeshsearch" routerLinkActive="active"><a>поиск</a></nz-menu-item>
 
-  </nz-menu>
-</nz-header>
+</header>
 
 
+<nz-dropdown-menu #menuAdmin="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item routerLink="/complaint">жалобы</li>
+    <li nz-menu-item routerLink="/ban">баны</li>
+    <li nz-menu-item routerLink="/word">слова</li>
+    <li nz-menu-item routerLink="/propensity">наклонности</li>
+  </ul>
+</nz-dropdown-menu>
 
+
+<nz-dropdown-menu #menuSmeshariks="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item routerLink="/friends">друзья</li>
+    <li nz-menu-item routerLink="/friendrequests">заявки</li>
+    <li nz-menu-item routerLink="/smeshsearch">поиск</li>
+  </ul>
+</nz-dropdown-menu>
+
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="navigateToProfile()">профиль</li>
+    <li nz-menu-item routerLink="/profile">настройки</li>
+    <li nz-menu-item routerLink="/diary">дневник</li>
+    <li nz-menu-item routerLink="/feed">лента</li>
+    <li nz-menu-item routerLink="/post-form">создать новую запись</li>
+  </ul>
+</nz-dropdown-menu>
+
+
+<nz-dropdown-menu #menuDiary="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item routerLink="/diary">дневник</li>
+    <li nz-menu-item routerLink="/feed">лента</li>
+    <li nz-menu-item routerLink="/post-form">создать новую запись</li>
+  </ul>
+</nz-dropdown-menu>

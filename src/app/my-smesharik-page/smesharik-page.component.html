@@ -32,7 +32,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSpan]="6" nzTooltipTitle="ваш цвет">выберите цвет</nz-form-label>
+    <nz-form-label [nzSpan]="6" nzTooltipTitle="ваш цвет">цвет</nz-form-label>
     <nz-form-control [nzSpan]="18">
       <nz-color-picker formControlName="color" nzShowText></nz-color-picker>
     </nz-form-control>
@@ -58,7 +58,7 @@
   </nz-form-item>
 </form>
 
-<div>
+<div class="buttons">
   <button nz-button nzType="default" (click)="toggleEdit()">
     {{ isEditing ? 'отмена редактирования' : 'редактировать профиль' }}
   </button>
@@ -69,6 +69,7 @@
 
 
 <div *ngIf="isChangingPassword">
+  <br>
   <form [formGroup]="passwordForm">
     <nz-form-item>
       <!--      <nz-form-label [nzSpan]="6">введите старый пароль:</nz-form-label>-->
@@ -139,13 +140,6 @@
     </nz-form-item>
   </form>
 
-</div>
-
-
-<div>
-  <button nz-button nzType="default" (click)="logOut()">
-    выйти
-  </button>
 </div>
 
 
