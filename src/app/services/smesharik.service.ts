@@ -34,6 +34,23 @@ export class SmesharikService {
 
     return this.baseService.getItems("friend", params);
   }
+  getApplicationFriends(options: Partial<{
+    sortField: string;
+    ascending: boolean;
+    page: number;
+    size: number;
+    nameOrLogin: string;
+  }> = {}): Observable<PaginatedResponse<Friend>> {
+    const defaultOptions = {
+      page: 0,
+      size: 2,
+      nameOrLogin: getLogin()
+    };
+
+    const params = {...defaultOptions, ...options};
+
+    return this.baseService.getItems("friend/follows", params);
+  }
 
   getFollowers(options: Partial<{
     sortField: string;

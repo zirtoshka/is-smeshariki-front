@@ -1,0 +1,9 @@
+<div class="friend-container" *ngFor="let friend of items; trackBy: trackByLogin">
+  <app-friend-card [friend]="friend"   ></app-friend-card>
+</div>
+
+
+
+<div *ngIf="items.length==0" class="bubble-text">
+  а как-то дружиться будем???
+</div>

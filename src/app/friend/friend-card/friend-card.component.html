@@ -26,16 +26,17 @@
   </div>
 
 
-  <div class="friend-actions">
-    <button *ngIf="context === Context.requests" nz-button nzType="primary" (click)="onAddFriend(friend); $event.stopPropagation()">
+  <div class="item-actions">
+    <button *ngIf="context === Context.requests || friend.isMyFollower  " nz-button nzType="primary" (click)="onAddFriend(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-add"></i> добавить в друзья
     </button>
-    <button *ngIf="context === Context.friends " nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend); $event.stopPropagation()">
+
+    <button *ngIf="context === Context.friends || (context ===  Context.search && friend.isMyFriend)" nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-delete"></i> удалить из друзей
     </button>
 
-    <button *ngIf="context ===  Context.search " nz-button nzType="default" nzDanger (click)="onMakeFriend(friend); $event.stopPropagation()">
-      <i nz-icon nzType="user-delete"></i> подать зявку в друзья
+    <button *ngIf="context ===  Context.search && !friend.isMyFriend && !friend.isMyFollower && !friend.isIFollow  " nz-button  nzType="default" (click)="onMakeFriend(friend); $event.stopPropagation()">
+      <i nz-icon nzType="user-add"></i> подать зявку в друзья
     </button>
     <button *ngIf="context === Context.search && isAdmin() && friend.role!=Roles.ADMIN" nz-button nzType="dashed" (click)="onMakeAdmin(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-add"></i> сделать администратором

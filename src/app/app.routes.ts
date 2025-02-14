@@ -83,6 +83,12 @@ export const routes: Routes = [
 
   },
   {
+    path: 'friendfromme',
+    loadComponent: () => import('./friend/friend-req-from-me/friend-req-from-me.component').then(m => m.FriendReqFromMeComponent),
+    canActivate: [authGuard]
+
+  },
+  {
     path: 'propensity',
     loadComponent: () => import('./propensity/propensity-page/propensity-page.component').then(m => m.PropensityPageComponent),
     canActivate: [isAdmin]

@@ -46,6 +46,7 @@ export class FriendCardComponent {
 
   @Input() context!: Context;
 
+
   @Output() addFriend = new EventEmitter<Friend>();
   @Output() removeFriend = new EventEmitter<Friend>();
   @Output() makeAdmin = new EventEmitter<Friend>();
@@ -91,6 +92,8 @@ export class FriendCardComponent {
     if(login === null) return
     this.router.navigate(['/smesharik', login]);
   }
+
+
 
   protected readonly Context = Context;
   protected readonly Roles = Roles;

@@ -9,6 +9,9 @@ export class Friend extends BaseModel<Friend> {
   isOnline: boolean;
   lastActive: Date | null; //string is data when was online
   role: Roles;
+  isMyFriend: boolean = false;
+  isMyFollower:boolean =false;
+  isIFollow:boolean =false;
 
 
   constructor(data: any) {
@@ -20,6 +23,9 @@ export class Friend extends BaseModel<Friend> {
     this.isOnline = data.isOnline;
     this.lastActive = data.lastActive ?? null;
     this.role = Roles[data.role as keyof typeof Roles] ?? data.role;
+    this.isMyFriend = false;
+    this.isMyFollower = false;
+    this.isIFollow = false;
   }
 
 
