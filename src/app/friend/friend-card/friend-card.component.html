@@ -1,4 +1,6 @@
-<nz-card class="friend-card" [nzBordered]="true" [nzHoverable]="true">
+<nz-card class="friend-card" [nzBordered]="true" [nzHoverable]="true"
+         (click)="navigateToSmesharik(friend.login)"
+>
   <div class="friend-info">
     <app-avatar [data]="friend "></app-avatar>
     <div class="friend-details">
@@ -25,27 +27,27 @@
 
 
   <div class="friend-actions">
-    <button *ngIf="context === Context.requests" nz-button nzType="primary" (click)="onAddFriend(friend)">
+    <button *ngIf="context === Context.requests" nz-button nzType="primary" (click)="onAddFriend(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-add"></i> добавить в друзья
     </button>
-    <button *ngIf="context === Context.friends " nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend)">
+    <button *ngIf="context === Context.friends " nz-button nzType="default" nzDanger (click)="onRemoveFriend(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-delete"></i> удалить из друзей
     </button>
 
-    <button *ngIf="context ===  Context.search " nz-button nzType="default" nzDanger (click)="onMakeFriend(friend)">
+    <button *ngIf="context ===  Context.search " nz-button nzType="default" nzDanger (click)="onMakeFriend(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-delete"></i> подать зявку в друзья
     </button>
-    <button *ngIf="context === Context.search && isAdmin()" nz-button nzType="dashed" (click)="onMakeAdmin(friend)">
+    <button *ngIf="context === Context.search && isAdmin() && friend.role!=Roles.ADMIN" nz-button nzType="dashed" (click)="onMakeAdmin(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-add"></i> сделать администратором
     </button>
 
-    <button *ngIf="context === Context.search && isAdmin()" nz-button nzType="dashed" (click)="onMakeDoctor(friend)">
+    <button *ngIf="context === Context.search && isAdmin() &&friend.role!=Roles.DOCTOR" nz-button nzType="dashed" (click)="onMakeDoctor(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-add"></i> сделать доктором
     </button>
 
     <button *ngIf="context === Context.search
     && isAdmin()
-     && friend.role!=Roles.USER" nz-button nzType="dashed" (click)="onMakeUser(friend)">
+     && friend.role!=Roles.USER" nz-button nzType="dashed" (click)="onMakeUser(friend); $event.stopPropagation()">
       <i nz-icon nzType="user-add"></i> разжаловать
     </button>
 

@@ -99,6 +99,12 @@ export const routes: Routes = [
   },
 
   {
+    path: 'smesharik/:id',
+    loadComponent: () => import('./smesharik/smesharik.component').then(m => m.SmesharikComponent),
+    canActivate: [authGuard]
+
+  },
+  {
     path: 'comment/:id',
     loadComponent: () => import('./comment-card2/comment-card2.component').then(m => m.CommentCard2Component),
     canActivate: [authGuard]

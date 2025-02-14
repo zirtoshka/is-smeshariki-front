@@ -13,6 +13,7 @@ import {Roles, Smesharik} from '../../auth-tools/smesharik';
 import {DataFormaterService} from '../../data-formater.service';
 import {getAuthToken, getRoleFromToken} from '../../auth-tools/auth-utils';
 import {GeneralStatus, getEnumKeyByValue} from '../../model/enums';
+import {Router} from '@angular/router';
 
 export enum Context {
   friends,
@@ -53,7 +54,8 @@ export class FriendCardComponent {
   @Output() makeUser = new EventEmitter<Friend>();
 
 
-  constructor(protected dateFormatterService: DataFormaterService) {
+  constructor(protected dateFormatterService: DataFormaterService,
+              private router: Router) {
   }
 
   onAddFriend(friend: Friend): void {
@@ -83,6 +85,11 @@ export class FriendCardComponent {
   isAdmin() {
     const role =getRoleFromToken(getAuthToken()??"");
     return role === getEnumKeyByValue(Roles, Roles.ADMIN) ;
+  }
+
+  navigateToSmesharik(login: string): void {
+    if(login === null) return
+    this.router.navigate(['/smesharik', login]);
   }
 
   protected readonly Context = Context;

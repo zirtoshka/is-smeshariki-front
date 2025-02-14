@@ -19,7 +19,7 @@
     <div>
       <p *ngIf="item.smesharik">
         <strong>смешарик ID: </strong>
-        <a (click)="showSmesharik(item.smesharik)" class="smesharik-link">{{ item.smesharik }}</a>
+        <a (click)="navigateToSmesharik(item.smesharik)" class="smesharik-link">{{ item.smesharik }}</a>
       </p>
       <button *ngIf="selectedSmesharik" nz-button nzType="default" (click)="closeSmesharik()">закрыть</button>
       <!--      <app-friend-card *ngIf="selectedSmesharik" [friend]="selectedSmesharik" [context]="Context.friends"></app-friend-card>-->

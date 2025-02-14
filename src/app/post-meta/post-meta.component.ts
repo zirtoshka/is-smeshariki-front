@@ -28,6 +28,7 @@ export class PostMetaComponent {
 
 
   navigateToPost(postId: number): void {
+    console.log(postId)
     this.router.navigate(['/post-card', postId]);
   }
 }

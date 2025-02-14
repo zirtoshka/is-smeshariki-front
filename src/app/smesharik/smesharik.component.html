@@ -1,0 +1,31 @@
+<app-back-button [isFeed]="!neededBack" (goBackEvent)="handleGoBack()"> назад</app-back-button>
+
+<nz-card class="profile-card" [nzBordered]="false">
+  <div class="profile-header" [ngStyle]="{'background': getLighterColor(smesharik.color)}">
+    <h2 class="name-text" [ngStyle]="{'color': getDarkerGradient(smesharik.color)}">
+      {{ smesharik.name }}
+    </h2>
+    <app-avatar [data]="smesharik"></app-avatar>
+  </div>
+
+
+  <div class="profile-body">
+    <div>
+      <app-role-tag [role]="smesharik.role"></app-role-tag>
+      <nz-tag *ngIf="!smesharik.isOnline" nzColor="default">
+        <i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{
+          this.dateFormatterService.formatDate(smesharik.lastActive)
+        }}
+      </nz-tag>
+    </div>
+    <div>
+      <p>логин: <strong> {{ smesharik.login }} </strong></p>
+      <p>email: <strong> <a [href]="'mailto:' + smesharik.email">{{ smesharik.email }}</a> </strong></p>
+    </div>
+
+
+    <!--    <button nz-button [nzType]="isFriend ? 'default' : 'primary'" (click)="toggleFriendStatus()">-->
+    <!--      {{ isFriend ? 'Удалить из друзей' : 'Добавить в друзья' }}-->
+    <!--    </button>-->
+  </div>
+</nz-card>

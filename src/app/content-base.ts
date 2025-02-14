@@ -12,25 +12,25 @@ export abstract class ContentBase<T> extends BaseCard<T> {
   //   new Post(8, 42, false, false, 'Текст поста 1', '', '2023-01-01T12:00:00Z', '2023-01-01T10:00:00Z'),
   //   new Post(2, 43, false, true, 'Текст поста 2', '', '2023-02-01T12:00:00Z', '2023-02-01T10:00:00Z'),
   // ];
-  comments: CommentS[] =[]
+  comments: CommentS[] = []
   protected router: Router;
 
-  constructor( router: Router) {
+  constructor(router: Router) {
     super();
     this.router = router;
   }
 
-  showPost(postId: number|string): void {
+  showPost(postId: number | string): void {
     //todo
     this.selectedPost = this.posts.find(post => post.id === postId) || null;
   }
 
-  showSmesharik(smesharik: number|string): void {
+  showSmesharik(smesharik: number | string): void {
     //todo
     this.selectedPost = this.posts.find(post => post.id === smesharik) || null;
   }
 
-  showComment(commentId: number|string): void {
+  showComment(commentId: number | string): void {
     this.selectedComment = this.comments.find(comment => comment.id === commentId) || null;
   }
 
@@ -49,8 +49,12 @@ export abstract class ContentBase<T> extends BaseCard<T> {
   navigateToPost(postId: number): void {
     this.router.navigate(['/post-card', postId]);
   }
-  //todo
+
   navigateToComment(commentId: number): void {
     this.router.navigate(['/comment', commentId]);
+  }
+
+  navigateToSmesharik(login: string): void {
+    this.router.navigate(['/smesharik', login]);
   }
 }

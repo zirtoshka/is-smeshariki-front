@@ -1,0 +1,54 @@
+.profile-header {
+  position: relative;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.name-text {
+  font-family: 'Rubik Bubbles', cursive;
+  font-size: 80px;
+  font-weight: bold;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2),
+  8px 8px 10px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+}
+
+
+.profile-card {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header h2 {
+  margin-top: 10px;
+}
+
+
+.profile-body {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+

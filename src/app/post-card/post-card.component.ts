@@ -94,7 +94,6 @@ export class PostCardComponent implements OnInit, OnChanges {
   }
 
   handleGoBack(): void {
-    console.log('Go back clicked');
     this.location.back();
   }
 
