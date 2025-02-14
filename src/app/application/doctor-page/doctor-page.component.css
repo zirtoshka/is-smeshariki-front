@@ -1,45 +1,3 @@
-.applications-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 20px;
-}
-
-.status-selector {
-  min-width: 200px;
-}
-
-.status-dropdown {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.toggle-container {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.toggle-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-family: 'Arial', sans-serif;
-}
-
-.toggle-container label {
-  font-weight: bold;
-  color: #333;
-  font-size: 16px;
-}
-
-.toggle-label {
-  font-size: 18px;
-  font-weight: 500;
-  color: #555;
-}
-
 .my-applications {
   color: #b13df3;
   font-weight: bold;
@@ -48,8 +6,4 @@
 .all-applications {
   color: #5c21f3;
   font-weight: bold;
-}
-
-.nz-switch {
-  margin: 0 10px;
 }

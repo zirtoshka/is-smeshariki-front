@@ -1,5 +1,5 @@
 
-<nz-card class="complaint-card"
+<nz-card class="item-card"
          [nzBordered]="true" [nzHoverable]="true">
 
   <nz-card-meta
@@ -7,7 +7,7 @@
     [nzDescription]="'статус: ' +item.status">
   </nz-card-meta>
 
-  <div class="complaint-details">
+  <div class="item-details">
     <p class="item-date">
       <i nz-icon nzType="calendar" nzTheme="outline"></i>
       дата создания: {{ this.dateFormatterService.formatDate(item.creationDate) }} <br>
@@ -36,7 +36,7 @@
       администратор:</strong> {{ item.adminLogin ? 'администратор ' + item.adminLogin : 'не назначен' }}</p>
   </div>
 
-  <div class="complaint-actions">
+  <div class="item-actions">
     <nz-select
       [(ngModel)]="selectedStatus"
       class="status-selector"
@@ -56,7 +56,7 @@
     </button>
   </div>
 
-  <div class="complaint-actions">
+  <div class="item-actions">
     <button nz-button nzType="default" (click)="onEdit(item)">
       <i nz-icon nzType="edit"></i> редактировать
     </button>

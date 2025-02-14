@@ -17,7 +17,7 @@
 
 <div class="toggle-container">
   <nz-switch
-    id="applications-toggle"
+    id="item-toggle"
     [(ngModel)]="isMyApplications"
     (ngModelChange)="onToggleChange()">
   </nz-switch>
@@ -36,7 +36,7 @@
 
 
 
-<div class="applications-container">
+<div class="item-container">
   <app-application-card
     *ngFor="let item of items"
     [item]="item"

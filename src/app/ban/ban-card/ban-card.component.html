@@ -1,8 +1,8 @@
-<nz-card class="ban-card" [nzBordered]="true" [nzHoverable]="true">
-  <div class="ban-header">
-    <div class="ban-header-info">
-      <h3 class="ban-title">бан ID: {{ item.id }}</h3>
-      <p class="ban-date">
+<nz-card class="item-card" [nzBordered]="true" [nzHoverable]="true">
+  <div class="item-header">
+    <div class="item-header-info">
+      <h3 class="item-title">бан ID: {{ item.id }}</h3>
+      <p class="item-date">
         <i nz-icon nzType="calendar" nzTheme="outline"></i>
         начало: {{ this.dateFormatterService.formatDate(item.creationDate) }} <br>
         <i nz-icon nzType="stop" nzTheme="outline"></i>
@@ -15,7 +15,7 @@
     <p><strong>причина бана:</strong> {{ item.reason }}</p>
   </div>
 
-  <div class="ban-links">
+  <div class="item-links">
     <div>
       <p *ngIf="item.smesharik">
         <strong>смешарик ID: </strong>
@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <div class="ban-actions">
+  <div class="item-actions">
     <button nz-button nzType="default" (click)="onEdit(item)">
       <i nz-icon nzType="edit"></i> редактировать
     </button>

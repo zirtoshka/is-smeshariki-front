@@ -1,11 +1,11 @@
-<nz-card class="application-card"
+<nz-card class="item-card"
          [nzBordered]="true" [nzHoverable]="true">
   <nz-card-meta
     [nzTitle]="'заявка №' + item.id"
     [nzDescription]="'статус: ' + item.status">
   </nz-card-meta>
 
-  <div class="application-details">
+  <div class="item-details">
     <p><strong>наклонности ид: </strong>{{ item.propensities }}</p>
 
     <div>
@@ -35,7 +35,7 @@
     </ng-template>
   </div>
 
-  <div class="application-actions" >
+  <div class="item-actions" >
     <nz-select
       [(ngModel)]="selectedStatus"
       class="status-selector"
@@ -54,7 +54,7 @@
     </button>
   </div>
 
-    <div class="application-actions">
+    <div class="item-actions">
     <button nz-button nzType="default" (click)="onEdit(item)">
       <i nz-icon nzType="edit"></i> редактировать
     </button>
