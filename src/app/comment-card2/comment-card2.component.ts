@@ -32,6 +32,7 @@ import {AvatarComponent} from '../avatar/avatar.component';
 import {Smesharik} from '../auth-tools/smesharik';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {DopMenuComponent} from "../dop-menu/dop-menu.component";
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-comment-card2',
@@ -58,7 +59,7 @@ import {DopMenuComponent} from "../dop-menu/dop-menu.component";
         NzTagComponent,
         DopMenuComponent
     ],
-  providers: [DatePipe],
+  providers: [DatePipe, NzModalService],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './comment-card2.component.html',
   styleUrl: './comment-card2.component.css'
@@ -101,7 +102,8 @@ export class CommentCard2Component implements OnInit {
     const newReply: CommentS = new CommentS({
       text: this.replyText,
       // post: this.comment.post,
-      parentComment: this.comment.id
+      parentComment: this.comment.id,
+      countCarrots:0
     })
 
     this.replyAdded.emit(newReply);
@@ -134,11 +136,6 @@ export class CommentCard2Component implements OnInit {
         next: (response) => {
 
           this.comment = CommentS.fromBackend(response);
-          // this.carrotService.isLikeComment(this.comment.id).subscribe((result) => {
-          //   this.isLiked = result;
-          //   this.setCarrotIcon()
-          // });
-
           this.carrotService.isLikeComment(this.comment.id).subscribe({
             next: (result: boolean) => {
               this.isLiked$.next(result);
@@ -148,15 +145,7 @@ export class CommentCard2Component implements OnInit {
               console.error('Ошибка при получении лайков:', err);
             }
           });
-
-
-
           this.commentAuthor$ = this.authorService.getSmesharikByLogin(this.comment.smesharik);
-
-          // this.authorService.getSmesharikByLogin(this.comment.smesharik).subscribe((result) => {
-          //   console.log(result)
-          //   this.comment.smesharikAuthor = result;
-          // });
         },
         error: (err: any) => {
           console.error('Ошибка при загрузке:', err);
@@ -214,7 +203,11 @@ export class CommentCard2Component implements OnInit {
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(true);
-            this.comment.countCarrots++;
+            if(this.comment.countCarrots){
+              this.comment.countCarrots++;
+            }else{
+              this.comment.countCarrots=1
+            }
             this.setCarrotIcon()
           }
         });

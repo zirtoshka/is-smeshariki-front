@@ -24,7 +24,7 @@ export class CommentS extends BaseModel<CommentS> {
     this.parentComment = data.parentComment ?? null;
     this.text = data.text ?? null;
     this.hasChildren = data.hasChildren;
-    this.countCarrots = data.countCarrots ?? null;
+    this.countCarrots = data.countCarrots || 0;
     this.smesharikAuthor = data.smesharikAuthor ?? null;
     this.isLiked = data.isLiked ?? false;
     this.level = data.level || 0;

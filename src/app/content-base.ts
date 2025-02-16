@@ -51,6 +51,7 @@ export abstract class ContentBase<T> extends BaseCard<T> {
   }
 
   navigateToComment(commentId: number): void {
+    console.log(commentId);
     this.router.navigate(['/comment', commentId]);
   }
 
