@@ -8,6 +8,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {getAuthToken, getLogin, getRoleFromToken, setAuthToken, setLogin} from './auth-utils';
 import {Roles} from './smesharik';
 import {getEnumKeyByValue} from '../model/enums';
+import {environment} from '../../environments/environment';
 
 
 const LOGIN_PATH = "login"
@@ -16,7 +17,7 @@ const LOGIN_PATH = "login"
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly baseUrl = 'http://localhost:8081/auth';
+  private readonly baseUrl = environment.authBaseUrl;
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   private notificationService = inject(NzNotificationService);
@@ -45,10 +46,10 @@ export class AuthService {
 
   private auth(login: string, token: string) {
     setAuthToken(token);
-    setLogin(login); //todo
+    setLogin(login);
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
-    lastValueFrom(this.httpClient.get(`http://localhost:8081/api/smesharik/${getLogin()}`, {headers}))
+    lastValueFrom(this.httpClient.get(`${environment.apiBaseUrl}/smesharik/${getLogin()}`, {headers}))
       .then(data => {
         this.router.navigate(['diary']).then(() => {
           console.log('Navigation to home successful');

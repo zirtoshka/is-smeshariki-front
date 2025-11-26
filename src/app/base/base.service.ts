@@ -3,13 +3,14 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {getAuthToken} from '../auth-tools/auth-utils';
 import {lastValueFrom, Observable} from 'rxjs';
 import {PaginatedResponse} from '../paginated-response';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService<T> {
 
-  private readonly baseUrl = 'http://localhost:8081/api';
+  private readonly baseUrl = environment.apiBaseUrl;
 
   constructor(protected httpClient: HttpClient) {
   }

@@ -7,6 +7,8 @@ import {Complaint} from '../model/complaint';
 import {throwError} from 'rxjs';
 import {NotificationCustomService} from '../notification-custom.service';
 import {Roles} from '../auth-tools/smesharik';
+import {DOCUMENT} from '@angular/common';
+import {WA_WINDOW} from '@ng-web-apis/common';
 
 
 @Directive()
@@ -14,6 +16,8 @@ export abstract class BasePage<T extends HasId> {
   action!: string;
   items: T[] = [];
 
+  protected document = inject(DOCUMENT);
+  protected window = inject(WA_WINDOW);
 
   loading = true;
   allLoaded = false;

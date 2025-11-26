@@ -1,16 +1,16 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Smesharik} from '../auth-tools/smesharik';
-import {lastValueFrom, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {getCookie} from '../auth-tools/cookie-utils';
 import {getAuthToken, TOKEN_PATH} from '../auth-tools/auth-utils';
-import {BaseService} from '../base/base.service';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private readonly baseUrl = 'http://localhost:8081/api/smesharik';
+  private readonly baseUrl = `${environment.apiBaseUrl}/smesharik`;
 
 
   constructor(private httpClient: HttpClient) {
@@ -30,9 +30,7 @@ export class UserService {
     let headers = new HttpHeaders();
 
     headers = headers.set('Authorization', `Bearer ${getCookie(TOKEN_PATH)}`);
-    return this.httpClient.get<Smesharik>(`http://localhost:8081/api/smesharik/${login}`,
-      {headers})
-      ;
+    return this.httpClient.get<Smesharik>(`${this.baseUrl}/${login}`, {headers});
   }
 
   getNotificationList() {
