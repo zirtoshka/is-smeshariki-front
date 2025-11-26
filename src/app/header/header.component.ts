@@ -7,7 +7,6 @@ import { filter } from 'rxjs/operators';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {AuthService} from '../auth-tools/auth.service';
-import {getAuthToken, getLogin} from '../auth-tools/auth-utils';
 import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 
 
@@ -56,7 +55,10 @@ export class HeaderComponent {
   }
 
   navigateToProfile(): void {
-    this.router.navigate(['/smesharik', getLogin()]);
+    if (!this.authService.currentLogin) {
+      return;
+    }
+    this.router.navigate(['/smesharik', this.authService.currentLogin]);
   }
 
   isDoctor(){

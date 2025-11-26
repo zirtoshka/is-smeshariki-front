@@ -7,13 +7,11 @@ import {DatePipe, NgIf} from '@angular/common';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {RoleTagComponent} from '../../role-tag/role-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {BasePage} from '../../base/base-page';
 import {AvatarComponent} from '../../avatar/avatar.component';
-import {Roles, Smesharik} from '../../auth-tools/smesharik';
+import {Roles} from '../../auth-tools/smesharik';
 import {DataFormaterService} from '../../data-formater.service';
-import {getAuthToken, getRoleFromToken} from '../../auth-tools/auth-utils';
-import {GeneralStatus, getEnumKeyByValue} from '../../model/enums';
 import {Router} from '@angular/router';
+import {AuthService} from '../../auth-tools/auth.service';
 
 export enum Context {
   friends,
@@ -56,7 +54,8 @@ export class FriendCardComponent {
 
 
   constructor(protected dateFormatterService: DataFormaterService,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
   }
 
   onAddFriend(friend: Friend): void {
@@ -84,8 +83,7 @@ export class FriendCardComponent {
   }
 
   isAdmin() {
-    const role =getRoleFromToken(getAuthToken()??"");
-    return role === getEnumKeyByValue(Roles, Roles.ADMIN) ;
+    return this.authService.isAdmin;
   }
 
   navigateToSmesharik(login: string): void {

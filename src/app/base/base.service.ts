@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {getAuthToken} from '../auth-tools/auth-utils';
 import {lastValueFrom, Observable} from 'rxjs';
 import {PaginatedResponse} from '../paginated-response';
 import {environment} from '../../environments/environment';
@@ -17,7 +16,6 @@ export class BaseService<T> {
 
   getAuthHeaders(setContentType: boolean = true): HttpHeaders {
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${getAuthToken()}`);
     if (setContentType) {
       headers = headers.set('Content-Type', 'application/json');
     }

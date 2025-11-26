@@ -1,8 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {CommentS} from '../model/comment';
 import {BehaviorSubject, forkJoin, map, mergeMap, Observable, switchMap, tap, withLatestFrom} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {getAuthToken} from '../auth-tools/auth-utils';
+import {HttpClient} from '@angular/common/http';
 import {BaseService} from '../base/base.service';
 import {CarrotService} from './carrot.service';
 import {AuthorService} from '../author.service';

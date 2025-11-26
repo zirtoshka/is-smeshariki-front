@@ -1,14 +1,12 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {deleteCookie, getCookie, setCookie} from './cookie-utils';
 import {catchError, lastValueFrom, throwError} from 'rxjs';
 import {Token} from './token';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {getAuthToken, getLogin, getRoleFromToken, setAuthToken, setLogin} from './auth-utils';
-import {Roles} from './smesharik';
-import {getEnumKeyByValue} from '../model/enums';
+import {Smesharik} from './smesharik';
 import {environment} from '../../environments/environment';
+import {AuthFacade} from './auth.facade';
 
 
 const LOGIN_PATH = "login"
@@ -21,36 +19,44 @@ export class AuthService {
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   private notificationService = inject(NzNotificationService);
+  private authFacade = inject(AuthFacade);
 
 
   logOut() {
-    setAuthToken(null);
-    setLogin(undefined);
-    this.router.navigate([LOGIN_PATH]);
+    this.httpClient.post<void>(`${this.baseUrl}/logout`, {})
+      .subscribe({
+        next: () => this.completeLogout(),
+        error: () => this.completeLogout()
+      });
   }
 
   get isLoggedIn(): boolean {
-    return getAuthToken() != null;
+    return this.authFacade.isLoggedIn;
   }
 
   get isDoctor(): boolean {
-    const role = getRoleFromToken(getAuthToken() ?? "");
-    return role === getEnumKeyByValue(Roles, Roles.ADMIN) ||
-      role === getEnumKeyByValue(Roles, Roles.DOCTOR);
+    return this.authFacade.isDoctor;
   }
 
   get isAdmin(): boolean {
-    const role = getRoleFromToken(getAuthToken() ?? "");
-    return role === getEnumKeyByValue(Roles, Roles.ADMIN);
+    return this.authFacade.isAdmin;
   }
 
-  private auth(login: string, token: string) {
-    setAuthToken(token);
-    setLogin(login);
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
-    lastValueFrom(this.httpClient.get(`${environment.apiBaseUrl}/smesharik/${getLogin()}`, {headers}))
+  get currentLogin(): string | null {
+    return this.authFacade.login;
+  }
+
+  private completeLogout() {
+    this.authFacade.clearSession();
+    this.router.navigate([LOGIN_PATH]);
+  }
+
+  private auth(login: string) {
+    this.authFacade.setLogin(login);
+    lastValueFrom(this.httpClient.get<Smesharik>(`${environment.apiBaseUrl}/smesharik/${login}`))
       .then(data => {
+        const smesharik = new Smesharik(data);
+        this.authFacade.setRole(smesharik.role);
         this.router.navigate(['diary']).then(() => {
           console.log('Navigation to home successful');
         }).catch(err => {
@@ -65,7 +71,7 @@ export class AuthService {
       .post<Token>(`${this.baseUrl}/${action}`, body)
       .pipe(catchError(this.handleError.bind(this)))
       .subscribe({
-        next: (data) => this.auth(body.login, data.token),
+        next: () => this.auth(body.login),
         error: () => {
         }
       });

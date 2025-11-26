@@ -3,8 +3,7 @@ import {BaseService} from '../base/base.service';
 import {Observable} from 'rxjs';
 import {PaginatedResponse} from '../paginated-response';
 import {Friend} from '../model/friend';
-import {getLogin} from '../auth-tools/auth-utils';
-import {HttpClient} from '@angular/common/http';
+import {AuthFacade} from '../auth-tools/auth.facade';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +11,7 @@ import {HttpClient} from '@angular/common/http';
 export class SmesharikService {
 
   private baseService = inject(BaseService);
-
-  constructor(private httpClient: HttpClient) {
-  }
+  private authFacade = inject(AuthFacade);
 
 
   getFriends(options: Partial<{
@@ -27,7 +24,7 @@ export class SmesharikService {
     const defaultOptions = {
       page: 0,
       size: 2,
-      nameOrLogin: getLogin()
+      nameOrLogin: this.authFacade.login ?? undefined
     };
 
     const params = {...defaultOptions, ...options};
@@ -44,7 +41,7 @@ export class SmesharikService {
     const defaultOptions = {
       page: 0,
       size: 2,
-      nameOrLogin: getLogin()
+      nameOrLogin: this.authFacade.login ?? undefined
     };
 
     const params = {...defaultOptions, ...options};
@@ -62,7 +59,7 @@ export class SmesharikService {
     const defaultOptions = {
       page: 0,
       size: 2,
-      nameOrLogin: getLogin()
+      nameOrLogin: this.authFacade.login ?? undefined
     };
 
     const params = {...defaultOptions, ...options};
@@ -75,7 +72,7 @@ export class SmesharikService {
     followee: string,
   }>) {
     const defaultOptions = {
-      followee: getLogin()
+      followee: this.authFacade.login ?? undefined
     }
     const params = {...defaultOptions, ...options};
 
@@ -87,7 +84,7 @@ export class SmesharikService {
     followee: string,
   }>){
     const defaultOptions = {
-      followee: getLogin()
+      followee: this.authFacade.login ?? undefined
     }
     const params = {...defaultOptions, ...options};
 
@@ -117,7 +114,7 @@ export class SmesharikService {
     followee: string,
   }>){
     const defaultOptions = {
-      follower: getLogin()
+      follower: this.authFacade.login ?? undefined
     }
     const params = {...defaultOptions, ...options};
 

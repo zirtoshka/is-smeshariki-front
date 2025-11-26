@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Smesharik} from '../auth-tools/smesharik';
 import {Observable} from 'rxjs';
-import {getCookie} from '../auth-tools/cookie-utils';
-import {getAuthToken, TOKEN_PATH} from '../auth-tools/auth-utils';
 import {environment} from '../../environments/environment';
 
 @Injectable({
@@ -21,16 +19,11 @@ export class UserService {
   }
 
   editSmesharik(login: string, body: any) {
-    return this.httpClient.put<Smesharik>(`${this.baseUrl}/${login}`, body, {
-      headers: this.getAuthHeaders(),
-    })
+    return this.httpClient.put<Smesharik>(`${this.baseUrl}/${login}`, body);
   }
 
   getSmesharikByLogin(login: string): Observable<Smesharik> {
-    let headers = new HttpHeaders();
-
-    headers = headers.set('Authorization', `Bearer ${getCookie(TOKEN_PATH)}`);
-    return this.httpClient.get<Smesharik>(`${this.baseUrl}/${login}`, {headers});
+    return this.httpClient.get<Smesharik>(`${this.baseUrl}/${login}`);
   }
 
   getNotificationList() {
@@ -39,17 +32,8 @@ export class UserService {
 
   changePassword(login: string, oldPassword: string, newPassword: string): Observable<void> {
     return this.httpClient.post<void>(`${this.baseUrl}/${login}/changePassword`, {
-        oldPassword,
-        newPassword
-      },
-      {headers: this.getAuthHeaders()}
-    );
-  }
-
-  protected getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${getAuthToken()}`,
-      'Content-Type': 'application/json',
+      oldPassword,
+      newPassword
     });
   }
 }

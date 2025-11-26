@@ -20,7 +20,6 @@ import {UserService} from '../services/user.service';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 import {AuthService} from '../auth-tools/auth.service';
-import {LOGIN, setLogin} from '../auth-tools/auth-utils';
 import {NzColorPickerComponent} from 'ng-zorro-antd/color-picker';
 import {NotificationCustomService} from '../notification-custom.service';
 
@@ -101,7 +100,7 @@ export class SmesharikPageComponent implements OnInit {
   }
 
   getLogin(): string | null {
-    return sessionStorage.getItem(LOGIN);
+    return this.authService.currentLogin;
   }
 
   loadSmesharik(login: string): void {

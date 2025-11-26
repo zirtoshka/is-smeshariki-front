@@ -16,7 +16,7 @@ import {PropensityFormComponent} from '../../propensity/propensity-form/propensi
 import {ApplicationFormComponent} from '../application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ApplicationService} from '../../services/application.service';
-import {getLogin} from '../../auth-tools/auth-utils';
+import {AuthService} from '../../auth-tools/auth.service';
 import {ComplaintCardComponent} from '../../complaint/complaint-card/complaint-card.component';
 import {ComplaintFormComponent} from '../../complaint/complaint-form/complaint-form.component';
 
@@ -56,6 +56,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
   // currDoctorId = 303; //todo
 
   applicationService: ApplicationService = inject(ApplicationService);
+  private authService = inject(AuthService);
 
 
   override preparing(item: any): any {
@@ -78,7 +79,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
 
   handleTake(item: ApplicationForTreatment) {
     const newItem = new ApplicationForTreatment(item);
-    newItem.doctor = getLogin();
+    newItem.doctor = this.authService.currentLogin ?? '';
     this.onEdit(newItem, newItem.id).then(() => {
       console.log('взял в обработку', item.doctor, ' заявку', item.id);
     }).catch((error) => {

@@ -18,7 +18,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
 import {ComplaintService} from '../../services/complaint.service';
 import {enumListToString, GeneralStatus} from '../../model/enums';
-import {getLogin} from '../../auth-tools/auth-utils';
+import {AuthService} from '../../auth-tools/auth.service';
 
 @Component({
   selector: 'app-complaint-card-page',
@@ -53,6 +53,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
   isMyComplaints = false;
 
   complaintService: ComplaintService = inject(ComplaintService);
+  private authService = inject(AuthService);
 
 
   override selectedStatuses: GeneralStatus[]=[];
@@ -76,7 +77,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
   handleTake(item: Complaint) {
     const newItem = new Complaint(item);
-    newItem.adminLogin = getLogin();
+    newItem.adminLogin = this.authService.currentLogin ?? '';
     this.onEdit(newItem, newItem.id).then(() => {
       console.log('взял в обработку', item.adminLogin, ' жалобу', item.id);
     }).catch((error) => {
