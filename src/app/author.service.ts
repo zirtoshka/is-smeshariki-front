@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {Smesharik} from './auth-tools/smesharik';
 import {Observable, of, tap} from 'rxjs';
-import {UserService} from './services/user.service';
+import {UserFacade} from './facade/user.facade';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class AuthorService {
   private authorsMap = new Map<string, Smesharik>();
 
 
-  protected userService = inject(UserService);
+  protected userFacade = inject(UserFacade);
 
 
   getSmesharikByLogin(login: string): Observable<Smesharik> {
@@ -18,7 +18,7 @@ export class AuthorService {
       return of(this.authorsMap.get(login)!);
     }
 
-    return this.userService.getSmesharikByLogin(login).pipe(
+    return this.userFacade.getSmesharikByLogin(login).pipe(
       tap(author => this.authorsMap.set(login, author))
     );
   }

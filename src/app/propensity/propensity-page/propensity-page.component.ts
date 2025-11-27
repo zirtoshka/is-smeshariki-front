@@ -6,7 +6,7 @@ import {PropensityCardComponent} from '../propensity-card/propensity-card.compon
 import {PropensityFormComponent} from '../propensity-form/propensity-form.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzModalService} from 'ng-zorro-antd/modal';
-import {PropensityService} from '../../services/propensity.service';
+import {PropensityFacade} from '../../facade/propensity.facade';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 
 @Component({
@@ -30,7 +30,7 @@ export class PropensityPageComponent extends BasePage<Propensity> implements OnI
 
   override action = "propensity";
 
-  propensityService: PropensityService = inject(PropensityService);
+  propensityFacade: PropensityFacade = inject(PropensityFacade);
 
   ngOnInit(): void {
     this.fetchDataFromServer()
@@ -41,7 +41,7 @@ export class PropensityPageComponent extends BasePage<Propensity> implements OnI
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.propensityService.getPropensities(
+    this.propensityFacade.getPropensities(
       {
         page: this.page,
         filter: this.searchQuery,

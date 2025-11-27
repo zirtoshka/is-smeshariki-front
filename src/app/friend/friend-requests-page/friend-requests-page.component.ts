@@ -3,7 +3,7 @@ import {Context, FriendCardComponent} from "../friend-card/friend-card.component
 import {NgForOf, NgIf} from "@angular/common";
 import {Friend} from '../../model/friend';
 import {BasePage} from '../../base/base-page';
-import {SmesharikService} from '../../services/smesharik.service';
+import {SmesharikFacade} from '../../facade/smesharik.facade';
 import {GeneralStatus} from '../../model/enums';
 
 @Component({
@@ -21,14 +21,14 @@ export class FriendRequestsPageComponent extends BasePage<Friend> implements OnI
 
   override action = "friend"
 
-  friendService: SmesharikService = inject(SmesharikService);
+  friendFacade: SmesharikFacade = inject(SmesharikFacade);
 
   override preparing(item: any): any {
     return new Friend(item).toBackendJson();
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.friendService.getFollowers(
+    this.friendFacade.getFollowers(
       {
         page: this.page,
         size: 2
@@ -50,7 +50,7 @@ export class FriendRequestsPageComponent extends BasePage<Friend> implements OnI
 
   handleAddFriend(friend: Friend): void {
     console.log('Добавить друга:', friend);
-    this.friendService.acceptFriend({follower: friend.login})
+    this.friendFacade.acceptFriend({follower: friend.login})
       .subscribe({
         next: (response:any) => {
           this.items = this.items.filter(item => item.login !== friend.login);

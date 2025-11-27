@@ -9,7 +9,7 @@ import {BasePage} from '../../base/base-page';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {ApplicationFormComponent} from '../application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
-import {ApplicationService} from '../../services/application.service';
+import {ApplicationFacade} from '../../facade/application.facade';
 import {AuthService} from '../../auth-tools/auth.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
 
   isMyApplications: boolean = false
 
-  applicationService: ApplicationService = inject(ApplicationService);
+  applicationFacade: ApplicationFacade = inject(ApplicationFacade);
   private authService = inject(AuthService);
 
 
@@ -75,7 +75,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.applicationService.getApplications(
+    this.applicationFacade.getApplications(
       {
         page: this.page,
         statuses: enumListToString(GeneralStatus, this.selectedStatuses),

@@ -7,12 +7,12 @@ import {Complaint} from '../model/complaint';
 @Injectable({
   providedIn: 'root'
 })
-export class PropensityService {
+export class WordDataService {
 
-  private baseService=inject(BaseService);
+  private baseService = inject(BaseService);
 
-  getPropensities(options: Partial<{
-    filter: string;
+  getWords(options: Partial<{
+    filter: string | null;
     sortField: string;
     ascending: boolean;
     page: number;
@@ -20,14 +20,14 @@ export class PropensityService {
   }> = {}): Observable<PaginatedResponse<Complaint>> {
     const defaultOptions = {
       filter: null,
-      sortField: "id",
+      sortField: 'id',
       ascending: false,
       page: 0,
       size: 2,
     };
 
-    const params = { ...defaultOptions, ...options };
+    const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("propensity", params);
+    return this.baseService.getItems('word', params);
   }
 }

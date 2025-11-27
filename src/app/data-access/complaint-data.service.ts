@@ -7,20 +7,22 @@ import {Complaint} from '../model/complaint';
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicationService {
+export class ComplaintDataService {
 
   private baseService = inject(BaseService);
 
-  getApplications(options: Partial<{
+  getComplaints(options: Partial<{
+    description: string | null;
     sortField: string;
     ascending: boolean;
     page: number;
     size: number;
-    statuses: string|null;
+    statuses: string | null;
     isMine: boolean;
   }> = {}): Observable<PaginatedResponse<Complaint>> {
     const defaultOptions = {
-      sortField: "id",
+      description: null,
+      sortField: 'creationDate',
       ascending: false,
       page: 0,
       size: 2,
@@ -28,8 +30,8 @@ export class ApplicationService {
       isMine: null
     };
 
-    const params = { ...defaultOptions, ...options };
+    const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("application", params);
+    return this.baseService.getItems('complaint', params);
   }
 }

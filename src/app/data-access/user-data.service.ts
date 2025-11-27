@@ -7,15 +7,10 @@ import {environment} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserDataService {
   private readonly baseUrl = `${environment.apiBaseUrl}/smesharik`;
 
-
   constructor(private httpClient: HttpClient) {
-  }
-
-  editSmesharik1(name: string, login: string, email: string) {
-    console.log("edit Smesharik", name, login, email);
   }
 
   editSmesharik(login: string, body: any) {
@@ -24,10 +19,6 @@ export class UserService {
 
   getSmesharikByLogin(login: string): Observable<Smesharik> {
     return this.httpClient.get<Smesharik>(`${this.baseUrl}/${login}`);
-  }
-
-  getNotificationList() {
-    console.log("getNotificationList");
   }
 
   changePassword(login: string, oldPassword: string, newPassword: string): Observable<void> {

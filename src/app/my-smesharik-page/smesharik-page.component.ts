@@ -16,7 +16,7 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import {UserService} from '../services/user.service';
+import {UserFacade} from '../facade/user.facade';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 import {AuthService} from '../auth-tools/auth.service';
 import {NzColorPickerComponent} from 'ng-zorro-antd/color-picker';
@@ -46,7 +46,7 @@ import {NotificationService} from '../services/notification.service';
   styleUrl: './smesharik-page.component.css'
 })
 export class SmesharikPageComponent implements OnInit {
-  private userService = inject(UserService);
+  private userFacade = inject(UserFacade);
   private authService = inject(AuthService);
 
   isEditing: boolean = false;
@@ -101,7 +101,7 @@ export class SmesharikPageComponent implements OnInit {
   }
 
   loadSmesharik(login: string): void {
-    this.userService.getSmesharikByLogin(login).subscribe({
+    this.userFacade.getSmesharikByLogin(login).subscribe({
       next: (data) => {
         this.smesharik = Smesharik.fromBackend(data);
         this.initForm();
@@ -170,7 +170,7 @@ export class SmesharikPageComponent implements OnInit {
       const {name, login, email, color} = this.validateForm.value;
       if (name && login && email && login.length > 0) {
         const body = {name, login, email, color};
-        this.userService.editSmesharik(this.smesharik.login, body).subscribe({
+        this.userFacade.editSmesharik(this.smesharik.login, body).subscribe({
           next: (data) => {
             this.smesharik = Smesharik.fromBackend(data);
             this.notificationService.handleSuccess(
@@ -211,7 +211,7 @@ export class SmesharikPageComponent implements OnInit {
   submitPasswordChange(): void {
     if (this.passwordForm.valid && this.passwordForm.value.oldPassword && this.passwordForm.value.newPassword) {
       const {oldPassword, newPassword} = this.passwordForm.value;
-      this.userService.changePassword(this.smesharik.login, oldPassword, newPassword).subscribe({
+      this.userFacade.changePassword(this.smesharik.login, oldPassword, newPassword).subscribe({
         next: () => {
           this.notificationService.handleSuccess("Радикально!", "пароль успешно изменен")
           this.toggleChangePassword();

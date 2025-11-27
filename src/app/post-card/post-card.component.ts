@@ -14,7 +14,7 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {BackButtonComponent} from '../back-button/back-button.component';
 import {DataFormaterService} from '../data-formater.service';
 import {NotificationService} from '../services/notification.service';
-import {CarrotService} from '../services/carrot.service';
+import {CarrotFacade} from '../facade/carrot.facade';
 import {CommentCard2Component} from '../comment-card2/comment-card2.component';
 import {AuthorService} from '../author.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -60,7 +60,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   @Input() isFeed = false
   protected notificationService = inject(NotificationService);
-  protected carrotService = inject(CarrotService);
+  protected carrotFacade = inject(CarrotFacade);
   protected authorService = inject(AuthorService);
 
   @Input() post!: Post;
@@ -100,7 +100,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           this.isCommentExisted = this.commentsList.length > 0;
 
           this.commentFacade.loadComments(this.post.id);
-          this.carrotService.isLikePost(this.post.id).subscribe({
+          this.carrotFacade.isLikePost(this.post.id).subscribe({
             next: (result: boolean) => {
               this.isLiked$.next(result);
               this.setCarrotIcon();
@@ -120,7 +120,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
     } else {
       this.commentFacade.loadComments(this.post.id);
-      this.carrotService.isLikePost(this.post.id).subscribe({
+      this.carrotFacade.isLikePost(this.post.id).subscribe({
         next: (result: boolean) => {
           this.isLiked$.next(result);
           this.setCarrotIcon();
@@ -145,7 +145,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   toggleLike() {
     if (!this.isLiked$.value) {
-      this.carrotService.setCarrotOnPost(this.post.id)
+      this.carrotFacade.setCarrotOnPost(this.post.id)
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(true);
@@ -154,7 +154,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           }
         });
     } else {
-      this.carrotService.deleteCarrotOnPost(this.post.id)
+      this.carrotFacade.deleteCarrotOnPost(this.post.id)
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(false);

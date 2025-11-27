@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {BasePage} from '../../base/base-page';
 import {Word} from '../../model/triggerword';
-import {WordService} from '../../services/word.service';
+import {WordFacade} from '../../facade/word.facade';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
@@ -27,7 +27,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 export class WordPageComponent  extends BasePage<Word> implements OnInit{
   override action = "word"
 
-  wordService: WordService = inject(WordService)
+  wordFacade: WordFacade = inject(WordFacade)
 
   ngOnInit(): void {
     this.fetchDataFromServer()
@@ -37,9 +37,8 @@ export class WordPageComponent  extends BasePage<Word> implements OnInit{
     return new Word(item).toBackendJson();
   }
 
-
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.wordService.getWords(
+    this.wordFacade.getWords(
       {
         page: this.page,
         filter: this.searchQuery,

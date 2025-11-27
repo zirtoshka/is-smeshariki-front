@@ -9,7 +9,7 @@ import {BasePage} from '../../base/base-page';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ComplaintFormComponent} from '../complaint-form/complaint-form.component';
-import {ComplaintService} from '../../services/complaint.service';
+import {ComplaintFacade} from '../../facade/complaint.facade';
 import {enumListToString, GeneralStatus} from '../../model/enums';
 import {AuthService} from '../../auth-tools/auth.service';
 
@@ -36,7 +36,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
   override action = "complaint"
   isMyComplaints = false;
 
-  complaintService: ComplaintService = inject(ComplaintService);
+  complaintFacade: ComplaintFacade = inject(ComplaintFacade);
   private authService = inject(AuthService);
 
 
@@ -80,7 +80,7 @@ export class ComplaintPageComponent extends BasePage<Complaint> implements OnIni
 
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.complaintService.getComplaints(
+    this.complaintFacade.getComplaints(
       {
         page: this.page,
         description: this.searchQuery,

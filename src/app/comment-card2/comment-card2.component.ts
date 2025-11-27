@@ -8,7 +8,7 @@ import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.service';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {CarrotService} from '../services/carrot.service';
+import {CarrotFacade} from '../facade/carrot.facade';
 import {DataFormaterService} from '../data-formater.service';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
@@ -58,7 +58,7 @@ export class CommentCard2Component implements OnInit {
 
   @Input() isLiked$ = new BehaviorSubject<boolean>(false);
 
-  protected carrotService = inject(CarrotService);
+  protected carrotFacade = inject(CarrotFacade);
 
   @Output() replyAdded = new EventEmitter<CommentS>();
   showReplyInput = false;
@@ -109,7 +109,7 @@ export class CommentCard2Component implements OnInit {
         next: (response) => {
 
           this.comment = response;
-          this.carrotService.isLikeComment(this.comment.id).subscribe({
+          this.carrotFacade.isLikeComment(this.comment.id).subscribe({
             next: (result: boolean) => {
               this.isLiked$.next(result);
               this.setCarrotIcon();
@@ -136,7 +136,7 @@ export class CommentCard2Component implements OnInit {
       });
 
       this.hasMore = this.commentFacade.hasMoreRepliesMap.get(this.comment.id) === undefined;
-      this.carrotService.isLikeComment(this.comment.id).subscribe({
+      this.carrotFacade.isLikeComment(this.comment.id).subscribe({
         next: (result: boolean) => {
           this.isLiked$.next(result);
           this.setCarrotIcon();
@@ -167,7 +167,7 @@ export class CommentCard2Component implements OnInit {
 
   toggleLike() {
     if (!this.isLiked$.value) {
-      this.carrotService.setCarrotOnComment(this.comment.id)
+      this.carrotFacade.setCarrotOnComment(this.comment.id)
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(true);
@@ -180,7 +180,7 @@ export class CommentCard2Component implements OnInit {
           }
         });
     } else {
-      this.carrotService.deleteCarrotOnComment(this.comment.id)
+      this.carrotFacade.deleteCarrotOnComment(this.comment.id)
         .subscribe((success) => {
           if (success) {
             this.isLiked$.next(false);

@@ -3,7 +3,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {Context, FriendCardComponent} from '../friend-card/friend-card.component';
 import {Friend} from '../../model/friend';
 import {BasePage} from '../../base/base-page';
-import {SmesharikService} from '../../services/smesharik.service';
+import {SmesharikFacade} from '../../facade/smesharik.facade';
 import {GeneralStatus} from '../../model/enums';
 
 @Component({
@@ -21,7 +21,7 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
 
   override action = "friend"
 
-  friendService: SmesharikService = inject(SmesharikService);
+  friendFacade: SmesharikFacade = inject(SmesharikFacade);
 
 
   override preparing(item: any): any {
@@ -33,7 +33,7 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.friendService.getFriends(
+    this.friendFacade.getFriends(
       {
         page: this.page,
         size:4
@@ -51,7 +51,7 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
 
   handleRemoveFriend(friend: Friend): void {
     console.log('Удалить друга:', friend);
-    this.friendService.deleteFriend({follower: friend.login})
+    this.friendFacade.deleteFriend({follower: friend.login})
       .subscribe({
         next: (response) => {
           this.items = this.items.filter(item => item.login !== friend.login);

@@ -7,12 +7,12 @@ import {Complaint} from '../model/complaint';
 @Injectable({
   providedIn: 'root'
 })
-export class BanService {
+export class BanDataService {
 
   private baseService = inject(BaseService);
 
   getBans(options: Partial<{
-    filter: string;
+    filter: string | null;
     sortField: string;
     ascending: boolean;
     page: number;
@@ -20,12 +20,12 @@ export class BanService {
   }> = {}): Observable<PaginatedResponse<Complaint>> {
     const defaultOptions = {
       filter: null,
-      sortField: "creationDate",
+      sortField: 'creationDate',
       ascending: false,
       page: 0,
       size: 2,
     };
-    const params = { ...defaultOptions, ...options };
-    return this.baseService.getItems("ban", params);
+    const params = {...defaultOptions, ...options};
+    return this.baseService.getItems('ban', params);
   }
 }

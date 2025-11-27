@@ -1,7 +1,7 @@
 import {DestroyRef, inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {CommentDataService} from '../data-access/comment-data.service';
 import {CommentS} from '../model/comment';
-import {CarrotService} from '../services/carrot.service';
+import {CarrotFacade} from './carrot.facade';
 import {AuthorService} from '../author.service';
 import {NotificationService} from '../services/notification.service';
 import {forkJoin, map, Observable, of, switchMap, tap} from 'rxjs';
@@ -13,7 +13,7 @@ import {toObservable, takeUntilDestroyed} from '@angular/core/rxjs-interop';
 })
 export class CommentFacade {
   private readonly commentDataService = inject(CommentDataService);
-  private readonly carrotService = inject(CarrotService);
+  private readonly carrotFacade = inject(CarrotFacade);
   private readonly authorService = inject(AuthorService);
   private readonly notificationService = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
@@ -187,7 +187,7 @@ export class CommentFacade {
 
   private decorateComment(comment: CommentS): Observable<CommentS> {
     return forkJoin({
-      isLiked: this.carrotService.isLikeComment(comment.id),
+      isLiked: this.carrotFacade.isLikeComment(comment.id),
       author: this.authorService.getSmesharikByLogin(comment.smesharik)
     }).pipe(
       map(({isLiked, author}) => {

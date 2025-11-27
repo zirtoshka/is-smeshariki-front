@@ -8,7 +8,7 @@ import {AuthFacade} from '../auth-tools/auth.facade';
 @Injectable({
   providedIn: 'root'
 })
-export class SmesharikService {
+export class SmesharikDataService {
 
   private baseService = inject(BaseService);
   private authFacade = inject(AuthFacade);
@@ -29,8 +29,9 @@ export class SmesharikService {
 
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("friend", params);
+    return this.baseService.getItems('friend', params);
   }
+
   getApplicationFriends(options: Partial<{
     sortField: string;
     ascending: boolean;
@@ -46,7 +47,7 @@ export class SmesharikService {
 
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("friend/follows", params);
+    return this.baseService.getItems('friend/follows', params);
   }
 
   getFollowers(options: Partial<{
@@ -64,7 +65,7 @@ export class SmesharikService {
 
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("friend/followers", params);
+    return this.baseService.getItems('friend/followers', params);
   }
 
   deleteFriend(options: Partial<{
@@ -73,22 +74,22 @@ export class SmesharikService {
   }>) {
     const defaultOptions = {
       followee: this.authFacade.login ?? undefined
-    }
+    };
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.deleteWithParams("friend", params);
+    return this.baseService.deleteWithParams('friend', params);
   }
 
   acceptFriend(options: Partial<{
     follower: string,
     followee: string,
-  }>){
+  }>) {
     const defaultOptions = {
       followee: this.authFacade.login ?? undefined
-    }
+    };
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.postWithParams("friend/acceptFriend", params);
+    return this.baseService.postWithParams('friend/acceptFriend', params);
   }
 
   getSmeshariks(options: Partial<{
@@ -105,34 +106,36 @@ export class SmesharikService {
 
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("smesharik", params);
+    return this.baseService.getItems('smesharik', params);
   }
 
 
   makeReqFriend(options: Partial<{
     follower: string,
     followee: string,
-  }>){
+  }>) {
     const defaultOptions = {
       follower: this.authFacade.login ?? undefined
-    }
+    };
     const params = {...defaultOptions, ...options};
 
-    return this.baseService.createItem("friend", params);
+    return this.baseService.createItem('friend', params);
   }
 
-  makeAdmin( login:string){
-    return this.changeRole("ADMIN", login);
+  makeAdmin(login: string) {
+    return this.changeRole('ADMIN', login);
   }
 
 
-  makeDoctor( login:string) {
-    return this.changeRole("DOCTOR", login);
+  makeDoctor(login: string) {
+    return this.changeRole('DOCTOR', login);
   }
-  makeUser( login:string) {
-    return this.changeRole("USER", login);
+
+  makeUser(login: string) {
+    return this.changeRole('USER', login);
   }
-  changeRole(role: string, login:string){
-    return this.baseService.createItem(`smesharik/${login}/changeRole`, {role:role});
+
+  private changeRole(role: string, login: string) {
+    return this.baseService.createItem(`smesharik/${login}/changeRole`, {role: role});
   }
 }

@@ -4,7 +4,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {BasePage} from '../../base/base-page';
 import {Friend} from '../../model/friend';
-import {SmesharikService} from '../../services/smesharik.service';
+import {SmesharikFacade} from '../../facade/smesharik.facade';
 import {enumListToString, GeneralStatus} from '../../model/enums';
 import {Roles} from '../../auth-tools/smesharik';
 import {forkJoin, map, of, switchMap} from 'rxjs';
@@ -24,7 +24,7 @@ import {forkJoin, map, of, switchMap} from 'rxjs';
 export class SmesharikiSearchPageComponent extends BasePage<Friend> implements OnInit {
   override action = "smesharik"
 
-  smesharikService: SmesharikService = inject(SmesharikService);
+  smesharikFacade: SmesharikFacade = inject(SmesharikFacade);
 
   override selectedStatuses: Roles[] = [];
 
@@ -38,7 +38,7 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.smesharikService.getSmeshariks(
+    this.smesharikFacade.getSmeshariks(
       {
         page: this.page,
         size: 4,
@@ -67,17 +67,17 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
     if (uniqueNewItems.length) {
 
       const checkIfFriend = uniqueNewItems.map(item =>
-        this.smesharikService.getFriends({nameOrLogin: item.login}).pipe(
+        this.smesharikFacade.getFriends({nameOrLogin: item.login}).pipe(
           switchMap(resp => {
             if (resp.totalElements === 1) {
               return of({...item, isMyFriend: true} as Friend);
             } else {
-              return this.smesharikService.getApplicationFriends({nameOrLogin: item.login}).pipe(
+              return this.smesharikFacade.getApplicationFriends({nameOrLogin: item.login}).pipe(
                 switchMap(resp => {
                   if (resp.totalElements === 1) {
                     return of({...item, isIFollow: true} as Friend);
                   } else {
-                    return this.smesharikService.getFollowers({nameOrLogin: item.login}).pipe(
+                    return this.smesharikFacade.getFollowers({nameOrLogin: item.login}).pipe(
                       map(appResp => ({...item, isMyFollower: appResp.totalElements === 1} as Friend)))
 
                   }
@@ -109,7 +109,7 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
 
   handleMakeFriend(friend: Friend): void {
     console.log('за]вка handleMakeFriend:', friend);
-    this.smesharikService.makeReqFriend({followee: friend.login})
+    this.smesharikFacade.makeReqFriend({followee: friend.login})
       .then((response: any) => {
         this.notificationService.handleSuccess(
           "Туки-туки!", `заявка в друзья полетела к смешарику с логином ${friend.login}`
@@ -124,7 +124,7 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
 
   handleMakeAdmin(friend: Friend): void {
     console.log('за]вка handleMakeAdmin:', friend);
-    this.smesharikService.makeAdmin(friend.login)
+    this.smesharikFacade.makeAdmin(friend.login)
       .then((response: any) => {
 
         this.items = this.items.map(item =>
@@ -143,7 +143,7 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
 
   handleMakeDoctor(friend: Friend): void {
     console.log('за]вка handleMakeDoctor:', friend);
-    this.smesharikService.makeDoctor(friend.login)
+    this.smesharikFacade.makeDoctor(friend.login)
       .then((response: any) => {
         this.items = this.items.map(item =>
           item.login === friend.login ? {...item, role: Roles.DOCTOR} as Friend : item
@@ -160,7 +160,7 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
 
 
   handleMakeUser(friend: Friend): void {
-    this.smesharikService.makeUser(friend.login)
+    this.smesharikFacade.makeUser(friend.login)
       .then((response: any) => {
         this.items = this.items.map(item =>
           item.login === friend.login ? {...item, role: Roles.USER} as Friend : item

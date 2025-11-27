@@ -4,7 +4,7 @@ import {DatePipe, Location, NgIf, NgStyle} from '@angular/common';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Smesharik} from '../auth-tools/smesharik';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../services/user.service';
+import {UserFacade} from '../facade/user.facade';
 import {NotificationService} from '../services/notification.service';
 import {BackButtonComponent} from '../back-button/back-button.component';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
@@ -35,7 +35,7 @@ export class SmesharikComponent implements OnInit {
   isFriend = false; //todo
   @Input() neededBack=true
 
-  protected smesharikService = inject(UserService);
+  protected userFacade = inject(UserFacade);
   protected notificationService = inject(NotificationService);
 
   constructor(private route: ActivatedRoute,
@@ -48,7 +48,7 @@ export class SmesharikComponent implements OnInit {
   ngOnInit(): void {
     const login = this.route.snapshot.paramMap.get('id');
     if (login){
-      this.smesharikService.getSmesharikByLogin(login)
+      this.userFacade.getSmesharikByLogin(login)
         .subscribe({
         next: (data) => {
           this.smesharik = Smesharik.fromBackend(data);

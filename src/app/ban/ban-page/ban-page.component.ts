@@ -8,7 +8,7 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {SearchFilterComponent} from "../../search-filter/search-filter.component";
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {BanFormComponent} from '../ban-form/ban-form.component';
-import {BanService} from '../../services/ban.service';
+import {BanFacade} from '../../facade/ban.facade';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class BanPageComponent extends BasePage<Ban> implements OnInit {
 
   override action = "ban"
 
-  banService: BanService = inject(BanService)
+  banFacade: BanFacade = inject(BanFacade)
 
   ngOnInit(): void {
     this.fetchDataFromServer()
@@ -44,7 +44,7 @@ export class BanPageComponent extends BasePage<Ban> implements OnInit {
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.banService.getBans(
+    this.banFacade.getBans(
       {
         page: this.page,
         filter: this.searchQuery,

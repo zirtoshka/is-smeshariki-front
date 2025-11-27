@@ -3,7 +3,7 @@ import {FriendCardComponent} from '../friend-card/friend-card.component';
 import {NgForOf, NgIf} from '@angular/common';
 import {BasePage} from '../../base/base-page';
 import {Friend} from '../../model/friend';
-import {SmesharikService} from '../../services/smesharik.service';
+import {SmesharikFacade} from '../../facade/smesharik.facade';
 
 @Component({
   selector: 'app-friend-req-from-me',
@@ -18,7 +18,7 @@ import {SmesharikService} from '../../services/smesharik.service';
 })
 export class FriendReqFromMeComponent extends BasePage<Friend> implements OnInit{
   override action = "friend"
-  friendService: SmesharikService = inject(SmesharikService);
+  friendFacade: SmesharikFacade = inject(SmesharikFacade);
 
   override preparing(item: any): any {
     return new Friend(item).toBackendJson();
@@ -32,7 +32,7 @@ export class FriendReqFromMeComponent extends BasePage<Friend> implements OnInit
   }
 
   override fetchDataFromServer(replacementIsNeeded: boolean = false) {
-    this.friendService.getApplicationFriends(
+    this.friendFacade.getApplicationFriends(
       {
         page: this.page,
         size:4

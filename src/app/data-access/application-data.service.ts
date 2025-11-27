@@ -7,28 +7,29 @@ import {Complaint} from '../model/complaint';
 @Injectable({
   providedIn: 'root'
 })
-export class WordService {
+export class ApplicationDataService {
 
   private baseService = inject(BaseService);
 
-
-  getWords(options: Partial<{
-    filter: string;
+  getApplications(options: Partial<{
     sortField: string;
     ascending: boolean;
     page: number;
     size: number;
+    statuses: string | null;
+    isMine: boolean;
   }> = {}): Observable<PaginatedResponse<Complaint>> {
     const defaultOptions = {
-      filter: null,
-      sortField: "id",
+      sortField: 'id',
       ascending: false,
       page: 0,
       size: 2,
+      statuses: null,
+      isMine: null
     };
 
-    const params = { ...defaultOptions, ...options };
+    const params = {...defaultOptions, ...options};
 
-    return this.baseService.getItems("word", params);
+    return this.baseService.getItems('application', params);
   }
 }
