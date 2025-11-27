@@ -8,7 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.service';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {CommentS} from '../model/comment';
-import {CommentService} from '../services/comment.service';
+import {CommentFacade} from '../facade/comment.facade';
 import {PostTagComponent} from '../post-tag/post-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {BackButtonComponent} from '../back-button/back-button.component';
@@ -47,7 +47,7 @@ import {DopMenuComponent} from '../dop-menu/dop-menu.component';
     NzModalComponent,
     DopMenuComponent
   ],
-  providers: [PostService, DatePipe, CommentService, NzModalService, NzContextMenuService],
+  providers: [PostService, DatePipe, CommentFacade, NzModalService, NzContextMenuService],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
@@ -66,10 +66,10 @@ export class PostCardComponent implements OnInit, OnChanges {
   @Input() post!: Post;
   postAuthor$!: Observable<Smesharik>;
 
-  protected commentService = inject(CommentService);
-  comments$ = this.commentService.comments$;
-  hasMore$ = this.commentService.hasMore$;
-  commentTree$ = this.commentService.commentTree$;
+  protected commentFacade = inject(CommentFacade);
+  comments$ = this.commentFacade.comments$;
+  hasMore$ = this.commentFacade.hasMore$;
+  commentTree$ = this.commentFacade.commentTree$;
 
   imageUrl!:any;
 
@@ -99,7 +99,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           // this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
           this.isCommentExisted = this.commentsList.length > 0;
 
-          this.commentService.loadComments(this.post.id);
+          this.commentFacade.loadComments(this.post.id);
           this.carrotService.isLikePost(this.post.id).subscribe({
             next: (result: boolean) => {
               this.isLiked$.next(result);
@@ -119,7 +119,7 @@ export class PostCardComponent implements OnInit, OnChanges {
       });
 
     } else {
-      this.commentService.loadComments(this.post.id);
+      this.commentFacade.loadComments(this.post.id);
       this.carrotService.isLikePost(this.post.id).subscribe({
         next: (result: boolean) => {
           this.isLiked$.next(result);
@@ -139,7 +139,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['post']) {
-      // this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
+      // this.commentsList = this.commentFacade.getCommentsByPostId(this.post.id);
       this.isCommentExisted = this.commentsList.length > 0;
     }
   }
@@ -174,18 +174,18 @@ export class PostCardComponent implements OnInit, OnChanges {
     this.isCommentsVisible = !this.isCommentsVisible;
 
     if (this.isCommentsVisible) {
-      // this.commentService.resetComments(); // Очищаем список перед загрузкой
-      // this.commentService.loadMoreComments(this.post.id);
+      // this.commentFacade.resetComments(); // Очищаем список перед загрузкой
+      // this.commentFacade.loadMoreComments(this.post.id);
     }
     // this.isCommentsVisible = !this.isCommentsVisible;
   }
 
   onScroll(): void {
-    this.commentService.loadMore();
+    this.commentFacade.loadMore();
   }
 
   onLoadReplies(parentId: number): void {
-    this.commentService.loadReplies(parentId);
+    this.commentFacade.loadReplies(parentId);
   }
 
   loadImage(): void {
@@ -203,7 +203,7 @@ export class PostCardComponent implements OnInit, OnChanges {
       post: this.post.id,
     })
 
-    this.commentService.createComment(newReply  );
+    this.commentFacade.createComment(newReply  );
 
     this.replyText = '';
   }

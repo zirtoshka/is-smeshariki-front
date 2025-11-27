@@ -1,6 +1,6 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {CommentS} from '../model/comment';
-import {CommentService} from '../services/comment.service';
+import {CommentFacade} from '../facade/comment.facade';
 import {BehaviorSubject, map, Observable} from 'rxjs';
 import {AsyncPipe, DatePipe, Location, NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
@@ -83,14 +83,14 @@ export class CommentCard2Component implements OnInit {
     })
 
     this.replyAdded.emit(newReply);
-    this.commentService.createComment(newReply ,  this.comment.id );
+    this.commentFacade.createComment(newReply ,  this.comment.id );
 
     this.showReplyInput = false;
     this.replyText = '';
   }
 
 
-  protected commentService = inject(CommentService);
+  protected commentFacade = inject(CommentFacade);
 
   constructor(
     protected dateFormatterService: DataFormaterService,
@@ -105,10 +105,10 @@ export class CommentCard2Component implements OnInit {
     console.log(id)
     if(!this.comment || id!=0){
       // const id = Number(this.route.snapshot.paramMap.get('id'));
-      this.commentService.getCommentsById(id).subscribe({
+      this.commentFacade.getCommentsById(id).subscribe({
         next: (response) => {
 
-          this.comment = CommentS.fromBackend(response);
+          this.comment = response;
           this.carrotService.isLikeComment(this.comment.id).subscribe({
             next: (result: boolean) => {
               this.isLiked$.next(result);
@@ -125,17 +125,17 @@ export class CommentCard2Component implements OnInit {
         }
       });
     }else {
-      this.commentService.commentTree$.pipe(
+      this.commentFacade.commentTree$.pipe(
         map(tree => tree.has(this.comment.id)) //есть ли ответы
       ).subscribe(hasReplies => {
         if (hasReplies) {
           this.showReplies = true; // ответы уже загружены — сразу показать
         }
-        this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
+        this.hasMore = this.commentFacade.hasMoreRepliesMap.get(this.comment.id) === undefined;
 
       });
 
-      this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
+      this.hasMore = this.commentFacade.hasMoreRepliesMap.get(this.comment.id) === undefined;
       this.carrotService.isLikeComment(this.comment.id).subscribe({
         next: (result: boolean) => {
           this.isLiked$.next(result);
@@ -150,14 +150,14 @@ export class CommentCard2Component implements OnInit {
     this.commentAuthor$ = this.authorService.getSmesharikByLogin(this.comment.smesharik);
   }
 
-  replies$: Observable<CommentS[]> = this.commentService.commentTree$.pipe(
+  replies$: Observable<CommentS[]> = this.commentFacade.commentTree$.pipe(
     map(tree => tree.get(this.comment.id) || [])
   );
 
   loadReplies(): void {
     console.log("loadReplies for " + this.comment.id);
     this.showReplies = false
-    this.commentService.loadMoreReplies(this.comment.id);
+    this.commentFacade.loadMoreReplies(this.comment.id);
     // this.loadRepliesEvent.emit(this.comment.id);
   }
 
@@ -192,8 +192,8 @@ export class CommentCard2Component implements OnInit {
   }
 
   onScroll(): void {
-    this.hasMore = this.commentService.hasMoreRepliesMap.get(this.comment.id) === undefined;
-    this.commentService.loadMoreReplies(this.comment.id);
+    this.hasMore = this.commentFacade.hasMoreRepliesMap.get(this.comment.id) === undefined;
+    this.commentFacade.loadMoreReplies(this.comment.id);
   }
 
   handleGoBack(): void {
