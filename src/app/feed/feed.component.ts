@@ -1,11 +1,9 @@
-import {AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostService} from '../services/post.service';
 import {PostCardComponent} from '../post-card/post-card.component';
-import {BanCardComponent} from '../ban/ban-card/ban-card.component';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {Post} from '../model/post';
-import {SearchFilterComponent} from '../search-filter/search-filter.component';
 import {AuthorService} from '../author.service';
 import {forkJoin, map} from 'rxjs';
 
@@ -15,9 +13,7 @@ import {forkJoin, map} from 'rxjs';
   imports: [
     NgForOf,
     NgIf,
-    PostCardComponent,
-    BanCardComponent,
-    SearchFilterComponent
+    PostCardComponent
   ],
   providers: [PostService],
   templateUrl: './feed.component.html',
@@ -38,7 +34,7 @@ export class FeedComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollTrigger', {static: false}) scrollTrigger!: ElementRef;
   private observer!: IntersectionObserver;
 
-  protected notificationCustomService = inject(NotificationCustomService);
+  protected notificationService = inject(NotificationService);
   protected postService = inject(PostService);
   protected authorService = inject(AuthorService);
 
@@ -81,8 +77,7 @@ export class FeedComponent implements OnInit, AfterViewInit {
         }
       },
       error: (err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         this.loading = false;
       }
     });
@@ -120,11 +115,9 @@ export class FeedComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   trackById(index: number, item: Post): number {
     return item.id;
   }
-
 
   handleSearchChange(searchData: { query: string }) {
     this.searchQuery = searchData.query
@@ -146,6 +139,5 @@ export class FeedComponent implements OnInit, AfterViewInit {
   //     this.fetchPosts();
   //   }
   // }
-
 
 }

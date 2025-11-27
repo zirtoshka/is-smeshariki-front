@@ -1,47 +1,29 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
-import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {NgForOf, NgIf} from '@angular/common';
 import {ApplicationForTreatment} from '../../model/application-for-treatment';
 import {enumListToString, GeneralStatus} from '../../model/enums';
-import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {FormsModule} from '@angular/forms';
 import {NzSwitchComponent} from 'ng-zorro-antd/switch';
-import {HeaderComponent} from '../../header/header.component';
 import {ApplicationCardComponent} from '../application-card/application-card.component';
-import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
 import {BasePage} from '../../base/base-page';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
-import {PropensityFormComponent} from '../../propensity/propensity-form/propensity-form.component';
 import {ApplicationFormComponent} from '../application-form/application-form.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {ApplicationService} from '../../services/application.service';
 import {AuthService} from '../../auth-tools/auth.service';
-import {ComplaintCardComponent} from '../../complaint/complaint-card/complaint-card.component';
-import {ComplaintFormComponent} from '../../complaint/complaint-form/complaint-form.component';
 
 @Component({
   selector: 'app-doctor-page',
   standalone: true,
   imports: [
-    NzCardComponent,
     NgForOf,
-    NzCardMetaComponent,
-    NzButtonComponent,
     NgIf,
-    NzSelectComponent,
     FormsModule,
-    NzOptionComponent,
     NzSwitchComponent,
-    HeaderComponent,
     ApplicationCardComponent,
-    PropensityCardComponent,
     SearchFilterComponent,
-    PropensityFormComponent,
     ApplicationFormComponent,
-    ComplaintCardComponent,
-    ComplaintFormComponent,
-    NgClass,
+
   ],
   providers: [NzModalService],
   templateUrl: './doctor-page.component.html',
@@ -52,8 +34,6 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
   override action = "application"
 
   isMyApplications: boolean = false
-
-  // currDoctorId = 303; //todo
 
   applicationService: ApplicationService = inject(ApplicationService);
   private authService = inject(AuthService);
@@ -72,10 +52,9 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
     this.onEdit(event.item, event.item.id).then(() => {
       console.log('Подтвержден статус:', event.status, 'для заявку:', event.item.id);
     }).catch((error) => {
-      console.error("Ошибка при обновлении:", error);
+      this.notificationService.handleErrorAsync(error);
     });
   }
-
 
   handleTake(item: ApplicationForTreatment) {
     const newItem = new ApplicationForTreatment(item);
@@ -83,10 +62,9 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
     this.onEdit(newItem, newItem.id).then(() => {
       console.log('взял в обработку', item.doctor, ' заявку', item.id);
     }).catch((error) => {
-      console.error("Ошибка при обновлении:", error);
+      this.notificationService.handleErrorAsync(error);
     });
   }
-
 
   onToggleChange() {
     this.page = 0;
@@ -109,8 +87,7 @@ export class DoctorPageComponent extends BasePage<ApplicationForTreatment>  impl
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err,'Держите меня, я падаю…');
         }
       });
   }

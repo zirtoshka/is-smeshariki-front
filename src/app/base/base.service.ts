@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpContext} from '@angular/common/http';
 import {lastValueFrom, Observable} from 'rxjs';
 import {PaginatedResponse} from '../paginated-response';
 import {environment} from '../../environments/environment';
@@ -81,12 +81,13 @@ export class BaseService<T> {
     );
   }
 
-  getMessageByParams(endpoint: string, params: { [key: string]: any }) {
+  getMessageByParams(endpoint: string, params: { [key: string]: any }, options?: { context?: HttpContext }) {
     return this.httpClient.get<{ message: string }>(
       `${this.baseUrl}/${endpoint}`,
       {
         headers: this.getAuthHeaders(),
-        params: this.getHeadersFromParams(params)
+        params: this.getHeadersFromParams(params),
+        context: options?.context
       }
     );
   }

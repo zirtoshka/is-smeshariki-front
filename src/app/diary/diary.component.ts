@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {PostService} from '../services/post.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {PostMetaComponent} from '../post-meta/post-meta.component';
-import {PostCardComponent} from '../post-card/post-card.component';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {Post} from '../model/post';
 
 @Component({
@@ -12,8 +11,7 @@ import {Post} from '../model/post';
   imports: [
     NgIf,
     NgForOf,
-    PostMetaComponent,
-    PostCardComponent
+    PostMetaComponent
   ],
   providers: [PostService],
   templateUrl: './diary.component.html',
@@ -30,7 +28,7 @@ export class DiaryComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollTrigger', {static: false}) scrollTrigger!: ElementRef;
   private observer!: IntersectionObserver;
 
-  protected notificationCustomService = inject(NotificationCustomService);
+  protected notificationService = inject(NotificationService);
   protected postService = inject(PostService);
 
   ngOnInit(): void {
@@ -70,8 +68,7 @@ export class DiaryComponent implements OnInit, AfterViewInit {
         }
       },
       error: (err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         this.loading = false;
       }
     });
@@ -98,6 +95,4 @@ export class DiaryComponent implements OnInit, AfterViewInit {
   trackById(index: number, item: Post): number {
     return item.id;
   }
-
-
 }

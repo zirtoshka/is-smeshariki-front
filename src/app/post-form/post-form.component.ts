@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {PostTagComponent} from '../post-tag/post-tag.component';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
@@ -7,17 +6,14 @@ import {NzInputDirective} from 'ng-zorro-antd/input';
 import {NzColDirective} from 'ng-zorro-antd/grid';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {HttpClient} from '@angular/common/http';
 import {PostService} from '../services/post.service';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {Router} from '@angular/router';
-import {Post} from '../model/post';
 
 @Component({
   selector: 'app-post-card-form',
   standalone: true,
   imports: [
-    PostTagComponent,
     NzCardComponent,
     ReactiveFormsModule,
     NzFormLabelComponent,
@@ -40,8 +36,7 @@ export class PostFormComponent {
   imageFile: File | null = null;
 
   postService = inject(PostService);
-  protected notificationCustomService = inject(NotificationCustomService);
-
+  protected notificationService = inject(NotificationService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.postForm = this.fb.group({
@@ -82,11 +77,9 @@ export class PostFormComponent {
         this.navigateToPost(r.id)
       })
       .catch(error => {
-        this.notificationCustomService.handleErrorAsync(error, 'Держите меня, я падаю…');
-        console.error('Ошибка при создании поста:', error);
+        this.notificationService.handleErrorAsync(error, 'Держите меня, я падаю…');
       });
   }
-
 
   resetForm() {
     this.postForm.patchValue({
@@ -99,5 +92,4 @@ export class PostFormComponent {
   navigateToPost(postId: number): void {
     this.router.navigate(['/post-card', postId]);
   }
-
 }

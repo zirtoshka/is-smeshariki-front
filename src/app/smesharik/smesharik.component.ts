@@ -1,21 +1,16 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {NzCardComponent} from 'ng-zorro-antd/card';
 import {DatePipe, Location, NgIf, NgStyle} from '@angular/common';
-import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzTagComponent} from 'ng-zorro-antd/tag';
-import {Roles, Smesharik} from '../auth-tools/smesharik';
-import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {AuthorService} from '../author.service';
-import {SmesharikService} from '../services/smesharik.service';
+import {Smesharik} from '../auth-tools/smesharik';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../services/user.service';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {BackButtonComponent} from '../back-button/back-button.component';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {DataFormaterService} from '../data-formater.service';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 import {AvatarComponent} from '../avatar/avatar.component';
-import {NzDescriptionsComponent, NzDescriptionsItemComponent} from 'ng-zorro-antd/descriptions';
 
 @Component({
   selector: 'app-smesharik',
@@ -23,16 +18,12 @@ import {NzDescriptionsComponent, NzDescriptionsItemComponent} from 'ng-zorro-ant
   imports: [
     NzCardComponent,
     NgStyle,
-    NzAvatarComponent,
     NzTagComponent,
-    NzButtonComponent,
     BackButtonComponent,
     NgIf,
     NzIconDirective,
     RoleTagComponent,
-    AvatarComponent,
-    NzDescriptionsItemComponent,
-    NzDescriptionsComponent
+    AvatarComponent
   ],
   providers: [DatePipe],
   templateUrl: './smesharik.component.html',
@@ -45,7 +36,7 @@ export class SmesharikComponent implements OnInit {
   @Input() neededBack=true
 
   protected smesharikService = inject(UserService);
-  protected notificationCustomService = inject(NotificationCustomService);
+  protected notificationService = inject(NotificationService);
 
   constructor(private route: ActivatedRoute,
               private location: Location,
@@ -63,8 +54,7 @@ export class SmesharikComponent implements OnInit {
           this.smesharik = Smesharik.fromBackend(data);
         },
         error: (err) => {
-          this.notificationCustomService.handleErrorAsync(err);
-          console.error("Ошибка загрузки данных:", err);
+          this.notificationService.handleErrorAsync(err);
         }
       });
     }
@@ -103,7 +93,4 @@ export class SmesharikComponent implements OnInit {
 
     return `rgb(${R}, ${G}, ${B})`;
   }
-
-
-
 }

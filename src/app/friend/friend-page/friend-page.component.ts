@@ -2,7 +2,6 @@ import {Component, inject, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {Context, FriendCardComponent} from '../friend-card/friend-card.component';
 import {Friend} from '../../model/friend';
-import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {BasePage} from '../../base/base-page';
 import {SmesharikService} from '../../services/smesharik.service';
 import {GeneralStatus} from '../../model/enums';
@@ -13,7 +12,6 @@ import {GeneralStatus} from '../../model/enums';
   imports: [
     NgForOf,
     FriendCardComponent,
-    SearchFilterComponent,
     NgIf,
   ],
   templateUrl: './friend-page.component.html',
@@ -46,12 +44,10 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
   }
-
 
   handleRemoveFriend(friend: Friend): void {
     console.log('Удалить друга:', friend);
@@ -59,13 +55,12 @@ export class FriendPageComponent extends BasePage<Friend> implements OnInit {
       .subscribe({
         next: (response) => {
           this.items = this.items.filter(item => item.login !== friend.login);
-          this.notificationCustomService.handleSuccess(
+          this.notificationService.handleSuccess(
             "Радикально!", response.message
           )
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
 

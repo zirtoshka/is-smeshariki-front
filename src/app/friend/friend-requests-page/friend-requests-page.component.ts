@@ -4,7 +4,6 @@ import {NgForOf, NgIf} from "@angular/common";
 import {Friend} from '../../model/friend';
 import {BasePage} from '../../base/base-page';
 import {SmesharikService} from '../../services/smesharik.service';
-import {SearchFilterComponent} from '../../search-filter/search-filter.component';
 import {GeneralStatus} from '../../model/enums';
 
 @Component({
@@ -13,7 +12,6 @@ import {GeneralStatus} from '../../model/enums';
   imports: [
     FriendCardComponent,
     NgForOf,
-    SearchFilterComponent,
     NgIf,
   ],
   templateUrl: './friend-requests-page.component.html',
@@ -41,8 +39,7 @@ export class FriendRequestsPageComponent extends BasePage<Friend> implements OnI
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err,'Держите меня, я падаю…');
         }
       });
   }
@@ -51,26 +48,21 @@ export class FriendRequestsPageComponent extends BasePage<Friend> implements OnI
     this.fetchDataFromServer()
   }
 
-
   handleAddFriend(friend: Friend): void {
     console.log('Добавить друга:', friend);
     this.friendService.acceptFriend({follower: friend.login})
       .subscribe({
         next: (response:any) => {
           this.items = this.items.filter(item => item.login !== friend.login);
-          this.notificationCustomService.handleSuccess(
+          this.notificationService.handleSuccess(
             "Мамма мия! Это же... Дружище!", response.message
           )
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
   }
-
-
-
 
   protected readonly Context = Context;
   protected readonly GeneralStatus = GeneralStatus;

@@ -7,5 +7,10 @@ import en from '@angular/common/locales/ru';
 registerLocaleData(en);
 
 bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
-
+  .catch((err) => {
+    const fallbackMessage = 'Не удалось запустить приложение. Обновите страницу или попробуйте позже.';
+    if (typeof document !== 'undefined') {
+      document.body.innerText = fallbackMessage;
+    }
+    throw err;
+  });

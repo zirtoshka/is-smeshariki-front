@@ -2,8 +2,6 @@ import {Component, inject, OnInit} from '@angular/core';
 import {BasePage} from '../../base/base-page';
 import {Word} from '../../model/triggerword';
 import {WordService} from '../../services/word.service';
-import {BanCardComponent} from '../../ban/ban-card/ban-card.component';
-import {BanFormComponent} from '../../ban/ban-form/ban-form.component';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {SearchFilterComponent} from '../../search-filter/search-filter.component';
@@ -15,8 +13,6 @@ import {NzModalService} from 'ng-zorro-antd/modal';
   selector: 'app-word-page',
   standalone: true,
   imports: [
-    BanCardComponent,
-    BanFormComponent,
     NgForOf,
     NzButtonComponent,
     SearchFilterComponent,
@@ -54,14 +50,12 @@ export class WordPageComponent  extends BasePage<Word> implements OnInit{
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err,'Держите меня, я падаю…');
         }
       });
   }
 
   trackById(index: number, item: Word) {
     return item.id;
-
   }
 }

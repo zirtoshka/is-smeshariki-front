@@ -1,12 +1,9 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
-import {NzSwitchComponent} from 'ng-zorro-antd/switch';
 import {FormsModule} from '@angular/forms';
 import {BanCardComponent} from '../ban-card/ban-card.component';
 import {Ban} from '../../model/ban';
-import {PropensityCardComponent} from '../../propensity/propensity-card/propensity-card.component';
 import {BasePage} from '../../base/base-page';
-import {ApplicationFormComponent} from "../../application/application-form/application-form.component";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {SearchFilterComponent} from "../../search-filter/search-filter.component";
 import {NzModalService} from 'ng-zorro-antd/modal';
@@ -20,11 +17,8 @@ import {BanService} from '../../services/ban.service';
   imports: [
     NgForOf,
     NgIf,
-    NzSwitchComponent,
     FormsModule,
     BanCardComponent,
-    PropensityCardComponent,
-    ApplicationFormComponent,
     NzButtonComponent,
     SearchFilterComponent,
     BanFormComponent
@@ -61,11 +55,8 @@ export class BanPageComponent extends BasePage<Ban> implements OnInit {
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err,'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err,'Держите меня, я падаю…');
         }
       });
   }
-
-
 }

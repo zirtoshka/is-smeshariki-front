@@ -20,7 +20,6 @@ export class FriendReqFromMeComponent extends BasePage<Friend> implements OnInit
   override action = "friend"
   friendService: SmesharikService = inject(SmesharikService);
 
-
   override preparing(item: any): any {
     return new Friend(item).toBackendJson();
   }
@@ -44,11 +43,8 @@ export class FriendReqFromMeComponent extends BasePage<Friend> implements OnInit
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
   }
-
-
 }

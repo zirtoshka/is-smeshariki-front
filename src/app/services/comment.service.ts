@@ -1,11 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {CommentS} from '../model/comment';
-import {BehaviorSubject, forkJoin, map, mergeMap, Observable, switchMap, tap, withLatestFrom} from 'rxjs';
+import {BehaviorSubject, forkJoin, map, mergeMap, Observable, switchMap, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {BaseService} from '../base/base.service';
 import {CarrotService} from './carrot.service';
 import {AuthorService} from '../author.service';
-import {Post} from '../model/post';
+import {NotificationService} from './notification.service';
 
 @Injectable({
   providedIn: 'any'
@@ -23,11 +23,10 @@ export class CommentService {
   private baseService = inject(BaseService<CommentS>);
   protected carrotService = inject(CarrotService);
   protected authorService = inject(AuthorService);
-
+  private notificationService = inject(NotificationService);
 
   private replyPages = new Map<number, number>(); // счетчик страниц для каждого комментария
   hasMoreRepliesMap = new Map<number, boolean>(); // для проверки, есть ли еще ответы для каждого комментария
-
 
   constructor(private http: HttpClient) {
   }
@@ -110,7 +109,7 @@ export class CommentService {
     )
       .subscribe({
         next: (updatedComments) => this.commentsSubject.next(updatedComments),
-        error: (err) => console.error('Ошибка загрузки комментариев:', err)
+        error: () => this.notificationService.showError('Ошибка загрузки комментариев')
       });
   }
 
@@ -175,10 +174,9 @@ export class CommentService {
         return currentTree.set(parentId, [...existingReplies, ...newReplies]);
       })).subscribe({
       next: (updatedTree) => this.commentTreeSubject.next(updatedTree),
-      error: (err) => console.error(`Ошибка загрузки ответов для ${parentId}:`, err)
+      error: () => this.notificationService.showError(`Ошибка загрузки ответов для комментария ${parentId}`)
     });
   }
-
 
   createComment(comment: CommentS, parentId: number | null = null) {
     const data = comment.toBackendJson()
@@ -192,7 +190,6 @@ export class CommentService {
         }
       }
     );
-
   }
 
   private addCommentToTree(newComment: CommentS): void {
@@ -210,10 +207,9 @@ export class CommentService {
           this.commentsSubject.next([newComment,...currentComments]);
         }
       },
-      error: err => console.error(`Ошибка загрузки данных для комментария ${newComment.id}:`, err)
+      error: () => this.notificationService.showError(`Ошибка загрузки данных для комментария ${newComment.id}`)
     });
   }
-
 
   private addReplyToTree(parentId: number, newComment: CommentS): void {
     const currentTree = new Map(this.commentTreeSubject.value);
@@ -231,13 +227,11 @@ export class CommentService {
         currentTree.set(parentId, existingReplies);
         this.commentTreeSubject.next(currentTree);
       },
-      error: err => console.error(`Ошибка загрузки данных для комментария ${newComment.id}:`, err)
+      error: () => this.notificationService.showError(`Ошибка загрузки данных для комментария ${newComment.id}`)
     });
   }
 
-
   getCommentsByPostId(postId: number | null) {
-
     if (postId == null) {
       return [];
     }

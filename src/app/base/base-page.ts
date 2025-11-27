@@ -1,11 +1,8 @@
-import {GeneralStatus, getEnumKeyByValue} from '../model/enums';
+import {GeneralStatus} from '../model/enums';
 import {BaseService} from './base.service';
 import {Directive, HostListener, inject} from '@angular/core';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {HasId} from '../model/hasid';
-import {Complaint} from '../model/complaint';
-import {throwError} from 'rxjs';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {Roles} from '../auth-tools/smesharik';
 import {DOCUMENT} from '@angular/common';
 import {WA_WINDOW} from '@ng-web-apis/common';
@@ -29,18 +26,15 @@ export abstract class BasePage<T extends HasId> {
   isEditMode: boolean = false;
   isVisible: boolean = false;
   baseService: BaseService<T> = inject(BaseService <T>);
-  protected notificationCustomService = inject(NotificationCustomService);
-
+  protected notificationService = inject(NotificationService);
 
   selectedStatuses: any = [];
   searchQuery: string = '';
-
 
   openAddForm() {
     this.itemForEdit = null
     this.isEditMode = false
     this.isVisible = true
-
   }
 
   preparing(item: any): any {
@@ -52,37 +46,35 @@ export abstract class BasePage<T extends HasId> {
     try {
       const response = await this.baseService.createItem<any>(this.action, data)
       this.items.push(response as T);
-      this.notificationCustomService.handleSuccess(
+      this.notificationService.handleSuccess(
         "Ай молодца!",
         "сохраниние успешно"
       )
     } catch (error: any) {
-      this.notificationCustomService.handleErrorAsync(
+      this.notificationService.handleErrorAsync(
         error
       )
     }
     this.isVisible = false
   }
-
 
   async onEdit(item: any, id?: number) {
     let data = this.preparing(item);
     const complaintId = id ?? this.itemForEdit?.id;
     try {
       const response = await this.baseService.updateItem<any>(this.action, data, complaintId);
-      this.notificationCustomService.handleSuccess(
+      this.notificationService.handleSuccess(
         "Оба-на!",
         "обновление успешно"
       )
       this.replaceItemById(complaintId, response as T);
     } catch (error: any) {
-      this.notificationCustomService.handleErrorAsync(
+      this.notificationService.handleErrorAsync(
         error
       )
     }
     this.isVisible = false
   }
-
 
   onCancel() {
     this.isVisible = false
@@ -105,12 +97,12 @@ export abstract class BasePage<T extends HasId> {
       if (!this.allLoaded) {
         this.fetchDataFromServer()
       }
-      this.notificationCustomService.handleSuccess(
+      this.notificationService.handleSuccess(
         "Хо-хо!",
         "удаление успешно"
       )
     } catch (error: any) {
-      this.notificationCustomService.handleErrorAsync(
+      this.notificationService.handleErrorAsync(
         error
       )
     }
@@ -125,7 +117,6 @@ export abstract class BasePage<T extends HasId> {
     // this.items = []
     this.fetchDataFromServer(true);
   }
-
 
   fetchHelper(newItems: T[], replacementIsNeeded: boolean = false) {
     if (replacementIsNeeded) {
@@ -149,15 +140,16 @@ export abstract class BasePage<T extends HasId> {
   onScroll(): void {
     if (this.loading || this.allLoaded) return;
 
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.documentElement.scrollHeight - 200;
+    const win = this.window as Window & {innerHeight?: number; scrollY?: number};
+    const docElement = (this.document as any)?.documentElement as HTMLElement | undefined;
+    const scrollPosition = (win.innerHeight ?? 0) + (win.scrollY ?? 0);
+    const threshold = (docElement?.scrollHeight ?? 0) - 200;
 
     if (scrollPosition >= threshold) {
       this.loading = true;
       this.fetchDataFromServer();
     }
   }
-
 
   replaceItemById(id: number | null | undefined, newItem: T) {
     if (!id) return

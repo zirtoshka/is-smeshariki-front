@@ -51,8 +51,7 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
           this.fetchHelper(newItems, replacementIsNeeded)
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
   }
@@ -112,13 +111,12 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
     console.log('за]вка handleMakeFriend:', friend);
     this.smesharikService.makeReqFriend({followee: friend.login})
       .then((response: any) => {
-        this.notificationCustomService.handleSuccess(
+        this.notificationService.handleSuccess(
           "Туки-туки!", `заявка в друзья полетела к смешарику с логином ${friend.login}`
         );
       })
       .catch((err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
       });
 
   }
@@ -133,14 +131,13 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
           item.login === friend.login ? {...item, role: Roles.ADMIN} as Friend : item
         );
 
-        this.notificationCustomService.handleSuccess(
+        this.notificationService.handleSuccess(
           "Зови меня Хозяин – не ошибёшься!",
           `смешарик с логином ${friend.login} теперь админ`
         );
       })
       .catch((err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
       });
   }
 
@@ -151,14 +148,13 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
         this.items = this.items.map(item =>
           item.login === friend.login ? {...item, role: Roles.DOCTOR} as Friend : item
         );
-        this.notificationCustomService.handleSuccess(
+        this.notificationService.handleSuccess(
           "Без болезни и здоровью не рад",
           `смешарик с логином ${friend.login} теперь доктор`
         );
       })
       .catch((err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
       });
   }
 
@@ -169,14 +165,13 @@ export class SmesharikiSearchPageComponent extends BasePage<Friend> implements O
         this.items = this.items.map(item =>
           item.login === friend.login ? {...item, role: Roles.USER} as Friend : item
         );
-        this.notificationCustomService.handleSuccess(
+        this.notificationService.handleSuccess(
           "Мода меняется",
           `смешарик с логином ${friend.login} теперь просто смешарик`
         );
       })
       .catch((err: any) => {
-        console.error('Ошибка при загрузке:', err);
-        this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
       });
   }
 

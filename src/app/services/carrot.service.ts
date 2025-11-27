@@ -1,12 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {Carrot} from '../model/carrot';
 import {BaseService} from '../base/base.service';
-import {Post} from '../model/post';
-import {catchError, map, Observable, of, throwError} from 'rxjs';
-import {PaginatedResponse} from '../paginated-response';
-import {Complaint} from '../model/complaint';
-import {Ban} from '../model/ban';
-import {HttpErrorResponse} from '@angular/common/http';
+import {catchError, map, Observable, of} from 'rxjs';
+import {HttpContext, HttpErrorResponse} from '@angular/common/http';
+import {IGNORE_ERROR_NOTIFICATION_STATUSES} from '../error-handling.tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +20,6 @@ export class CarrotService {
 
     return new Carrot(id, smesharikId, postId, commentId, creationDate);
   });
-
 
   private baseService = inject(BaseService);
 
@@ -53,13 +49,13 @@ export class CarrotService {
   }
 
   isLiked(params: any): Observable<boolean> {
-    return this.baseService.getMessageByParams(`carrot/check`, params).pipe(
+    const context = new HttpContext().set(IGNORE_ERROR_NOTIFICATION_STATUSES, [404]);
+    return this.baseService.getMessageByParams(`carrot/check`, params, {context}).pipe(
       map((response) => response.message.includes("выставлен")),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 404) {
           return of(false);
         }
-        console.error("Ошибка при проверке лайка:", error);
         return of(false);
       })
     );

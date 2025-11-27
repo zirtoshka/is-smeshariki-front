@@ -12,16 +12,15 @@ import {
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
-  ReactiveFormsModule, ValidationErrors,
+  ReactiveFormsModule,
+  ValidationErrors,
   Validators
 } from '@angular/forms';
-import {RouterLink} from '@angular/router';
 import {UserService} from '../services/user.service';
-import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {RoleTagComponent} from '../role-tag/role-tag.component';
 import {AuthService} from '../auth-tools/auth.service';
 import {NzColorPickerComponent} from 'ng-zorro-antd/color-picker';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 
 @Component({
   selector: 'app-my-smesharik-page',
@@ -40,8 +39,6 @@ import {NotificationCustomService} from '../notification-custom.service';
     NzInputGroupComponent,
     NzRowDirective,
     ReactiveFormsModule,
-    RouterLink,
-    NzTagComponent,
     RoleTagComponent,
     NzColorPickerComponent
   ],
@@ -71,7 +68,7 @@ export class SmesharikPageComponent implements OnInit {
     confirmPassword: FormControl<string>;
   }>;
 
-  protected notificationCustomService = inject(NotificationCustomService);
+  protected notificationService = inject(NotificationService);
 
   constructor(private fb: NonNullableFormBuilder) {
     this.validateForm = this.fb.group({
@@ -110,8 +107,7 @@ export class SmesharikPageComponent implements OnInit {
         this.initForm();
       },
       error: (err) => {
-        this.notificationCustomService.handleErrorAsync(err);
-        console.error("Ошибка загрузки данных:", err);
+        this.notificationService.handleErrorAsync(err);
       }
     });
   }
@@ -177,7 +173,7 @@ export class SmesharikPageComponent implements OnInit {
         this.userService.editSmesharik(this.smesharik.login, body).subscribe({
           next: (data) => {
             this.smesharik = Smesharik.fromBackend(data);
-            this.notificationCustomService.handleSuccess(
+            this.notificationService.handleSuccess(
               "Оба-на!",
               "обновление успешно"
             )
@@ -186,7 +182,7 @@ export class SmesharikPageComponent implements OnInit {
             this.isEditing = false;
           },
           error: (err) => {
-            console.error("Ошибка загрузки данных:", err);
+            this.notificationService.handleErrorAsync(err);
           }
         });
 
@@ -217,11 +213,11 @@ export class SmesharikPageComponent implements OnInit {
       const {oldPassword, newPassword} = this.passwordForm.value;
       this.userService.changePassword(this.smesharik.login, oldPassword, newPassword).subscribe({
         next: () => {
-          this.notificationCustomService.handleSuccess("Радикально!", "пароль успешно изменен")
+          this.notificationService.handleSuccess("Радикально!", "пароль успешно изменен")
           this.toggleChangePassword();
         },
         error: (err) => {
-          this.notificationCustomService.handleErrorAsync(err)
+          this.notificationService.handleErrorAsync(err)
         }
       });
     } else {
@@ -242,7 +238,6 @@ export class SmesharikPageComponent implements OnInit {
 
     return newPassword.value === confirmPassword.value ? null : {passwordsNotMatching: true};
   }
-
 
   saveIsAvailable() {
 

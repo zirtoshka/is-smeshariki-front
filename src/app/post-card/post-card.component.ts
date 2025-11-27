@@ -1,9 +1,7 @@
 import {Component, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
-import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AsyncPipe, DatePipe, Location, NgForOf, NgIf} from '@angular/common';
-import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {Post} from '../model/post';
 import {PostService} from '../services/post.service';
 import {ActivatedRoute} from '@angular/router';
@@ -11,25 +9,20 @@ import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.servi
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
-import {Likeable} from '../base/likeable';
 import {PostTagComponent} from '../post-tag/post-tag.component';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {BackButtonComponent} from '../back-button/back-button.component';
 import {DataFormaterService} from '../data-formater.service';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {CarrotService} from '../services/carrot.service';
 import {CommentCard2Component} from '../comment-card2/comment-card2.component';
-import {HttpClient} from '@angular/common/http';
-import {BaseService} from '../base/base.service';
 import {AuthorService} from '../author.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AvatarComponent} from '../avatar/avatar.component';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Smesharik} from '../auth-tools/smesharik';
-import {NzImageDirective, NzImageService} from 'ng-zorro-antd/image';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
-import {NzContextMenuService, NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
-import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from 'ng-zorro-antd/menu';
+import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 import {DopMenuComponent} from '../dop-menu/dop-menu.component';
 
 
@@ -38,10 +31,8 @@ import {DopMenuComponent} from '../dop-menu/dop-menu.component';
   standalone: true,
   imports: [
     NzCardComponent,
-    NzAvatarComponent,
     NzIconDirective,
     NgIf,
-    NzTagComponent,
     CarrotCountComponent,
     NgForOf,
     PostTagComponent,
@@ -53,13 +44,7 @@ import {DopMenuComponent} from '../dop-menu/dop-menu.component';
     ReactiveFormsModule,
     FormsModule,
     AvatarComponent,
-    NzImageDirective,
     NzModalComponent,
-    NzDropdownMenuComponent,
-    NzMenuItemComponent,
-    NzMenuDirective,
-    NzSubMenuComponent,
-    NzDropDownDirective,
     DopMenuComponent
   ],
   providers: [PostService, DatePipe, CommentService, NzModalService, NzContextMenuService],
@@ -74,14 +59,12 @@ export class PostCardComponent implements OnInit, OnChanges {
   replyText = '';
 
   @Input() isFeed = false
-  protected notificationCustomService = inject(NotificationCustomService);
+  protected notificationService = inject(NotificationService);
   protected carrotService = inject(CarrotService);
   protected authorService = inject(AuthorService);
 
-
   @Input() post!: Post;
   postAuthor$!: Observable<Smesharik>;
-
 
   protected commentService = inject(CommentService);
   comments$ = this.commentService.comments$;
@@ -122,8 +105,8 @@ export class PostCardComponent implements OnInit, OnChanges {
               this.isLiked$.next(result);
               this.setCarrotIcon();
             },
-            error: (err) => {
-              console.error('Ошибка при получении лайков:', err);
+            error: () => {
+              this.notificationService.showError('Ошибка при получении лайков');
             }
           });
           this.postAuthor$ = this.authorService.getSmesharikByLogin(this.post.author);
@@ -131,8 +114,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           this.loadImage();
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
 
@@ -143,20 +125,15 @@ export class PostCardComponent implements OnInit, OnChanges {
           this.isLiked$.next(result);
           this.setCarrotIcon();
         },
-        error: (err) => {
-          console.error('Ошибка при получении лайков:', err);
+        error: () => {
+          this.notificationService.showError('Ошибка при получении лайков');
         }
       });
       if (!this.post.smesharikAuthor ) {
         this.postAuthor$ = this.authorService.getSmesharikByLogin(this.post.author);
-
       }
-
       this.loadImage();
-
     }
-
-
   }
 
 
@@ -166,7 +143,6 @@ export class PostCardComponent implements OnInit, OnChanges {
       this.isCommentExisted = this.commentsList.length > 0;
     }
   }
-
 
   toggleLike() {
     if (!this.isLiked$.value) {
@@ -212,11 +188,9 @@ export class PostCardComponent implements OnInit, OnChanges {
     this.commentService.loadReplies(parentId);
   }
 
-
   loadImage(): void {
     if (!this.post.pathToImage) return
     this.postService.downloadImage(this.post.pathToImage).subscribe((imageBlob: Blob) => {
-        // Создаем URL для blob
       this.imageUrl = URL.createObjectURL(imageBlob);
     });
   }

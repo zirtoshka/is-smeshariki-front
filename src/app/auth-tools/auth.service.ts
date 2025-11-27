@@ -3,10 +3,10 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {catchError, lastValueFrom, throwError} from 'rxjs';
 import {Token} from './token';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Smesharik} from './smesharik';
 import {environment} from '../../environments/environment';
 import {AuthFacade} from './auth.facade';
+import {NotificationService} from '../services/notification.service';
 
 
 const LOGIN_PATH = "login"
@@ -18,9 +18,8 @@ export class AuthService {
   private readonly baseUrl = environment.authBaseUrl;
   private httpClient = inject(HttpClient);
   private router = inject(Router);
-  private notificationService = inject(NzNotificationService);
+  private notificationService = inject(NotificationService);
   private authFacade = inject(AuthFacade);
-
 
   logOut() {
     this.httpClient.post<void>(`${this.baseUrl}/logout`, {})
@@ -59,9 +58,8 @@ export class AuthService {
         this.authFacade.setRole(smesharik.role);
         this.router.navigate(['diary']).then(() => {
           console.log('Navigation to home successful');
-        }).catch(err => {
-          // this.messageService.createErrorNotification();
-          console.error('Navigation failed', err);
+        }).catch(() => {
+          this.notificationService.showError('Не удалось открыть дневник');
         });
       });
   }
@@ -77,7 +75,6 @@ export class AuthService {
       });
   }
 
-
   logIn(login: string, password: string) {
     return this.postData({login, password}, "signin");
   }
@@ -87,31 +84,7 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 400 && error.error) {
-      const errors = error.error;
-      if (typeof errors === 'object') {
-        Object.entries(errors).forEach(([field, message]) => {
-          this.notificationService.error(
-            `укуси меня пчела`,
-            `${message}`,
-            {nzDuration: 5000}
-          );
-        });
-      } else {
-        this.showGenericError();
-      }
-    } else {
-      this.showGenericError();
-    }
-
+    this.notificationService.handleHttpError(error);
     return throwError(() => new Error('Что-то пошло не так, попробуйте позже.'));
-  }
-
-  private showGenericError() {
-    this.notificationService.error(
-      'ошибка',
-      'что-то пошло не так, попробуйте позже.',
-      {nzDuration: 5000}
-    );
   }
 }

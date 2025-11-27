@@ -1,64 +1,42 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {CommentS} from '../model/comment';
 import {CommentService} from '../services/comment.service';
-import {BehaviorSubject, map, Observable, tap} from 'rxjs';
-import {AsyncPipe, DatePipe, Location, NgClass, NgForOf, NgIf} from '@angular/common';
-import {NzListComponent, NzListItemComponent} from 'ng-zorro-antd/list';
+import {BehaviorSubject, map, Observable} from 'rxjs';
+import {AsyncPipe, DatePipe, Location, NgForOf, NgIf} from '@angular/common';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {NzCommentComponent, NzCommentContentDirective} from 'ng-zorro-antd/comment';
-import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
 import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.service';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {CarrotService} from '../services/carrot.service';
 import {DataFormaterService} from '../data-formater.service';
-import {NzBadgeComponent} from 'ng-zorro-antd/badge';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {AuthorService} from '../author.service';
-import {NotificationCustomService} from '../notification-custom.service';
+import {NotificationService} from '../services/notification.service';
 import {BackButtonComponent} from '../back-button/back-button.component';
 import {AvatarComponent} from '../avatar/avatar.component';
 import {Smesharik} from '../auth-tools/smesharik';
-import {NzTagComponent} from 'ng-zorro-antd/tag';
 import {DopMenuComponent} from "../dop-menu/dop-menu.component";
 import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-comment-card2',
   standalone: true,
-    imports: [
-        NgForOf,
-        NgIf,
-        NzListItemComponent,
-        NzListComponent,
-        NzButtonComponent,
-        NzCommentContentDirective,
-        NzAvatarComponent,
-        NzCommentComponent,
-        NzCardComponent,
-        AsyncPipe,
-        CarrotCountComponent,
-        NzIconDirective,
-        NzCardMetaComponent,
-        NgClass,
-        NzBadgeComponent,
-        FormsModule,
-        BackButtonComponent,
-        AvatarComponent,
-        NzTagComponent,
-        DopMenuComponent
-    ],
+  imports: [
+    NgForOf,
+    NgIf,
+    NzButtonComponent,
+    NzCardComponent,
+    AsyncPipe,
+    CarrotCountComponent,
+    NzIconDirective,
+    NzCardMetaComponent,
+    FormsModule,
+    BackButtonComponent,
+    AvatarComponent,
+    DopMenuComponent
+  ],
   providers: [DatePipe, NzModalService],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './comment-card2.component.html',
@@ -86,11 +64,9 @@ export class CommentCard2Component implements OnInit {
   showReplyInput = false;
   replyText = '';
   protected authorService = inject(AuthorService);
-  protected notificationCustomService = inject(NotificationCustomService);
-
+  protected notificationService = inject(NotificationService);
 
   hasMore: boolean | undefined = true;
-
 
   toggleReply() {
     this.showReplyInput = !this.showReplyInput;
@@ -116,8 +92,6 @@ export class CommentCard2Component implements OnInit {
 
   protected commentService = inject(CommentService);
 
-
-
   constructor(
     protected dateFormatterService: DataFormaterService,
     private route: ActivatedRoute,
@@ -125,7 +99,6 @@ export class CommentCard2Component implements OnInit {
     private iconService: IconService,
   ) {
   }
-
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -141,15 +114,14 @@ export class CommentCard2Component implements OnInit {
               this.isLiked$.next(result);
               this.setCarrotIcon();
             },
-            error: (err) => {
-              console.error('Ошибка при получении лайков:', err);
+            error: () => {
+              this.notificationService.showError('Ошибка при получении лайков');
             }
           });
           this.commentAuthor$ = this.authorService.getSmesharikByLogin(this.comment.smesharik);
         },
         error: (err: any) => {
-          console.error('Ошибка при загрузке:', err);
-          this.notificationCustomService.handleErrorAsync(err, 'Держите меня, я падаю…');
+          this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
         }
       });
     }else {
@@ -169,17 +141,14 @@ export class CommentCard2Component implements OnInit {
           this.isLiked$.next(result);
           this.setCarrotIcon();
         },
-        error: (err) => {
-          console.error('Ошибка при получении лайков:', err);
+        error: () => {
+          this.notificationService.showError('Ошибка при получении лайков');
         }
       });
 
     }
     this.commentAuthor$ = this.authorService.getSmesharikByLogin(this.comment.smesharik);
-
-
   }
-
 
   replies$: Observable<CommentS[]> = this.commentService.commentTree$.pipe(
     map(tree => tree.get(this.comment.id) || [])
@@ -195,7 +164,6 @@ export class CommentCard2Component implements OnInit {
   setCarrotIcon() {
     this.iconCarrot = this.isLiked$.value ? carrotTouchedIcon : carrotIcon;
   }
-
 
   toggleLike() {
     if (!this.isLiked$.value) {
