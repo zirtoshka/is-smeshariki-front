@@ -1,14 +1,10 @@
-<div *ngIf="loading && items.length === 0" class="loading">загрузка записей...</div>
-<div *ngIf="error" class="error">ошибка при загрузке записей</div>
+<ng-container *ngIf="posts$ | async as posts">
+  <div *ngIf="(loading$ | async) && posts.length === 0" class="loading">загрузка записей...</div>
+  <div *ngIf="(error$ | async)" class="error">ошибка при загрузке записей</div>
 
+  <div class="post-feed">
+    <app-post-card [isFeed]="true" *ngFor="let item of posts; trackBy: trackById" [post]="item"></app-post-card>
+    <div #scrollTrigger class="scroll-trigger"></div> <!-- Триггер в конце списка -->
+  </div>
+</ng-container>
 
-<div class="post-feed">
-  <app-post-card [isFeed]="true" *ngFor="let item of items; trackBy: trackById" [post]="item"></app-post-card>
-  <div #scrollTrigger class="scroll-trigger"></div> <!-- Триггер в конце списка -->
-
-</div>
-
-
-
-<!--<div *ngIf="loading && items.length > 0" class="loading-more">загрузка...</div>-->
-<!--<div *ngIf="allLoaded" class="end-of-feed">вы достигли конца дневника</div>-->

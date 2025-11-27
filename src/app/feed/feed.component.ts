@@ -1,11 +1,8 @@
 import {AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {NgForOf, NgIf} from '@angular/common';
-import {PostService} from '../services/post.service';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {PostCardComponent} from '../post-card/post-card.component';
-import {NotificationService} from '../services/notification.service';
 import {Post} from '../model/post';
-import {AuthorService} from '../author.service';
-import {forkJoin, map} from 'rxjs';
+import {PostFacade} from '../facade/post.facade';
 
 @Component({
   selector: 'app-feed',
@@ -13,34 +10,29 @@ import {forkJoin, map} from 'rxjs';
   imports: [
     NgForOf,
     NgIf,
+    AsyncPipe,
     PostCardComponent
   ],
-  providers: [PostService],
+  providers: [PostFacade],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
 export class FeedComponent implements OnInit, AfterViewInit {
-  items: any[] = [];
-
-  loading = false;
-  error = false;
-
   searchQuery: string = '';
-
-  page = 0; // Текущая страница
-  allLoaded = false; // Флаг окончания подгрузки
-
 
   @ViewChild('scrollTrigger', {static: false}) scrollTrigger!: ElementRef;
   private observer!: IntersectionObserver;
 
-  protected notificationService = inject(NotificationService);
-  protected postService = inject(PostService);
-  protected authorService = inject(AuthorService);
+  protected postFacade = inject(PostFacade);
+
+  readonly posts$ = this.postFacade.posts$;
+  readonly loading$ = this.postFacade.loading$;
+  readonly error$ = this.postFacade.error$;
+  readonly allLoaded$ = this.postFacade.allLoaded$;
 
 
   ngOnInit(): void {
-    this.fetchPosts();
+    this.postFacade.initFeed();
   }
 
 
@@ -48,10 +40,10 @@ export class FeedComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       if (this.scrollTrigger) {
         this.observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting && !this.loading && !this.allLoaded) {
-            this.fetchPosts();
+          if (entries[0].isIntersecting) {
+            this.postFacade.loadNext();
           }
-        }, { threshold: 1.0 });
+        }, {threshold: 1.0});
 
         this.observer.observe(this.scrollTrigger.nativeElement);
       }
@@ -59,71 +51,13 @@ export class FeedComponent implements OnInit, AfterViewInit {
 
   }
 
-  fetchPosts(replacementIsNeeded: boolean = false): void {
-    if (this.loading) return;
-
-    this.loading = true;
-
-    this.postService.getFeed({
-      page: this.page,
-      filter: this.searchQuery,
-    }).subscribe({
-      next: (response) => {
-        const newItems = response.content.map(data => Post.fromBackend(data));
-        this.fetchHelper(newItems, replacementIsNeeded);
-
-        if (response.totalPages - response.currentPage === 1) {
-          this.allLoaded = true;
-        }
-      },
-      error: (err: any) => {
-        this.notificationService.handleErrorAsync(err, 'Держите меня, я падаю…');
-        this.loading = false;
-      }
-    });
-  }
-
-  fetchHelper(newItems: Post[], replacementIsNeeded: boolean = false): void {
-    if (replacementIsNeeded) {
-      this.items = [];
-      this.page = 0;
-    }
-
-    let uniqueNewItems = newItems.filter(
-      newItem => !this.items.some(existingItem => existingItem.id === newItem.id)
-    );
-
-    if (uniqueNewItems.length) {
-
-      const authorRequests = uniqueNewItems.map(item =>
-
-        this.authorService.getSmesharikByLogin(item.author).pipe(
-          map(author => ({...item, smesharikAuthor: null})
-          )
-        )
-
-      );
-
-      forkJoin(authorRequests).subscribe(updatedItems => {
-        this.items.push(...updatedItems);
-        this.page++;
-        this.loading = false;
-      });
-    } else {
-      this.allLoaded = true;
-      this.loading = false;
-    }
-  }
-
   trackById(index: number, item: Post): number {
     return item.id;
   }
 
   handleSearchChange(searchData: { query: string }) {
-    this.searchQuery = searchData.query
-    this.page = 0;
-    this.allLoaded = false
-    this.fetchPosts(true);
+    this.searchQuery = searchData.query;
+    this.postFacade.updateFeedQuery(searchData.query);
   }
 
   //

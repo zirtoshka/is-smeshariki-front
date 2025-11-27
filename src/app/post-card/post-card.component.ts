@@ -3,7 +3,7 @@ import {NzCardComponent, NzCardMetaComponent} from 'ng-zorro-antd/card';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AsyncPipe, DatePipe, Location, NgForOf, NgIf} from '@angular/common';
 import {Post} from '../model/post';
-import {PostService} from '../services/post.service';
+import {PostDataService} from '../data-access/post-data.service';
 import {ActivatedRoute} from '@angular/router';
 import {carrotIcon, carrotTouchedIcon, IconService} from '../services/icon.service';
 import {CarrotCountComponent} from '../carrot-count/carrot-count.component';
@@ -19,7 +19,7 @@ import {CommentCard2Component} from '../comment-card2/comment-card2.component';
 import {AuthorService} from '../author.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AvatarComponent} from '../avatar/avatar.component';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {Smesharik} from '../auth-tools/smesharik';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
@@ -47,7 +47,7 @@ import {DopMenuComponent} from '../dop-menu/dop-menu.component';
     NzModalComponent,
     DopMenuComponent
   ],
-  providers: [PostService, DatePipe, CommentFacade, NzModalService, NzContextMenuService],
+  providers: [DatePipe, CommentFacade, NzModalService, NzContextMenuService],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
@@ -77,7 +77,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService,
+    private postDataService: PostDataService,
     private location: Location,
     private iconService: IconService,
     protected dateFormatterService: DataFormaterService,
@@ -93,9 +93,9 @@ export class PostCardComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     if (!this.post) {
       const id = Number(this.route.snapshot.paramMap.get('id'));
-      this.postService.getPostById(id).subscribe({
+      this.postDataService.getPostById(id).subscribe({
         next: (response) => {
-          this.post = Post.fromBackend(response);
+          this.post = response;
           // this.commentsList = this.commentService.getCommentsByPostId(this.post.id);
           this.isCommentExisted = this.commentsList.length > 0;
 
@@ -109,7 +109,7 @@ export class PostCardComponent implements OnInit, OnChanges {
               this.notificationService.showError('Ошибка при получении лайков');
             }
           });
-          this.postAuthor$ = this.authorService.getSmesharikByLogin(this.post.author);
+          this.setPostAuthorStream();
 
           this.loadImage();
         },
@@ -129,9 +129,7 @@ export class PostCardComponent implements OnInit, OnChanges {
           this.notificationService.showError('Ошибка при получении лайков');
         }
       });
-      if (!this.post.smesharikAuthor ) {
-        this.postAuthor$ = this.authorService.getSmesharikByLogin(this.post.author);
-      }
+      this.setPostAuthorStream();
       this.loadImage();
     }
   }
@@ -141,6 +139,7 @@ export class PostCardComponent implements OnInit, OnChanges {
     if (changes['post']) {
       // this.commentsList = this.commentFacade.getCommentsByPostId(this.post.id);
       this.isCommentExisted = this.commentsList.length > 0;
+      this.setPostAuthorStream();
     }
   }
 
@@ -190,7 +189,7 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   loadImage(): void {
     if (!this.post.pathToImage) return
-    this.postService.downloadImage(this.post.pathToImage).subscribe((imageBlob: Blob) => {
+      this.postDataService.downloadImage(this.post.pathToImage).subscribe((imageBlob: Blob) => {
       this.imageUrl = URL.createObjectURL(imageBlob);
     });
   }
@@ -220,5 +219,14 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
     this.nzContextMenuService.create($event, menu);
+  }
+
+  private setPostAuthorStream(): void {
+    if (!this.post) {
+      return;
+    }
+    this.postAuthor$ = this.post.smesharikAuthor
+      ? of(this.post.smesharikAuthor)
+      : this.authorService.getSmesharikByLogin(this.post.author);
   }
 }

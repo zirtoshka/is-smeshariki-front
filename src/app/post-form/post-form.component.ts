@@ -6,7 +6,7 @@ import {NzInputDirective} from 'ng-zorro-antd/input';
 import {NzColDirective} from 'ng-zorro-antd/grid';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {PostService} from '../services/post.service';
+import {PostDataService} from '../data-access/post-data.service';
 import {NotificationService} from '../services/notification.service';
 import {Router} from '@angular/router';
 
@@ -27,7 +27,7 @@ import {Router} from '@angular/router';
     NzButtonComponent,
     NzFormDirective
   ],
-  providers: [PostService],
+  providers: [],
   templateUrl: './post-form.component.html',
   styleUrl: './post-form.component.css'
 })
@@ -35,7 +35,7 @@ export class PostFormComponent {
   postForm: FormGroup;
   imageFile: File | null = null;
 
-  postService = inject(PostService);
+  postDataService = inject(PostDataService);
   protected notificationService = inject(NotificationService);
 
   constructor(private fb: FormBuilder, private router: Router) {
@@ -71,7 +71,7 @@ export class PostFormComponent {
       formData.append('imageFile', this.imageFile);
     }
 
-    this.postService.createPost(formData)
+    this.postDataService.createPost(formData)
       .then(r => {
         this.resetForm()
         this.navigateToPost(r.id)
