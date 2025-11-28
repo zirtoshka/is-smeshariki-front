@@ -1,5 +1,4 @@
-import {CanActivateFn, Router, Routes} from '@angular/router';
-import {SmesharikPageComponent} from './my-smesharik-page/smesharik-page.component';
+import {CanActivateFn, CanMatchFn, Router, Routes, UrlSegment} from '@angular/router';
 import {inject} from '@angular/core';
 import {AuthService} from './auth-tools/auth.service';
 
@@ -24,24 +23,58 @@ const isAdmin: CanActivateFn = (route, state) => {
   inject(Router).navigate(['profile']);
   return true;
 }
-export const routes: Routes = [
-  {path: '', component: SmesharikPageComponent, pathMatch: 'full',
-    canActivate: [authGuard]
 
+const matchFirstSegment = (paths: string[]): CanMatchFn => {
+  const allowed = new Set(paths);
+  return (_, segments: UrlSegment[]) => {
+    const first = segments[0]?.path ?? '';
+    return allowed.has(first);
+  };
+};
+
+const profileMatcher = matchFirstSegment(['', 'profile']);
+const authPagesMatcher = matchFirstSegment(['login', 'registration']);
+const friendMatcher = matchFirstSegment(['friends', 'friendrequests', 'friendfromme', 'smeshsearch']);
+const timelineMatcher = matchFirstSegment(['diary', 'feed', 'post-card', 'comment', 'post-form']);
+const smesharikMatcher = matchFirstSegment(['smesharik']);
+const adminMatcher = matchFirstSegment(['complaint', 'ban', 'word', 'propensity']);
+
+export const routes: Routes = [
+  {
+    path: '',
+    canMatch: [profileMatcher],
+    canActivate: [authGuard],
+    loadChildren: () => import('./routes/profile.routes').then(m => m.PROFILE_ROUTES)
   },
   {
-    path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent),
-    canActivate: [notAuth]
+    path: '',
+    canMatch: [authPagesMatcher],
+    canActivate: [notAuth],
+    loadChildren: () => import('./routes/auth.routes').then(m => m.AUTH_ROUTES)
   },
   {
-    path: 'registration',
-    loadComponent: () => import('./registration/registration.component').then(m => m.RegistrationComponent),
-    canActivate: [notAuth]
+    path: '',
+    canMatch: [friendMatcher],
+    canActivate: [authGuard],
+    loadChildren: () => import('./routes/friends.routes').then(m => m.FRIEND_ROUTES)
   },
   {
-    path: 'profile',
-    loadComponent: () => import('./my-smesharik-page/smesharik-page.component').then(m => m.SmesharikPageComponent),
-    canActivate: [authGuard]
+    path: '',
+    canMatch: [timelineMatcher],
+    canActivate: [authGuard],
+    loadChildren: () => import('./routes/timeline.routes').then(m => m.TIMELINE_ROUTES)
+  },
+  {
+    path: '',
+    canMatch: [smesharikMatcher],
+    canActivate: [authGuard],
+    loadChildren: () => import('./routes/smesharik.routes').then(m => m.SMESHARIK_ROUTES)
+  },
+  {
+    path: '',
+    canMatch: [adminMatcher],
+    canActivate: [isAdmin],
+    loadChildren: () => import('./routes/admin.routes').then(m => m.ADMIN_ROUTES)
   },
   {
     path: 'notification',
@@ -52,94 +85,5 @@ export const routes: Routes = [
     path: 'doctor',
     loadComponent: () => import('./application/doctor-page/doctor-page.component').then(m => m.DoctorPageComponent),
     canActivate: [isDoctor]
-  },
-  {
-    path: 'complaint',
-    loadComponent: () => import('./complaint/complaint-page/complaint-page.component').then(m => m.ComplaintPageComponent),
-    canActivate: [isAdmin]
-  },
-
-  {
-    path: 'ban',
-    loadComponent: () => import('./ban/ban-page/ban-page.component').then(m => m.BanPageComponent),
-    canActivate: [isAdmin]
-  },
-
-  {
-    path: 'word',
-    loadComponent: () => import('./trigger-word/word-page/word-page.component').then(m => m.WordPageComponent),
-    canActivate: [isAdmin]
-  },
-
-  {
-    path: 'friends',
-    loadComponent: () => import('./friend/friend-page/friend-page.component').then(m => m.FriendPageComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'friendrequests',
-    loadComponent: () => import('./friend/friend-requests-page/friend-requests-page.component').then(m => m.FriendRequestsPageComponent),
-    canActivate: [authGuard]
-
-  },
-  {
-    path: 'friendfromme',
-    loadComponent: () => import('./friend/friend-req-from-me/friend-req-from-me.component').then(m => m.FriendReqFromMeComponent),
-    canActivate: [authGuard]
-
-  },
-  {
-    path: 'propensity',
-    loadComponent: () => import('./propensity/propensity-page/propensity-page.component').then(m => m.PropensityPageComponent),
-    canActivate: [isAdmin]
-
-  },
-  {
-    path: 'diary',
-    loadComponent: () => import('./diary/diary.component').then(m => m.DiaryComponent),
-    canActivate: [authGuard]
-
-  },
-
-  {
-    path: 'feed',
-    loadComponent: () => import('./feed/feed.component').then(m => m.FeedComponent),
-    canActivate: [authGuard]
-
-  },
-
-  {
-    path: 'post-card/:id',
-    loadComponent: () => import('./post-card/post-card.component').then(m => m.PostCardComponent),
-    canActivate: [authGuard]
-
-  },
-
-  {
-    path: 'smesharik/:id',
-    loadComponent: () => import('./smesharik/smesharik.component').then(m => m.SmesharikComponent),
-    canActivate: [authGuard]
-
-  },
-  {
-    path: 'comment/:id',
-    loadComponent: () => import('./comment-card2/comment-card2.component').then(m => m.CommentCard2Component),
-    canActivate: [authGuard]
-
-  },
-
-  {
-    path: 'post-form',
-    loadComponent: () => import('./post-form/post-form.component').then(m => m.PostFormComponent),
-    canActivate: [authGuard]
-
-  },
-
-  {
-    path: 'smeshsearch',
-    loadComponent: () => import('./friend/smeshariki-search-page/smeshariki-search-page.component').then(m => m.SmesharikiSearchPageComponent),
-    canActivate: [authGuard]
-
-  },
-
+  }
 ];
