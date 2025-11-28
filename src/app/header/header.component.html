@@ -14,6 +14,13 @@
   <i *ngIf="isAdmin()&&isLoggedIn()" nz-icon class="button" nzType="crown" nzTheme="outline" nz-dropdown
      [nzDropdownMenu]="menuAdmin"></i>
 
+  <div *ngIf="theme$ | async as theme"
+       class="button theme-toggle"
+       (click)="toggleTheme()"
+       [attr.aria-pressed]="theme === 'dark'"
+       [attr.aria-label]="theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'">
+    <i nz-icon [nzType]="theme === 'dark' ? 'sun' : 'moon'" nzTheme="outline"></i>
+  </div>
 
   <div *ngIf="isLoggedIn()" class="button" (click)="logOut()">
 

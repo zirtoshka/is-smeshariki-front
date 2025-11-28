@@ -3,5 +3,30 @@
   width: 100%;
 }
 .post-feed {
-  padding-bottom: 100px; /* ✅ Добавляем место для подгрузки */
+  padding-bottom: 100px;
+}
+.post-feed--empty {
+  min-height: 220px;
+}
+
+.skeleton-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.skeleton-inline {
+  max-width: 420px;
+}
+
+.empty-state,
+.error {
+  margin-top: 32px;
+  text-align: center;
+  color: var(--app-muted-text);
+}
+
+.error {
+  color: #ff4d4f;
 }

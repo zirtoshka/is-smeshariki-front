@@ -3,11 +3,6 @@
 // For more information: https://ng.ant.design/docs/customize-theme/en
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
 
-// Override less variables to here
-// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
-
-
-
 @primary-color: #6d18ff;
 @menu-bg: #7d69ff; // меню
 @menu-item-color: #8f69ff; // текст
@@ -32,3 +27,87 @@
 
 // Тень для заголовка
 @layout-header-zindex: 10;
+
+@light-bg: rgba(247, 245, 255, 0);
+@light-border: #e4ddff;
+@light-text: #333;
+@light-subtle: #555;
+@light-shadow: rgba(0, 0, 0, 0.1);
+
+@dark-bg: #060714;
+@dark-surface: #141527;
+@dark-border: #2b2e46;
+@dark-text: #f7f7ff;
+@dark-subtle: #c8c5ff;
+@dark-shadow: rgba(5, 6, 16, 0.65);
+
+:root {
+  --app-background-color: @light-bg;
+  --app-border-color: @light-border;
+  --app-text-color: @light-text;
+  --app-muted-text: @light-subtle;
+  --app-header-bg: #6d18ff;
+  --app-header-text: #ffffff;
+  --app-shadow-color: @light-shadow;
+  --app-link-color: #5c2fff;
+}
+
+:root[data-theme='dark'] {
+  --app-primary-color: #b388ff;
+  --app-background-color: @dark-bg;
+  --app-surface-color: @dark-surface;
+  --app-border-color: @dark-border;
+  --app-text-color: @dark-text;
+  --app-muted-text: @dark-subtle;
+  --app-header-bg: #191b30;
+  --app-header-text: #f6f5ff;
+  --app-accent-soft: fade(@primary-color, 35%);
+  --app-shadow-color: @dark-shadow;
+  --app-link-color: rgba(199, 181, 255, 0.11);
+  --app-surface-hover: rgba(30, 33, 58, 0.88);
+  --app-tag-background: rgba(180, 136, 255, 0.18);
+  --app-skeleton-base: #1f2138;
+  --app-skeleton-highlight: #2a2c46;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--app-background-color);
+  color: var(--app-text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.item-card {
+  background-color: var(--app-surface-color);
+  color: var(--app-text-color);
+  border-color: var(--app-border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 10px 30px var(--app-shadow-color);
+}
+
+.friend-card,
+.item-card:hover,
+.ant-card:hover {
+  box-shadow: 0 12px 34px var(--app-shadow-color);
+  background-color: var(--app-surface-hover);
+}
+
+.ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-paragraph > li,
+.ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-title {
+  background: linear-gradient(90deg,
+  var(--app-skeleton-base) 25%,
+  var(--app-skeleton-highlight) 37%,
+  var(--app-skeleton-base) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+  border-radius: 12px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}

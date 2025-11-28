@@ -1,6 +1,6 @@
 .logo{
   width: 100%;
-  background: #6d18ff;
+  background: var(--app-header-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,7 +9,7 @@
   transition: all 0.3s ease;
 }
 .logo a {
-  color: #fff;
+  color: var(--app-header-text);
   font-size: 28px;
   font-weight: bold;
   text-decoration: none;
@@ -19,7 +19,7 @@
 
 
 .logo a:hover {
-  color: #f4ccfb;
+  color: var(--app-link-color);
 }
 
 .logo {
@@ -36,11 +36,18 @@
 .button {
   cursor: pointer;
   font-size: 24px;
-  color: #ffffff;
+  color: var(--app-header-text);
   padding: 0 20px;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .button:hover {
-  color: #aa77f6;
+  opacity: 0.8;
 }
 
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+}

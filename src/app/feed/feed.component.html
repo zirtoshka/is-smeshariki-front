@@ -1,10 +1,32 @@
 <ng-container *ngIf="posts$ | async as posts">
-  <div *ngIf="(loading$ | async) && posts.length === 0" class="loading">загрузка записей...</div>
   <div *ngIf="(error$ | async)" class="error">ошибка при загрузке записей</div>
 
-  <div class="post-feed">
-    <app-post-card [isFeed]="true" *ngFor="let item of posts; trackBy: trackById" [post]="item"></app-post-card>
-    <div #scrollTrigger class="scroll-trigger"></div> <!-- Триггер в конце списка -->
+  <div class="post-feed" [class.post-feed--empty]="posts.length === 0">
+    <app-post-card
+      [isFeed]="true"
+      *ngFor="let item of posts; trackBy: trackById"
+      [post]="item">
+    </app-post-card>
+    <div #scrollTrigger class="scroll-trigger"></div>
   </div>
-</ng-container>
 
+  <div *ngIf="!(loading$ | async) && posts.length === 0" class="empty-state">
+    пока нет записей — загляните позже
+  </div>
+
+  <ng-container *ngIf="(loading$ | async) as loading">
+    <div class="skeleton-feed" *ngIf="loading && posts.length === 0">
+      <nz-skeleton
+        *ngFor="let placeholder of skeletonPlaceholders; trackBy: trackSkeleton"
+        [nzActive]="true"
+        [nzAvatar]="{ size: 'large', shape: 'circle' }"
+        [nzParagraph]="{ rows: 3 }"
+        [nzTitle]="true">
+      </nz-skeleton>
+    </div>
+
+    <div class="skeleton-feed skeleton-inline" *ngIf="loading && posts.length > 0">
+      <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 1 }" [nzTitle]="false"></nz-skeleton>
+    </div>
+  </ng-container>
+</ng-container>

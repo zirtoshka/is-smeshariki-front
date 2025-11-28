@@ -3,6 +3,7 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {PostCardComponent} from '../post-card/post-card.component';
 import {Post} from '../model/post';
 import {PostFacade} from '../facade/post.facade';
+import {NzSkeletonComponent} from 'ng-zorro-antd/skeleton';
 
 @Component({
   selector: 'app-feed',
@@ -11,7 +12,8 @@ import {PostFacade} from '../facade/post.facade';
     NgForOf,
     NgIf,
     AsyncPipe,
-    PostCardComponent
+    PostCardComponent,
+    NzSkeletonComponent
   ],
   providers: [PostFacade],
   templateUrl: './feed.component.html',
@@ -29,6 +31,7 @@ export class FeedComponent implements OnInit, AfterViewInit {
   readonly loading$ = this.postFacade.loading$;
   readonly error$ = this.postFacade.error$;
   readonly allLoaded$ = this.postFacade.allLoaded$;
+  readonly skeletonPlaceholders = Array.from({length: 3}, (_, index) => index);
 
 
   ngOnInit(): void {
@@ -53,6 +56,10 @@ export class FeedComponent implements OnInit, AfterViewInit {
 
   trackById(index: number, item: Post): number {
     return item.id;
+  }
+
+  trackSkeleton(index: number): number {
+    return this.skeletonPlaceholders[index] ?? index;
   }
 
   handleSearchChange(searchData: { query: string }) {
