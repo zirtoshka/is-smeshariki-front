@@ -10,3 +10,20 @@
 .navig{
   flex-direction: column;
 }
+
+.password-toggle-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: inherit;
+  font-size: 18px;
+}
+
+.password-toggle-button:focus-visible {
+  outline: 2px solid var(--app-link-color);
+  border-radius: 50%;
+}

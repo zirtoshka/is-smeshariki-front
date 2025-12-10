@@ -39,10 +39,21 @@
   color: var(--app-header-text);
   padding: 0 20px;
   transition: color 0.3s ease, opacity 0.3s ease;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
 }
 
 .button:hover {
   opacity: 0.8;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--app-link-color);
+  border-radius: 6px;
 }
 
 .theme-toggle {

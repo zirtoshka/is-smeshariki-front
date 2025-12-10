@@ -196,6 +196,10 @@ export class CommentCard2Component implements OnInit {
     this.commentFacade.loadMoreReplies(this.comment.id);
   }
 
+  get isCommentLiked(): boolean {
+    return this.isLiked$.value;
+  }
+
   handleGoBack(): void {
     console.log('Go back clicked');
     this.location.back();

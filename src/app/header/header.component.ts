@@ -73,4 +73,25 @@ export class HeaderComponent {
   toggleTheme(): void {
     this.themeService.toggleTheme();
   }
+
+  onMenuVisible(menuElement: HTMLElement | null | undefined, visible: boolean): void {
+    if (!visible || !menuElement) {
+      return;
+    }
+    menuElement.setAttribute('tabindex', '-1');
+    setTimeout(() => menuElement.focus(), 0);
+  }
+
+  onMenuKeydown(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    const target = keyboardEvent.target as HTMLElement | null;
+    if (!target) {
+      return;
+    }
+    keyboardEvent.preventDefault();
+    const menuItem = target.closest('li[nz-menu-item]') as HTMLElement | null;
+    menuItem?.click();
+  }
+
+  protected readonly KeyboardEvent = KeyboardEvent;
 }

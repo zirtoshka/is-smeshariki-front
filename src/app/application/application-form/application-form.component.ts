@@ -18,6 +18,7 @@ import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NgForOf, NgIf} from '@angular/common';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {Complaint} from '../../model/complaint';
+import {ModalAccessibilityDirective} from '../../shared/modal-accessibility.directive';
 
 @Component({
   selector: 'app-application-form',
@@ -38,7 +39,8 @@ import {Complaint} from '../../model/complaint';
     NgIf,
     NzSelectComponent,
     NzOptionComponent,
-    NgForOf
+    NgForOf,
+    ModalAccessibilityDirective
   ],
   templateUrl: './application-form.component.html',
   styleUrl: './application-form.component.css'

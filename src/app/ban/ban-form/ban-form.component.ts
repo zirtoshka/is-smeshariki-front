@@ -15,6 +15,7 @@ import {NzAutosizeDirective, NzInputDirective, NzInputGroupComponent} from 'ng-z
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import {ModalAccessibilityDirective} from '../../shared/modal-accessibility.directive';
 
 @Component({
   selector: 'app-ban-form',
@@ -36,7 +37,8 @@ import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
     NzSelectComponent,
     ReactiveFormsModule,
     NzDatePickerComponent,
-    NzAutosizeDirective
+    NzAutosizeDirective,
+    ModalAccessibilityDirective
   ],
   providers: [{provide: LOCALE_ID, useValue: 'ru'}],
   templateUrl: './ban-form.component.html',

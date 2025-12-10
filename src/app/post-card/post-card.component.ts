@@ -24,6 +24,7 @@ import {Smesharik} from '../auth-tools/smesharik';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 import {DopMenuComponent} from '../dop-menu/dop-menu.component';
+import {ModalAccessibilityDirective} from '../shared/modal-accessibility.directive';
 
 
 @Component({
@@ -45,7 +46,8 @@ import {DopMenuComponent} from '../dop-menu/dop-menu.component';
     FormsModule,
     AvatarComponent,
     NzModalComponent,
-    DopMenuComponent
+    DopMenuComponent,
+    ModalAccessibilityDirective
   ],
   providers: [DatePipe, CommentFacade, NzModalService, NzContextMenuService],
   templateUrl: './post-card.component.html',
@@ -185,6 +187,10 @@ export class PostCardComponent implements OnInit, OnChanges {
 
   onLoadReplies(parentId: number): void {
     this.commentFacade.loadReplies(parentId);
+  }
+
+  get isPostLiked(): boolean {
+    return this.isLiked$.value;
   }
 
   loadImage(): void {

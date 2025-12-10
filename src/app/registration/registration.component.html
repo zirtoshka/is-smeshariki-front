@@ -49,7 +49,14 @@
         />
       </nz-input-group>
       <ng-template #passwordSuffix>
-        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="togglePasswordVisibility()"></i>
+        <button
+          type="button"
+          class="password-toggle-button"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-pressed]="passwordVisible"
+          [attr.aria-label]="passwordVisible ? 'скрыть пароль' : 'показать пароль'">
+          <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"></i>
+        </button>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
@@ -66,8 +73,14 @@
         />
       </nz-input-group>
       <ng-template #confirmPasswordSuffix>
-        <i nz-icon [nzType]="confirmPasswordVisible ? 'eye-invisible' : 'eye'"
-           (click)="toggleConfirmPasswordVisibility()"></i>
+        <button
+          type="button"
+          class="password-toggle-button"
+          (click)="toggleConfirmPasswordVisibility()"
+          [attr.aria-pressed]="confirmPasswordVisible"
+          [attr.aria-label]="confirmPasswordVisible ? 'скрыть подтверждение пароля' : 'показать подтверждение пароля'">
+          <i nz-icon [nzType]="confirmPasswordVisible ? 'eye-invisible' : 'eye'"></i>
+        </button>
       </ng-template>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.errors?.['required']">пожалуйста, подтвердите свой пароль!</ng-container>

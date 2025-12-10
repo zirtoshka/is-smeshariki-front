@@ -2,7 +2,8 @@
           [nzTitle]="isEditMode ? 'редактировать слово' : 'добавить слово'"
           (nzOnCancel)="cancel()"
           [nzContent]="forma"
-          [nzFooter]="modalFooter">
+          [nzFooter]="modalFooter"
+          appModalAccessibility>
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
 

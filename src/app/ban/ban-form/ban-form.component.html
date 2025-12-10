@@ -2,7 +2,8 @@
           [nzTitle]="isEditMode ? 'редактировать бан' : 'добавить бан'"
           (nzOnCancel)="cancel()"
           [nzContent]="forma"
-          [nzFooter]="modalFooter">
+          [nzFooter]="modalFooter"
+          appModalAccessibility>
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
       <nz-form-item>
@@ -72,5 +73,4 @@
     <button nz-button nzType="primary" (click)="save()" [disabled]="!formIsValid()">добавить</button>
   </ng-template>
 </nz-modal>
-
 

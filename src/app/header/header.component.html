@@ -1,37 +1,85 @@
 <header class="logo">
-  <a nz-dropdown [nzDropdownMenu]="menu">дневник смешарика</a>
+  <button
+    type="button"
+    class="button"
+    nz-dropdown
+    nzTrigger="click"
+    [nzDropdownMenu]="menu"
+    (nzVisibleChange)="onMenuVisible(menuList, $event)"
+    [attr.aria-label]="'дневник смешарика'">
+    дневник смешарика
+  </button>
 
-  <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="book" nzTheme="outline" nz-dropdown
-     [nzDropdownMenu]="menuDiary"></i>
+  <button
+    type="button"
+    class="button"
+    *ngIf="isLoggedIn()"
+    nz-dropdown
+    nzTrigger="click"
+    [nzDropdownMenu]="menuDiary"
+    (nzVisibleChange)="onMenuVisible(menuDiaryList, $event)"
+    [attr.aria-label]="'открыть меню дневника'">
+    <i nz-icon nzType="book" nzTheme="outline"></i>
+  </button>
 
-  <i nz-icon class="button" *ngIf="isLoggedIn()" nzType="team" nzTheme="outline" nz-dropdown
-     [nzDropdownMenu]="menuSmeshariks"></i>
+  <button
+    type="button"
+    class="button"
+    *ngIf="isLoggedIn()"
+    nz-dropdown
+    nzTrigger="click"
+    [nzDropdownMenu]="menuSmeshariks"
+    (nzVisibleChange)="onMenuVisible(menuSmeshariksList, $event)"
+    [attr.aria-label]="'открыть меню друзей'">
+    <i nz-icon nzType="team" nzTheme="outline"></i>
+  </button>
 
 
-  <i nz-icon *ngIf="isDoctor() &&isLoggedIn()" routerLink="/doctor" class="button" nzType="medicine-box"
-     nzTheme="outline"></i>
+  <button
+    type="button"
+    *ngIf="isDoctor() && isLoggedIn()"
+    routerLink="/doctor"
+    class="button"
+    [attr.aria-label]="'перейти к разделу докторов'">
+    <i nz-icon nzType="medicine-box" nzTheme="outline"></i>
+  </button>
 
-  <i *ngIf="isAdmin()&&isLoggedIn()" nz-icon class="button" nzType="crown" nzTheme="outline" nz-dropdown
-     [nzDropdownMenu]="menuAdmin"></i>
+  <button
+    type="button"
+    *ngIf="isAdmin() && isLoggedIn()"
+    class="button"
+    nzTrigger="click"
+    nz-dropdown
+    [nzDropdownMenu]="menuAdmin"
+    (nzVisibleChange)="onMenuVisible(menuAdminList, $event)"
+    [attr.aria-label]="'открыть меню администратора'">
+    <i nz-icon nzType="crown" nzTheme="outline"></i>
+  </button>
 
-  <div *ngIf="theme$ | async as theme"
-       class="button theme-toggle"
-       (click)="toggleTheme()"
-       [attr.aria-pressed]="theme === 'dark'"
-       [attr.aria-label]="theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'">
+  <button *ngIf="theme$ | async as theme"
+          type="button"
+          class="button theme-toggle"
+          (click)="toggleTheme()"
+          [attr.aria-pressed]="theme === 'dark'"
+          [attr.aria-label]="theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'">
     <i nz-icon [nzType]="theme === 'dark' ? 'sun' : 'moon'" nzTheme="outline"></i>
-  </div>
+  </button>
 
-  <div *ngIf="isLoggedIn()" class="button" (click)="logOut()">
-
+  <button *ngIf="isLoggedIn()"
+          type="button"
+          class="button"
+          (click)="logOut()"
+          aria-label="выйти из аккаунта">
     <i nz-icon nzType="logout" nzTheme="outline"></i>
-  </div>
+  </button>
 
 </header>
 
 
 <nz-dropdown-menu #menuAdmin="nzDropdownMenu">
-  <ul nz-menu>
+  <ul nz-menu #menuAdminList
+      (keydown.enter)="onMenuKeydown($event)"
+      (keydown.space)="onMenuKeydown($event)">
     <li nz-menu-item routerLink="/complaint">жалобы</li>
     <li nz-menu-item routerLink="/ban">баны</li>
     <li nz-menu-item routerLink="/word">слова</li>
@@ -41,7 +89,9 @@
 
 
 <nz-dropdown-menu #menuSmeshariks="nzDropdownMenu">
-  <ul nz-menu>
+  <ul nz-menu #menuSmeshariksList
+      (keydown.enter)="onMenuKeydown($event)"
+      (keydown.space)="onMenuKeydown($event)">
     <li nz-menu-item routerLink="/friends">друзья</li>
     <li nz-menu-item routerLink="/friendrequests">заявки</li>
     <li nz-menu-item routerLink="/friendfromme">исходящие заявки</li>
@@ -51,18 +101,24 @@
 
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu  *ngIf="isLoggedIn()">
-    <li nz-menu-item (click)="navigateToProfile()">профиль</li>
-    <li nz-menu-item routerLink="/profile">настройки</li>
-    <li nz-menu-item routerLink="/diary">дневник</li>
-    <li nz-menu-item routerLink="/feed">лента</li>
-    <li nz-menu-item routerLink="/post-form">создать новую запись</li>
+  <ul nz-menu #menuList
+      (keydown.enter)="onMenuKeydown($event)"
+      (keydown.space)="onMenuKeydown($event)">
+    <ng-container *ngIf="isLoggedIn()">
+      <li nz-menu-item (click)="navigateToProfile()">профиль</li>
+      <li nz-menu-item routerLink="/profile">настройки</li>
+      <li nz-menu-item routerLink="/diary">дневник</li>
+      <li nz-menu-item routerLink="/feed">лента</li>
+      <li nz-menu-item routerLink="/post-form">создать новую запись</li>
+    </ng-container>
   </ul>
 </nz-dropdown-menu>
 
 
 <nz-dropdown-menu #menuDiary="nzDropdownMenu">
-  <ul nz-menu>
+  <ul nz-menu #menuDiaryList
+      (keydown.enter)="onMenuKeydown($event)"
+      (keydown.space)="onMenuKeydown($event)">
     <li nz-menu-item routerLink="/diary">дневник</li>
     <li nz-menu-item routerLink="/feed">лента</li>
     <li nz-menu-item routerLink="/post-form">создать новую запись</li>

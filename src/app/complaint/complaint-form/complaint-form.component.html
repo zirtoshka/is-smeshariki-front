@@ -2,7 +2,8 @@
           [nzTitle]="isEditMode ? 'редактировать жалобу' : 'добавить жалобу'"
           (nzOnCancel)="cancel()"
           [nzContent]="forma"
-          [nzFooter]="modalFooter">
+          [nzFooter]="modalFooter"
+          appModalAccessibility>
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
 
@@ -99,6 +100,5 @@
 
 
 </nz-modal>
-
 
 

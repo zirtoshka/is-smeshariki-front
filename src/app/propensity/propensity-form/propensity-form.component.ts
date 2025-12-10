@@ -17,6 +17,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {BaseForm} from '../../base/base-form';
 import {Propensity} from '../../model/propensity';
 import {Ban} from '../../model/ban';
+import {ModalAccessibilityDirective} from '../../shared/modal-accessibility.directive';
 
 @Component({
   selector: 'app-propensity-form',
@@ -34,6 +35,7 @@ import {Ban} from '../../model/ban';
     NzIconDirective,
     NzInputGroupComponent,
     NzAutosizeDirective,
+    ModalAccessibilityDirective
   ],
   providers: [NzModalService],
   templateUrl: './propensity-form.component.html',

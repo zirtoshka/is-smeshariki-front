@@ -4,4 +4,16 @@
   right: 10px;
   cursor: pointer;
   font-size: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.dop-menu:focus-visible {
+  outline: 2px solid var(--app-link-color);
+  border-radius: 50%;
 }

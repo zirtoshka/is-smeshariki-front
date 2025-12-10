@@ -21,6 +21,7 @@ import {
   NzDatePickerComponent,
   NzRangePickerComponent
 } from 'ng-zorro-antd/date-picker';
+import {ModalAccessibilityDirective} from '../../shared/modal-accessibility.directive';
 
 
 @Component({
@@ -47,7 +48,8 @@ import {
     NzRangePickerComponent,
     NzDatePickerComponent,
     NgIf,
-    NzAutosizeDirective
+    NzAutosizeDirective,
+    ModalAccessibilityDirective
   ],
   templateUrl: './complaint-form.component.html',
   styleUrl: './complaint-form.component.css'

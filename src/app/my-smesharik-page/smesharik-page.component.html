@@ -10,7 +10,7 @@
 </div>
 
 
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="edit-form">
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="edit-form" id="profile-form">
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name"
                    nzTooltipTitle="как бы вы хотели, чтобы другие называли вас">
@@ -59,16 +59,24 @@
 </form>
 
 <div class="buttons">
-  <button nz-button nzType="default" (click)="toggleEdit()">
+  <button nz-button nzType="default"
+          type="button"
+          (click)="toggleEdit()"
+          aria-controls="profile-form"
+          [attr.aria-pressed]="isEditing">
     {{ isEditing ? 'отмена редактирования' : 'редактировать профиль' }}
   </button>
-  <button nz-button nzType="default" (click)="toggleChangePassword()">
+  <button nz-button nzType="default"
+          type="button"
+          (click)="toggleChangePassword()"
+          aria-controls="password-change-form"
+          [attr.aria-expanded]="isChangingPassword">
     {{ isChangingPassword ? 'отмена смены пароля' : 'сменить пароль' }}
   </button>
 </div>
 
 
-<div *ngIf="isChangingPassword">
+<div *ngIf="isChangingPassword" id="password-change-form">
   <br>
   <form [formGroup]="passwordForm">
     <nz-form-item>
@@ -141,7 +149,6 @@
   </form>
 
 </div>
-
 
 
 

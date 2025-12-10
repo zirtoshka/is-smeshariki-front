@@ -2,7 +2,8 @@
           [nzTitle]="isEditMode ? 'редактировать заявку на лечение' : 'добавить заявку на лечение'"
           (nzOnCancel)="cancel()"
           [nzContent]="forma"
-          [nzFooter]="modalFooter">
+          [nzFooter]="modalFooter"
+          appModalAccessibility>
   <ng-template #forma>
     <form nz-form [formGroup]="validateForm" class="form">
       <nz-form-item *ngIf="validateForm.value.post">
@@ -68,6 +69,5 @@
   </ng-template>
 
 </nz-modal>
-
 
 

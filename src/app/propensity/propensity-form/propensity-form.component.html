@@ -2,7 +2,8 @@
           [nzTitle]="isEditMode ? 'редактировать наклонность' : 'добавить наклонность'"
           (nzOnCancel)="cancel()"
           [nzContent]="forma"
-          [nzFooter]="modalFooter">
+          [nzFooter]="modalFooter"
+          appModalAccessibility>
   <ng-template #forma>
   <form nz-form [formGroup]="validateForm" class="form" >
     <nz-form-item>
@@ -29,6 +30,5 @@
     <button nz-button nzType="primary" (click)="save()" [disabled]="!validateForm.valid">добавить</button>
   </ng-template>
 </nz-modal>
-
 
 

@@ -18,6 +18,10 @@
         }"
               (click)="toggleStatus(getStatus(status[0]))"
               class="status-button"
+              [attr.aria-pressed]="selectedStatuses.includes(getStatus(status[0]))"
+              [attr.aria-label]="selectedStatuses.includes(getStatus(status[0]))
+                ? 'отменить фильтр ' + status[1]
+                : 'применить фильтр ' + status[1]"
       >
         {{ status[1] }}
       </button>

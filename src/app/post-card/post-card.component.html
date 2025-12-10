@@ -28,13 +28,19 @@
 
 
   <div class="post-carrots">
-    <i
-      nz-icon
-      [nzType]="iconCarrot.name"
-      class="large-icon"
-      [class.liked]="(isLiked$ | async)"
+    <button
+      type="button"
+      class="carrot-button"
       (click)="toggleLike()"
-    ></i>
+      [attr.aria-pressed]="isPostLiked"
+      [attr.aria-label]="isPostLiked ? 'убрать морковку с поста' : 'поставить морковку посту'">
+      <i
+        nz-icon
+        [nzType]="iconCarrot.name"
+        class="large-icon"
+        [class.liked]="isPostLiked"
+      ></i>
+    </button>
     <app-carrot-count [count]="post.countCarrots ? post.countCarrots :0"></app-carrot-count>
   </div>
 
@@ -82,7 +88,8 @@
 <nz-modal [(nzVisible)]="isModalVisible"
           (nzOnCancel)="closeModal()"
           [nzContent]="image"
-          [nzFooter]="null">
+          [nzFooter]="null"
+          appModalAccessibility>
   <ng-template #image>
     <img
       *ngIf="imageUrl"
@@ -93,5 +100,3 @@
     />
   </ng-template>
 </nz-modal>
-
-

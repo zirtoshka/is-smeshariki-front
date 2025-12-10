@@ -20,6 +20,20 @@
   user-select: none;
 }
 
+.carrot-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.carrot-button:focus-visible {
+  outline: 2px solid #8f69ff;
+  border-radius: 50%;
+}
+
 
 
 .online-status {
@@ -47,4 +61,3 @@
   background: radial-gradient(circle, #9e9e9e 30%, #616161 90%);
   box-shadow: none;
 }
-

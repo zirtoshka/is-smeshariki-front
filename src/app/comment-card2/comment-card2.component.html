@@ -11,21 +11,33 @@
   <br>
   <p>{{ comment.text }}</p>
   <div class="carrots">
-    <i
-      nz-icon
-      [nzType]="iconCarrot.name"
-      class="large-icon"
-      [class.liked]="(isLiked$ | async)"
+    <button
+      type="button"
+      class="carrot-button"
       (click)="toggleLike()"
-    ></i>
+      [attr.aria-pressed]="isCommentLiked"
+      [attr.aria-label]="isCommentLiked ? 'убрать морковку с комментария' : 'поставить морковку комментарию'">
+      <i
+        nz-icon
+        [nzType]="iconCarrot.name"
+        class="large-icon"
+        [class.liked]="isCommentLiked"
+      ></i>
+    </button>
     <app-carrot-count [count]="comment.countCarrots"></app-carrot-count>
   </div>
 
 
-  <button nz-button nzType="link" (click)="toggleReply()">ответить</button>
+  <button nz-button nzType="link"
+          type="button"
+          (click)="toggleReply()"
+          [attr.aria-expanded]="showReplyInput"
+          [attr.aria-controls]="'reply-box-' + comment.id">
+    ответить
+  </button>
 
   <!-- Поле для ввода ответа -->
-  <div *ngIf="showReplyInput" class="reply-box">
+  <div *ngIf="showReplyInput" class="reply-box" [attr.id]="'reply-box-' + comment.id">
     <textarea [(ngModel)]="replyText" placeholder="введите ваш ответ..."></textarea>
     <button nz-button nzType="primary" (click)="submitReply()">отправить</button>
   </div>
@@ -65,5 +77,4 @@
     {{ author.name }} ({{ comment.smesharik }})
   </span>
 </ng-template>
-
 

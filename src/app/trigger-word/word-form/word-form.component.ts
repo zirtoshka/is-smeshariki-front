@@ -8,6 +8,7 @@ import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {ModalAccessibilityDirective} from '../../shared/modal-accessibility.directive';
 
 @Component({
   selector: 'app-word-form',
@@ -25,7 +26,8 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     NzModalComponent,
     NzRowDirective,
     ReactiveFormsModule,
-    NzButtonComponent
+    NzButtonComponent,
+    ModalAccessibilityDirective
   ],
   templateUrl: './word-form.component.html',
   styleUrl: './word-form.component.css'

@@ -1,5 +1,11 @@
-<i nz-icon class="dop-menu" nzType="more" nzTheme="outline" nz-dropdown
-   [nzDropdownMenu]="menu"></i>
+<button
+  type="button"
+  class="dop-menu"
+  nz-dropdown
+  [nzDropdownMenu]="menu"
+  aria-label="открыть дополнительное меню">
+  <i nz-icon nzType="more" nzTheme="outline"></i>
+</button>
 
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
